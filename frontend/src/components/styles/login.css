@@ -1,0 +1,36 @@
+.login-form {
+  width: 400px;
+  background-color: white;
+  padding: 30px 40px 50px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 1px lightgray;
+}
+.login-form-forgot {
+  float: right;
+}
+.ant-col-rtl .login-form-forgot {
+  float: left;
+}
+.login-form-button {
+  width: 320px;
+}
+
+.login-page {
+  display: flex;
+  min-height: 75vh;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 415px) {
+  .login-form {
+    width: 350px;
+    background-color: white;
+    padding: 30px 40px 50px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px 1px lightgray;
+  }
+  .login-form-button {
+    width: 270px;
+  }
+}

@@ -1,0 +1,57 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* Style your header and main content as needed */
+
+main {
+  flex-grow: 1; /* Allow main content to grow and fill remaining space */
+}
+
+/* Style your footer */
+footer {
+  background-color: #3a4b55;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+
+/* Common fonts */
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+/* for Windows */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+}
+
+/* for macOS */
+@media screen and (-apple-system-font: inherit) {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Lucida Grande',
+      'Helvetica Neue', sans-serif;
+  }
+}
+
+/* for Linux/Ubuntu */
+@media screen and (font-family: 'Ubuntu, Cantarell, Fira Sans, Droid Sans') {
+  body {
+    font-family: 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+      'Helvetica Neue', sans-serif;
+  }
+}

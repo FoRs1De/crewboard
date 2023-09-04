@@ -1,0 +1,17 @@
+FROM node:alpine
+
+WORKDIR /app
+
+EXPOSE 3000
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "dev"]
+
+ENV NODE_ENV=development
+ENV CHOKIDAR_USEPOLLING=true
+ENV WATCHPACK_POLLING=true
