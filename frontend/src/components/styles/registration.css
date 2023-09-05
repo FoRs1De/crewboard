@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 75vh;
 }
 
 .register-form {
@@ -17,4 +17,15 @@
 
 .captcha {
   margin-bottom: 20px;
+}
+
+.error-message {
+  margin-bottom: 20px;
+}
+
+.registration-success-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 75vh;
 }

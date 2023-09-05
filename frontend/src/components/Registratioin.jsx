@@ -1,5 +1,6 @@
 import './styles/registration.css';
 import { useState } from 'react';
+import postRequest from '../assets/axios';
 import {
   AutoComplete,
   Button,
@@ -8,6 +9,8 @@ import {
   Input,
   Select,
   message,
+  Alert,
+  Space,
 } from 'antd';
 const { Option } = Select;
 import countryList from '../assets/countries.js';
@@ -17,15 +20,11 @@ import { useNavigate, Link } from 'react-router-dom';
 const Registration = () => {
   const navigate = useNavigate();
   const [userType, setUserType] = useState('seaman');
-  const [country, setCountry] = useState('');
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [responseError, setResponseError] = useState(null);
   const handleSelectUserChange = (value) => {
     setUserType(value);
-  };
-
-  const handleSelectCountryChange = (value) => {
-    setCountry(value);
   };
 
   const handleCaptchaChange = (value) => {
@@ -36,31 +35,38 @@ const Registration = () => {
     }
   };
 
-  const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'Succesfully registered',
-    });
-  };
-  const error = () => {
+  const errorMessage = () => {
     messageApi.open({
       type: 'error',
-      content: 'This is an error message',
-    });
-  };
-  const warning = () => {
-    messageApi.open({
-      type: 'warning',
-      content: 'Please complete captcha!',
+      content: 'Email already in use.',
     });
   };
 
-  const onFinish = (values) => {
+  const warning = () => {
+    messageApi.open({
+      type: 'warning',
+      content: 'Please, complete captacha!',
+    });
+  };
+
+  const onFinish = async (values) => {
     if (isCaptchaVerified) {
-      console.log('Received values of form: ', values);
+      try {
+        await postRequest('http://localhost:5000/post-user', values);
+        navigate('/registration-success');
+      } catch (error) {
+        console.error('An error occurred during the POST request:', error);
+        if (error.response.data.error === 'Email already in use') {
+          errorMessage();
+          setResponseError('Email already in use');
+        } else {
+          setResponseError(
+            'Internal server error, please contact administrator!'
+          );
+        }
+      }
+
       document.querySelector('.register-form').reset();
-      success();
-      setTimeout(() => navigate('/registration-success'), 2000);
     } else {
       warning();
     }
@@ -95,6 +101,14 @@ const Registration = () => {
         <center>
           <h1> Registration</h1>
         </center>
+        {responseError ? (
+          <div className="error-message">
+            <Space direction="vertical" style={{ width: '100%' }}>
+              {' '}
+              <Alert message={responseError} type="error" showIcon closable />
+            </Space>
+          </div>
+        ) : null}
         <Form.Item
           name="user"
           label="Register as"
@@ -141,7 +155,7 @@ const Registration = () => {
                 },
               ]}
             >
-              <Select onChange={handleSelectCountryChange} showSearch>
+              <Select showSearch>
                 {countryList.map((country, index) => {
                   return (
                     <Option key={index} value={country}>
@@ -254,6 +268,7 @@ const Registration = () => {
           sitekey="6LfXZfsnAAAAAIfP25irSYWTscKObKZT2k41hz5E"
           onChange={handleCaptchaChange}
         />
+
         <Form.Item>
           {contextHolder}
           <Button type="primary" htmlType="submit">
