@@ -1,13 +1,23 @@
 const express = require('express');
 const client = require('../../dbConnections/mongoDB');
-
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const app = express();
+
+//Create JWT Token
+const maxAge = 30 * 24 * 60 * 60 * 1000;
+const createToken = (id) => {
+  return jwt.sign({ userId: id }, `${process.env.JWT_SECRET}`, {
+    expiresIn: maxAge,
+  });
+};
 
 app.post('/', async (req, res) => {
   const dataToInsert = req.body;
-
-  // Assuming 'email' is the field you want to check for duplicates
   const userEmail = dataToInsert.email;
+  const userPassword = dataToInsert.password;
+  const hashedPassword = await bcrypt.hash(userPassword, 10);
+  dataToInsert.password = hashedPassword;
 
   try {
     await client.connect();
@@ -29,7 +39,20 @@ app.post('/', async (req, res) => {
       );
 
       const result = await collection.insertOne(dataToInsert);
-      console.log('Inserted document with _id:', result.insertedId);
+
+      console.log('Inserted document with _id:', result.insertedId.toString());
+
+      //sending cookie as a response
+      const token = createToken(result.insertedId.toString());
+      console.log(token);
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        maxAge: maxAge,
+        domain: 'localhost',
+        sameSite: 'Lax',
+        secure: false,
+        path: '/',
+      });
 
       const insertedDocument = await collection.findOne({
         _id: result.insertedId,

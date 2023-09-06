@@ -3,6 +3,8 @@ const app = express();
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 dotenv.config();
 const PORT = process.env.PORT;
 const getAllUsers = require('./controllers/getControllers/getAllUsers');
@@ -12,9 +14,17 @@ const deleteUser = require('./controllers/deleteControllers/deleteUserById');
 const editUser = require('./controllers/putControllers/editUser');
 const countAllUsers = require('./controllers/getControllers/countAllUsers');
 
-//body-parser and cors
+//body-parser, coockie-parser and cors
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cookieParser());
+
+//Cors config
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig));
 
 //USERS requests ----------------------------
 app.use('/get-all-users', getAllUsers);
