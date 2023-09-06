@@ -1,35 +1,25 @@
 import './styles/login.css';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, message, Space } from 'antd';
+import { Button, Checkbox, Form, Input, Alert, Space } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
+import postRequest from '../assets/axios';
+import { useState } from 'react';
 
 const Login = () => {
-  const [messageApi, contextHolder] = message.useMessage();
-  const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'You are logged in',
-    });
-  };
-  const error = () => {
-    messageApi.open({
-      type: 'error',
-      content: 'This is an error message',
-    });
-  };
-  const warning = () => {
-    messageApi.open({
-      type: 'warning',
-      content: 'This is a warning message',
-    });
-  };
+  const [responseError, setResponseError] = useState(null);
 
   const navigate = useNavigate();
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-    document.querySelector('.login-form').reset();
-    setTimeout(() => navigate('/'), 1000);
-    success();
+  const onFinish = async (values) => {
+    try {
+      console.log(values);
+      await postRequest('http://localhost:5000/login-user', values);
+      document.querySelector('.login-form').reset();
+      navigate('/');
+    } catch (error) {
+      document.querySelector('.login-form').reset();
+      setResponseError(error.response.data.error);
+      console.error('Something went wrong', error.response.data.error);
+    }
   };
 
   return (
@@ -46,6 +36,17 @@ const Login = () => {
         <center>
           <h1>Log in</h1>
         </center>
+        <Space
+          direction="vertical"
+          style={{
+            width: '100%',
+            marginBottom: 20,
+          }}
+        >
+          {responseError ? (
+            <Alert message={responseError} type="error" showIcon closable />
+          ) : null}
+        </Space>
         <Form.Item
           name="username"
           rules={[
@@ -57,7 +58,7 @@ const Login = () => {
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
+            placeholder="Email"
           />
         </Form.Item>
         <Form.Item
@@ -86,16 +87,13 @@ const Login = () => {
         </Form.Item>
 
         <Form.Item>
-          {contextHolder}
-          <Space>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
-              Log in
-            </Button>
-          </Space>
+          <Button
+            type="primary"
+            htmlType="submit"
+            className="login-form-button"
+          >
+            Log in
+          </Button>
           Or <Link to="/registration">register now!</Link>
         </Form.Item>
       </Form>

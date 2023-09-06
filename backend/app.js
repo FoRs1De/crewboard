@@ -10,11 +10,12 @@ const PORT = process.env.PORT;
 const getAllUsers = require('./controllers/getControllers/getAllUsers');
 const getUserById = require('./controllers/getControllers/getUserById');
 const postUser = require('./controllers/postControllers/postUser');
+const postUserLogin = require('./controllers/postControllers/postUserLogin');
 const deleteUser = require('./controllers/deleteControllers/deleteUserById');
 const editUser = require('./controllers/putControllers/editUser');
 const countAllUsers = require('./controllers/getControllers/countAllUsers');
 
-//body-parser, coockie-parser and cors
+//body-parser, coockie-parser
 app.use(bodyParser.json());
 app.use(cookieParser());
 
@@ -30,6 +31,7 @@ app.options('*', cors(corsConfig));
 app.use('/get-all-users', getAllUsers);
 app.use('/get-user-by-id', getUserById);
 app.use('/post-user', postUser);
+app.use('/login-user', postUserLogin);
 app.use('/edit-user', editUser);
 app.use('/delete-user', deleteUser);
 
