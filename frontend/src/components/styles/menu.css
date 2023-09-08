@@ -57,7 +57,17 @@ nav {
   display: none;
 }
 
+.menu-button-wrapper {
+  display: none;
+}
+
 @media (max-width: 800px) {
+  .menu-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .menu-button {
     display: flex;
     justify-content: center;
@@ -84,12 +94,6 @@ nav {
   .navlinks {
     display: none;
   }
-}
-
-.menu-button-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .navlinks-in-drower {

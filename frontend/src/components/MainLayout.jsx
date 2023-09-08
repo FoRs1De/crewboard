@@ -3,10 +3,10 @@ import Navmenu from './NavMenu';
 import Footer from './Footer';
 import './styles/menu.css';
 
-const MainLayOut = () => {
+const MainLayOut = ({ user, setUser }) => {
   return (
     <div className="container-main">
-      <Navmenu />
+      <Navmenu user={user} setUser={setUser} />
       <main>
         <Outlet />
       </main>

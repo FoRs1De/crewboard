@@ -16,7 +16,6 @@ app.post('/', async (req, res) => {
   const userData = req.body;
   const userEmail = userData.username;
   const userPassword = userData.password;
-  const remember = userData.remember;
 
   try {
     await client.connect();
@@ -50,20 +49,19 @@ app.post('/', async (req, res) => {
         return res.status(401).json({ error: 'Invalid password' });
       }
 
-      if (remember === true) {
-        // Generate a JWT token for the authenticated user
-        const token = createToken(employerObj._id.toString());
+      // Generate a JWT token for the authenticated user
+      const token = createToken(employerObj._id.toString());
 
-        // Set the JWT token as a cookie
-        res.cookie('jwt', token, {
-          httpOnly: true,
-          maxAge: maxAge,
-          domain: 'localhost',
-          sameSite: 'Lax',
-          secure: false,
-          path: '/',
-        });
-      }
+      // Set the JWT token as a cookie
+      res.cookie('user', token, {
+        httpOnly: true,
+        maxAge: maxAge,
+        domain: 'localhost',
+        sameSite: 'Lax',
+        secure: false,
+        path: '/',
+      });
+
       res.status(200).json({
         message: 'Login successful',
         user: employerObj,
@@ -82,17 +80,16 @@ app.post('/', async (req, res) => {
       // Generate a JWT token for the authenticated user
       const token = createToken(seamanObj._id.toString());
 
-      if (remember === true) {
-        // Set the JWT token as a cookie
-        res.cookie('jwt', token, {
-          httpOnly: true,
-          maxAge: maxAge, // Set the token expiration time
-          domain: 'localhost', // Adjust the domain as needed
-          sameSite: 'Lax',
-          secure: false, // Set to true in a production environment with HTTPS
-          path: '/',
-        });
-      }
+      // Set the JWT token as a cookie
+      res.cookie('user', token, {
+        httpOnly: true,
+        maxAge: maxAge, // Set the token expiration time
+        domain: 'localhost', // Adjust the domain as needed
+        sameSite: 'Lax',
+        secure: false, // Set to true in a production environment with HTTPS
+        path: '/',
+      });
+
       res.status(200).json({
         message: 'Login successful',
         user: seamanObj,

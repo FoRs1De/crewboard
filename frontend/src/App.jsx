@@ -1,4 +1,8 @@
+import { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+
 import './App.css';
 import MainLayOut from './components/MainLayout';
 import Home from './components/Home';
@@ -8,24 +12,48 @@ import Seafarers from './components/Seafarers';
 import Registration from './components/Registratioin';
 import Login from './components/Login';
 import PasswordReset from './components/PasswordReset';
-import RegistrationSuccess from './components/RegistrationSuccess';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import Account from './components/Account';
 
 function App() {
+  const [user, setUser] = useState(null);
+  //State for useffect when form submitted for firing it
+  const [submittedForm, setSubmittedForm] = useState(false);
+
+  //Check for user authentication
+  useEffect(() => {
+    const tokenSession = Cookies.get('session');
+    if (tokenSession) {
+      axios
+        .get('http://localhost:5000/user-authentication')
+        .then((userData) => {
+          setUser(userData.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+        });
+    } else {
+      console.log('noCookie');
+    }
+  }, [submittedForm]);
+
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<MainLayOut />}>
+        <Route path="/" element={<MainLayOut user={user} setUser={setUser} />}>
           <Route index element={<Home />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/seafarers" element={<Seafarers />} />
-          <Route path="/registration" element={<Registration />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/account" element={<Account />} />
           <Route
-            path="/registration-success"
-            element={<RegistrationSuccess />}
+            path="/registration"
+            element={<Registration setSubmittedForm={setSubmittedForm} />}
           />
+          <Route
+            path="/login"
+            element={<Login setSubmittedForm={setSubmittedForm} />}
+          />
+          <Route path="/reset-password" element={<PasswordReset />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Route>

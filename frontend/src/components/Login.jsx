@@ -5,18 +5,32 @@ import { useNavigate, Link } from 'react-router-dom';
 import postRequest from '../assets/axios';
 import { useState } from 'react';
 
-const Login = () => {
+const Login = ({ setSubmittedForm }) => {
+  const [form] = Form.useForm();
   const [responseError, setResponseError] = useState(null);
 
   const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
-      console.log(values);
       await postRequest('http://localhost:5000/login-user', values);
       document.querySelector('.login-form').reset();
+      if (values.remember === true) {
+        var maxAgeInSeconds = 30 * 24 * 60 * 60;
+        document.cookie =
+          'session=30 days; max-age=' + maxAgeInSeconds + '; path=/;';
+      }
+      document.cookie = 'session=1 session; path=/;';
+      setSubmittedForm(true);
       navigate('/');
+      setTimeout(() => {
+        setSubmittedForm(false);
+      }, 1);
     } catch (error) {
-      document.querySelector('.login-form').reset();
+      if (error.response.data.error === 'User not found') {
+        form.setFieldsValue({ password: '', username: '' });
+      } else {
+        form.setFieldsValue({ password: '' });
+      }
       setResponseError(error.response.data.error);
       console.error('Something went wrong', error.response.data.error);
     }
@@ -25,6 +39,7 @@ const Login = () => {
   return (
     <div className="login-page">
       <Form
+        form={form}
         name="normal_login"
         className="login-form"
         scrollToFirstError
@@ -51,8 +66,12 @@ const Login = () => {
           name="username"
           rules={[
             {
+              type: 'email',
+              message: 'The input is not valid E-mail!',
+            },
+            {
               required: true,
-              message: 'Please input your Username!',
+              message: 'Please input your E-mail!',
             },
           ]}
         >

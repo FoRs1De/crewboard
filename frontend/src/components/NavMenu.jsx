@@ -1,6 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Button, Drawer } from 'antd';
+import { Avatar, Badge, Space } from 'antd';
 import {
   HomeOutlined,
   UnorderedListOutlined,
@@ -8,12 +9,14 @@ import {
   MenuOutlined,
   UserAddOutlined,
   LoginOutlined,
+  LogoutOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import './styles/menu.css';
 import axios from 'axios';
 import './styles/menu.css';
 
-const NavMenu = () => {
+const NavMenu = ({ user, setUser }) => {
   const [usersNumber, setUsersNumber] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -26,17 +29,24 @@ const NavMenu = () => {
   };
 
   useEffect(() => {
-    axios
-      .get('http://localhost:5000/count-users')
-      .then((response) => {
-        console.log('Data received:', response.data);
-        setUsersNumber(response.data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+    setTimeout(() => {
+      axios
+        .get('http://localhost:5000/count-users')
+        .then((response) => {
+          console.log('Data received:', response.data);
+          setUsersNumber(response.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }, 1000);
   }, []);
 
+  const handleLogout = () => {
+    setUser(null);
+    setOpen(false);
+    document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
   return (
     <>
       <div className="top-menu">
@@ -62,14 +72,33 @@ const NavMenu = () => {
             {' '}
             <SolutionOutlined /> Seafarers
           </NavLink>
-          <NavLink to="/registration">
-            {' '}
-            <UserAddOutlined /> Registration
-          </NavLink>
-          <NavLink to="/login">
-            {' '}
-            <LoginOutlined /> Login
-          </NavLink>
+
+          {!user ? (
+            <>
+              <NavLink to="/registration">
+                {' '}
+                <UserAddOutlined /> Registration
+              </NavLink>
+              <NavLink to="/login">
+                {' '}
+                <LoginOutlined /> Login
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <Link to="/account">
+                <Space size={24}>
+                  <Badge count={1}>
+                    <Avatar shape="square" icon={<UserOutlined />} />
+                  </Badge>
+                </Space>{' '}
+              </Link>
+              <Link to="/login" onClick={handleLogout}>
+                {' '}
+                <LogoutOutlined /> Logout
+              </Link>
+            </>
+          )}
         </div>
         <div className="menu-button-wrapper">
           <Button
@@ -88,14 +117,38 @@ const NavMenu = () => {
           >
             <div className="drawer-menu">
               <div className="login-reg ">
-                <NavLink to="/registration" onClick={onClose}>
-                  {' '}
-                  <UserAddOutlined /> Registration
-                </NavLink>
-                <NavLink to="/login" onClick={onClose}>
-                  {' '}
-                  <LoginOutlined /> Login
-                </NavLink>
+                {!user ? (
+                  <>
+                    <NavLink to="/registration" onClick={onClose}>
+                      {' '}
+                      <UserAddOutlined /> Registration
+                    </NavLink>
+                    <NavLink to="/login" onClick={onClose}>
+                      {' '}
+                      <LoginOutlined /> Login
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <div>
+                      <Link to="/account" onClick={onClose}>
+                        <Space size={24}>
+                          <Badge count={1}>
+                            <Avatar shape="square" icon={<UserOutlined />} />
+                          </Badge>
+                        </Space>{' '}
+                      </Link>
+                      <NavLink to="/account" onClick={onClose}>
+                        {' '}
+                        Account
+                      </NavLink>
+                    </div>
+                    <Link to="/login" onClick={handleLogout}>
+                      {' '}
+                      <LogoutOutlined /> Logout
+                    </Link>
+                  </>
+                )}
               </div>
               <div className="navlinks-in-drower">
                 <NavLink to="/" onClick={onClose}>

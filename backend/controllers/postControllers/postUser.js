@@ -15,6 +15,7 @@ const createToken = (id) => {
 app.post('/', async (req, res) => {
   const dataToInsert = req.body;
   const userEmail = dataToInsert.email;
+  const userCompany = dataToInsert.company;
   const userPassword = dataToInsert.password;
   const hashedPassword = await bcrypt.hash(userPassword, 10);
   dataToInsert.password = hashedPassword;
@@ -23,15 +24,23 @@ app.post('/', async (req, res) => {
     await client.connect();
     const db = client.db('admin');
 
-    // Check if a user with the same email already exists in the collection
-    const userCollection = db.collection(
-      dataToInsert.user === 'seaman' ? 'seamen' : 'employers'
-    );
-    const existingUser = await userCollection.findOne({ email: userEmail });
+    // Check if a user with the same email already exists in the collection seamen
+    const seamenCollection = db.collection('seamen');
+    const existingSeaman = await seamenCollection.findOne({ email: userEmail });
 
-    if (existingUser) {
+    // Check if a user with the same email already exists in the collection employers
+    const employersCollection = db.collection('employers');
+    const existingEmployer = await employersCollection.findOne({
+      email: userEmail,
+    });
+    const existingCompany = await employersCollection.findOne({
+      company: userCompany,
+    });
+    if (existingSeaman || existingEmployer) {
       // If an existing user is found, return a response indicating the email is already in use
       res.status(400).json({ error: 'Email already in use' });
+    } else if (existingCompany) {
+      res.status(400).json({ error: 'Company already in use' });
     } else {
       // If no existing user is found, proceed with inserting the new user
       const collection = db.collection(
@@ -42,20 +51,20 @@ app.post('/', async (req, res) => {
 
       console.log('Inserted document with _id:', result.insertedId.toString());
 
+      const insertedDocument = await collection.findOne({
+        _id: result.insertedId,
+      });
+
       //sending cookie as a response
       const token = createToken(result.insertedId.toString());
       console.log(token);
-      res.cookie('jwt', token, {
+      res.cookie('user', token, {
         httpOnly: true,
         maxAge: maxAge,
         domain: 'localhost',
         sameSite: 'Lax',
         secure: false,
         path: '/',
-      });
-
-      const insertedDocument = await collection.findOne({
-        _id: result.insertedId,
       });
       res.status(201).json({
         message: 'Data inserted successfully',

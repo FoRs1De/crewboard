@@ -17,10 +17,10 @@ import {
 const { Option } = Select;
 import countryList from '../assets/countries.js';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Registration = () => {
-  const navigate = useNavigate();
+const Registration = ({ setSubmittedForm }) => {
+  const [form] = Form.useForm();
   const [userType, setUserType] = useState('seaman');
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
@@ -60,21 +60,42 @@ const Registration = () => {
           'http://localhost:5000/post-user',
           valuesWithoutConfirm
         );
-        // navigate('/registration-success');
         setFormIsSubmitted(true);
+        setSubmittedForm(true);
+        // install cookie for one session
+        document.cookie = 'session=1 session; path=/;';
+        setTimeout(() => {
+          setSubmittedForm(false);
+        }, 1);
       } catch (error) {
         console.error('An error occurred during the POST request:', error);
         if (error.response.data.error === 'Email already in use') {
-          errorMessage();
+          errorMessage('Email already in use');
           setResponseError('Email already in use');
+          form.setFieldsValue({
+            email: '',
+          });
+        } else if (error.response.data.error === 'Company already in use') {
+          setResponseError('Company already in use');
+          form.setFieldsValue({
+            company: '',
+          });
         } else {
           setResponseError(
             'Internal server error, please contact administrator!'
           );
+          form.setFieldsValue({
+            password: '',
+            user: '',
+            company: '',
+            country: '',
+            website: '',
+            email: '',
+            confirm: '',
+            agreement: '',
+          });
         }
       }
-
-      document.querySelector('.register-form').reset();
     } else {
       warning();
     }
@@ -109,6 +130,7 @@ const Registration = () => {
       ) : (
         <div className="register-page">
           <Form
+            form={form}
             name="register"
             className="register-form"
             onFinish={onFinish}
@@ -154,7 +176,7 @@ const Registration = () => {
             {userType === 'crewing' || userType === 'owner' ? (
               <>
                 <Form.Item
-                  name="compnay"
+                  name="company"
                   label="Company Name"
                   tooltip="Fill in with Company or Crewing name"
                   rules={[

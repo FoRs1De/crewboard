@@ -22,4 +22,5 @@ const postRequest = async (url, postObject) => {
     throw error; // Re-throw the error for further handling if needed
   }
 };
+
 export default postRequest;

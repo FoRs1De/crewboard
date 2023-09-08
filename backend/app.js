@@ -4,9 +4,9 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
 dotenv.config();
 const PORT = process.env.PORT;
+
 const getAllUsers = require('./controllers/getControllers/getAllUsers');
 const getUserById = require('./controllers/getControllers/getUserById');
 const postUser = require('./controllers/postControllers/postUser');
@@ -14,6 +14,7 @@ const postUserLogin = require('./controllers/postControllers/postUserLogin');
 const deleteUser = require('./controllers/deleteControllers/deleteUserById');
 const editUser = require('./controllers/putControllers/editUser');
 const countAllUsers = require('./controllers/getControllers/countAllUsers');
+const getUserAuthentication = require('./controllers/getControllers/getUserAuthentication');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -27,11 +28,14 @@ const corsConfig = {
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 
+//USERS authentication
+app.use('/login-user', postUserLogin);
+app.use('/post-user', postUser);
+app.use('/user-authentication', getUserAuthentication);
+
 //USERS requests ----------------------------
 app.use('/get-all-users', getAllUsers);
 app.use('/get-user-by-id', getUserById);
-app.use('/post-user', postUser);
-app.use('/login-user', postUserLogin);
 app.use('/edit-user', editUser);
 app.use('/delete-user', deleteUser);
 
