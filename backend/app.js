@@ -12,9 +12,10 @@ const getUserById = require('./controllers/getControllers/getUserById');
 const postUser = require('./controllers/postControllers/postUser');
 const postUserLogin = require('./controllers/postControllers/postUserLogin');
 const deleteUser = require('./controllers/deleteControllers/deleteUserById');
-const editUser = require('./controllers/putControllers/editUser');
 const countAllUsers = require('./controllers/getControllers/countAllUsers');
 const getUserAuthentication = require('./controllers/getControllers/getUserAuthentication');
+const postUserEmailCheck = require('./controllers/postControllers/postUserEmailCheck');
+const putUserPasswordChange = require('./controllers/putControllers/putUserPasswordChange');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -32,11 +33,12 @@ app.options('*', cors(corsConfig));
 app.use('/login-user', postUserLogin);
 app.use('/post-user', postUser);
 app.use('/user-authentication', getUserAuthentication);
-
+app.use('/password-reset', postUserEmailCheck);
+app.use('/password-reset', putUserPasswordChange);
 //USERS requests ----------------------------
 app.use('/get-all-users', getAllUsers);
 app.use('/get-user-by-id', getUserById);
-app.use('/edit-user', editUser);
+
 app.use('/delete-user', deleteUser);
 
 app.use('/count-users', countAllUsers);

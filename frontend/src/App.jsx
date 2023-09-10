@@ -14,6 +14,7 @@ import Login from './components/Login';
 import PasswordReset from './components/PasswordReset';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Account from './components/Account';
+import PasswordChange from './components/PasswordChange';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -54,6 +55,7 @@ function App() {
             element={<Login setSubmittedForm={setSubmittedForm} />}
           />
           <Route path="/reset-password" element={<PasswordReset />} />
+          <Route path="/reset-password/:id" element={<PasswordChange />} />
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Route>

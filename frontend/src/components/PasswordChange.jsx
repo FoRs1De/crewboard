@@ -1,34 +1,22 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Form, Input, Result, Alert, Space, message } from 'antd';
+import { Link, useParams } from 'react-router-dom';
+import { Button, Form, Input, Result, Alert, Space } from 'antd';
 import './styles/PasswordReset.css';
-import postRequest from '../assets/axios';
+import axios from 'axios';
 
-const PasswordReset = () => {
+const PasswordChange = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [email, setEmail] = useState('');
   const [responseError, setResponseError] = useState(null);
-  const [messageApi, contextHolder] = message.useMessage();
-
-  const errorMessage = () => {
-    messageApi.open({
-      type: 'error',
-      content: responseError,
-    });
-  };
+  const id = useParams();
 
   const onFinish = async (value) => {
     try {
-      const currentURL = window.location.href;
-      const valueWithUrl = { ...value, url: currentURL };
-      await postRequest('http://localhost:5000/password-reset', valueWithUrl);
+      await axios.put(`http://localhost:5000/password-reset/${id.id}`, value);
       document.querySelector('.reset-password-form').reset();
       setIsSubmitted(true);
-      setEmail(value);
     } catch (error) {
       setResponseError(error.response.data.error);
       console.log(error);
-      errorMessage();
     }
   };
 
@@ -44,7 +32,7 @@ const PasswordReset = () => {
           wrapperCol={{ span: 24 }}
         >
           <center>
-            <h1>Request password reset</h1>
+            <h1>Reset password</h1>
           </center>
           <Space
             direction="vertical"
@@ -58,25 +46,50 @@ const PasswordReset = () => {
             ) : null}
           </Space>
           <Form.Item
-            name="email"
-            label="Enter your email. A link for reset will be sent."
+            name="password"
+            label="New Password"
             rules={[
               {
-                type: 'email',
-                message: 'The input is not valid E-mail!',
+                required: true,
+                message: 'Please input your password!',
               },
               {
-                required: true,
-                message: 'Please input your E-mail!',
+                min: 6,
+                message: 'Password must be at least 6 characters',
               },
             ]}
+            hasFeedback
           >
-            <Input />
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item
+            name="confirm"
+            label="Confirm New Password"
+            dependencies={['password']}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: 'Please confirm your password!',
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue('password') === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    new Error('The new password that you entered do not match!')
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password />
           </Form.Item>
           <Form.Item>
             <div className="reset-password-button">
               <center>
-                {contextHolder}
                 <Button type="primary" htmlType="submit">
                   Reset Password
                 </Button>
@@ -87,13 +100,17 @@ const PasswordReset = () => {
       ) : (
         <Result
           status="success"
-          title={`Email with instructions has been sent to ${email.email}`}
-          subTitle="Please check your email and follow the instructions to reset password."
-          extra={[]}
+          title={`Your password was successfully changed`}
+          subTitle="Please login with your new password."
+          extra={[
+            <Link key="goLogin" to="/login">
+              <Button type="primary">Go to login page</Button>
+            </Link>,
+          ]}
         />
       )}
     </div>
   );
 };
 
-export default PasswordReset;
+export default PasswordChange;

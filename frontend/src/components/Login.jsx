@@ -14,17 +14,24 @@ const Login = ({ setSubmittedForm }) => {
     try {
       await postRequest('http://localhost:5000/login-user', values);
       document.querySelector('.login-form').reset();
+      console.log(values);
       if (values.remember === true) {
         var maxAgeInSeconds = 30 * 24 * 60 * 60;
         document.cookie =
           'session=30 days; max-age=' + maxAgeInSeconds + '; path=/;';
+        setSubmittedForm(true);
+        navigate('/');
+        setTimeout(() => {
+          setSubmittedForm(false);
+        }, 1);
+      } else {
+        document.cookie = 'session=1 session; path=/;';
+        setSubmittedForm(true);
+        navigate('/');
+        setTimeout(() => {
+          setSubmittedForm(false);
+        }, 1);
       }
-      document.cookie = 'session=1 session; path=/;';
-      setSubmittedForm(true);
-      navigate('/');
-      setTimeout(() => {
-        setSubmittedForm(false);
-      }, 1);
     } catch (error) {
       if (error.response.data.error === 'User not found') {
         form.setFieldsValue({ password: '', username: '' });
