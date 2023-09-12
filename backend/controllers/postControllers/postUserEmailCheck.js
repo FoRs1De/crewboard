@@ -2,13 +2,12 @@ const express = require('express');
 const client = require('../../dbConnections/mongoDB');
 const app = express();
 const nodemailer = require('nodemailer');
-const bcrypt = require('bcrypt');
 const base64url = require('base64url');
 
 const emailLogin = process.env.EMAIL_LOGIN;
 const emailPassword = process.env.EMAIL_PASSWORD;
 const transporter = nodemailer.createTransport({
-  service: 'gmail', // e.g., 'gmail'
+  service: 'gmail',
   auth: {
     user: emailLogin,
     pass: emailPassword,
@@ -48,7 +47,7 @@ app.post('/', async (req, res) => {
         from: 'Crewboard',
         to: `${userEmail}`,
         subject: 'Crewboard: reset-password',
-        text: `You requested to reset password at Crewboard. Please follow this link to reset your password ${url}/${encodedId}`,
+        text: `You requested to reset password at Crewboard. Please follow the link to reset your password ${url}/${encodedId} this link will be available for next 10 min`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -57,9 +56,13 @@ app.post('/', async (req, res) => {
           });
           console.log(error);
         } else {
-          res.status(200).json({
-            userId: encodedId,
+          res.cookie('passwordReset', '10min', {
+            expires: new Date(Date.now() + 600000),
           });
+          res.status(200).json({
+            message: 'Email successfully sent',
+          });
+
           console.log(info.response);
         }
       });
@@ -72,7 +75,7 @@ app.post('/', async (req, res) => {
         from: 'alexeyprokopan@gmail.com',
         to: `${userEmail}`,
         subject: 'Crewboard: reset-password',
-        text: `You requested to reset password at Crewboard. Please follow this link to reset your password ${url}/${encodedId}`,
+        text: `You requested to reset password at Crewboard. Please follow the link to reset your password ${url}/${encodedId} this link will be available for next 10 min`,
       };
       transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
@@ -81,6 +84,9 @@ app.post('/', async (req, res) => {
           });
           console.log(error);
         } else {
+          res.cookie('passwordReset', '10min', {
+            expires: new Date(Date.now() + 600000),
+          });
           res.status(200).json({
             message: 'Email successfully sent',
           });

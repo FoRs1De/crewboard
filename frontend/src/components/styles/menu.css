@@ -15,6 +15,7 @@
 .top-menu {
   display: flex;
   justify-content: center;
+  gap: 40px;
   background-color: #5fa7da;
   padding: 5px;
 }
@@ -61,7 +62,7 @@ nav {
   display: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 768px) {
   .menu-button-wrapper {
     display: flex;
     justify-content: center;

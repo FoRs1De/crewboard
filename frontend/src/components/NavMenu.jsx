@@ -51,8 +51,16 @@ const NavMenu = ({ user, setUser }) => {
     <>
       <div className="top-menu">
         <div className="top-menu-item">
-          <h3>{usersNumber}</h3>
-          <p>All users</p>
+          <h3>{usersNumber.total}</h3>
+          <p>All Users</p>
+        </div>
+        <div className="top-menu-item">
+          <h3>{usersNumber.seamen}</h3>
+          <p>Seamen</p>
+        </div>
+        <div className="top-menu-item">
+          <h3>{usersNumber.employers}</h3>
+          <p>Employers</p>
         </div>
       </div>
       <nav id="sticky">

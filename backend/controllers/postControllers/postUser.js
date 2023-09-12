@@ -33,9 +33,12 @@ app.post('/', async (req, res) => {
     const existingEmployer = await employersCollection.findOne({
       email: userEmail,
     });
-    const existingCompany = await employersCollection.findOne({
-      company: userCompany,
-    });
+    let existingCompany;
+    if (userCompany) {
+      const existingCompany = await employersCollection.findOne({
+        company: userCompany,
+      });
+    }
     if (existingSeaman || existingEmployer) {
       // If an existing user is found, return a response indicating the email is already in use
       res.status(400).json({ error: 'Email already in use' });

@@ -31,7 +31,11 @@ app.get('/', async (req, res) => {
     // Combine the counts
     const totalCount = count1 + count2;
 
-    res.json(totalCount);
+    res.json({
+      seamen: count1,
+      employers: count2,
+      total: totalCount,
+    });
   } catch (err) {
     console.error('Error connecting to MongoDB or counting documents:', err);
     res.status(500).json({ error: 'Internal server error' });

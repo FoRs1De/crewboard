@@ -35,12 +35,11 @@ app.use('/post-user', postUser);
 app.use('/user-authentication', getUserAuthentication);
 app.use('/password-reset', postUserEmailCheck);
 app.use('/password-reset', putUserPasswordChange);
+
 //USERS requests ----------------------------
 app.use('/get-all-users', getAllUsers);
 app.use('/get-user-by-id', getUserById);
-
 app.use('/delete-user', deleteUser);
-
 app.use('/count-users', countAllUsers);
 //-------------------------------------------
 app.listen(PORT, () => {

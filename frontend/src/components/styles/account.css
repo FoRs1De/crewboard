@@ -1,0 +1,84 @@
+.account-page {
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .ant-tabs-tab:first-child {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  .ant-tabs-tab:nth-child(2) {
+    margin-top: 17px !important;
+    padding-top: 17px !important;
+    padding-bottom: 17px !important;
+  }
+  .ant-tabs-tab {
+    margin-top: 0 !important;
+    margin-bottom: -17px;
+    border-bottom: 1px solid lightgray !important;
+    padding: 20px 10px 20px 10px !important;
+    justify-content: center;
+  }
+
+  .ant-tabs-tabpane {
+    margin-left: 0 !important;
+    margin-top: 20px;
+  }
+
+  .settings-reset-password-form {
+    min-width: 200px;
+    max-width: 400px;
+    background-color: white;
+    padding: 20px 40px 40px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px 1px lightgray;
+  }
+}
+
+.ant-tabs-tabpane {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* .ant-tabs-ink-bar {
+} */
+.ant-tabs-tab:first-child {
+  margin-left: 20px;
+}
+
+.ant-tabs-tab:last-child {
+  margin-right: 20px;
+}
+
+/* inside of settings tab */
+
+.settings-reset-password-form {
+  max-width: 400px;
+  background-color: white;
+  padding: 20px 40px 40px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 1px lightgray;
+  margin-bottom: 20px;
+}
+
+.settings-forms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.change-email {
+  margin-bottom: 20px;
+}
+
+.delete-account {
+  margin-bottom: 40px;
+  max-width: 400px;
+  background-color: white;
+  padding: 20px 40px 40px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 1px lightgray;
+  margin-bottom: 40px;
+  height: 100%;
+}

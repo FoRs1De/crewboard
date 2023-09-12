@@ -4,7 +4,7 @@ import { Button, Form, Input, Result, Alert, Space, message } from 'antd';
 import './styles/PasswordReset.css';
 import postRequest from '../assets/axios';
 
-const PasswordReset = () => {
+const PasswordReset = ({ setSubmittedForm }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [email, setEmail] = useState('');
   const [responseError, setResponseError] = useState(null);
@@ -24,6 +24,7 @@ const PasswordReset = () => {
       await postRequest('http://localhost:5000/password-reset', valueWithUrl);
       document.querySelector('.reset-password-form').reset();
       setIsSubmitted(true);
+      setSubmittedForm(true);
       setEmail(value);
     } catch (error) {
       setResponseError(error.response.data.error);

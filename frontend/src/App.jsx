@@ -20,10 +20,12 @@ function App() {
   const [user, setUser] = useState(null);
   //State for useffect when form submitted for firing it
   const [submittedForm, setSubmittedForm] = useState(false);
+  const [passwordResetRequested, setPasswordResetRequested] = useState(false);
 
   //Check for user authentication
   useEffect(() => {
     const tokenSession = Cookies.get('session');
+    const tokenPasswordReset = Cookies.get('passwordReset');
     if (tokenSession) {
       axios
         .get('http://localhost:5000/user-authentication')
@@ -33,8 +35,11 @@ function App() {
         .catch((error) => {
           console.error('Error fetching user data:', error);
         });
+    }
+    if (tokenPasswordReset) {
+      setPasswordResetRequested(true);
     } else {
-      console.log('noCookie');
+      setPasswordResetRequested(false);
     }
   }, [submittedForm]);
 
@@ -45,7 +50,18 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/seafarers" element={<Seafarers />} />
-          <Route path="/account" element={<Account />} />
+          {user ? (
+            <Route
+              path="/account"
+              element={
+                <Account
+                  setSubmittedForm={setSubmittedForm}
+                  setUser={setUser}
+                />
+              }
+            />
+          ) : null}
+
           <Route
             path="/registration"
             element={<Registration setSubmittedForm={setSubmittedForm} />}
@@ -54,8 +70,14 @@ function App() {
             path="/login"
             element={<Login setSubmittedForm={setSubmittedForm} />}
           />
-          <Route path="/reset-password" element={<PasswordReset />} />
-          <Route path="/reset-password/:id" element={<PasswordChange />} />
+          {passwordResetRequested ? (
+            <Route path="/reset-password/:id" element={<PasswordChange />} />
+          ) : null}
+          <Route
+            path="/reset-password"
+            element={<PasswordReset setSubmittedForm={setSubmittedForm} />}
+          />
+
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />
         </Route>
