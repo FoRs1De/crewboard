@@ -33,7 +33,6 @@ const NavMenu = ({ user, setUser }) => {
       axios
         .get('http://localhost:5000/count-users')
         .then((response) => {
-          console.log('Data received:', response.data);
           setUsersNumber(response.data);
         })
         .catch((error) => {

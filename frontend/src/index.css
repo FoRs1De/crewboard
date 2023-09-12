@@ -15,15 +15,7 @@ body {
 /* Style your header and main content as needed */
 
 main {
-  flex-grow: 1; /* Allow main content to grow and fill remaining space */
-}
-
-/* Style your footer */
-footer {
-  background-color: #3a4b55;
-  color: white;
-  text-align: center;
-  padding: 10px;
+  flex-grow: 1;
 }
 
 /* Common fonts */

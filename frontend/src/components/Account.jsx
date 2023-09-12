@@ -16,15 +16,10 @@ const Account = ({ setSubmittedForm, setUser }) => {
     const screenWidth = window.innerWidth;
 
     // Check the screen width and perform actions based on it
-    if (screenWidth >= 1200) {
-      console.log('Large screen');
-    } else if (screenWidth >= 768) {
+    if (screenWidth >= 768) {
       setMode('top');
-      console.log('Medium screen');
     } else {
       setMode('left');
-
-      console.log('Small screen');
     }
   }
   useEffect(() => {
@@ -87,188 +82,214 @@ const Account = ({ setSubmittedForm, setUser }) => {
         style={{
           height: 100 + '%',
         }}
-      >
-        <Tabs.TabPane tab={<p className="tab-text">Vacncies</p>} key="1">
-          content
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text"> CV </p>} key="2">
-          asdsad
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text">Messages</p>} key="3">
-          asdsad
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text">Settings</p>} key="4">
-          <div className="settings-tab">
-            <center>
-              <h1>Settings</h1>
-            </center>
-            <div className="settings-forms">
-              <div className="settings-reset-password">
-                <Form
-                  name="changePassword"
-                  className="settings-reset-password-form"
-                  onFinish={onFinishPassword}
-                  scrollToFirstError
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                >
-                  <center>
-                    <h1>Change Password</h1>
-                  </center>
-                  <Space
-                    direction="vertical"
-                    style={{
-                      width: '100%',
-                      marginBottom: 20,
-                    }}
-                  >
-                    {responseError ? (
-                      <Alert message={responseError} type="error" showIcon />
-                    ) : null}
-                  </Space>
-                  <Form.Item
-                    name="password"
-                    label="New Password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please input your password!',
-                      },
-                      {
-                        min: 6,
-                        message: 'Password must be at least 6 characters',
-                      },
-                    ]}
-                    hasFeedback
-                  >
-                    <Input.Password />
-                  </Form.Item>
-
-                  <Form.Item
-                    name="confirm"
-                    label="Confirm New Password"
-                    dependencies={['password']}
-                    hasFeedback
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please confirm your password!',
-                      },
-                      ({ getFieldValue }) => ({
-                        validator(_, value) {
-                          if (!value || getFieldValue('password') === value) {
-                            return Promise.resolve();
-                          }
-                          return Promise.reject(
-                            new Error(
-                              'The new password that you entered do not match!'
-                            )
-                          );
-                        },
-                      }),
-                    ]}
-                  >
-                    <Input.Password />
-                  </Form.Item>
-                  <Form.Item>
-                    <div className="reset-password-button">
-                      <center>
-                        <Button type="primary" htmlType="submit">
-                          Save new password
-                        </Button>
-                      </center>
-                    </div>
-                  </Form.Item>
-                </Form>
-              </div>
-              <div className="change-email">
-                {' '}
-                <Form
-                  name="changeEmail"
-                  className="reset-password-form"
-                  onFinish={onFinishEmail}
-                  scrollToFirstError
-                  labelCol={{ span: 24 }}
-                  wrapperCol={{ span: 24 }}
-                >
-                  <center>
-                    <h1>Change Email / Login</h1>
-                  </center>
-                  <Space
-                    direction="vertical"
-                    style={{
-                      width: '100%',
-                      marginBottom: 20,
-                    }}
-                  >
-                    {responseError ? (
-                      <Alert message={responseError} type="error" showIcon />
-                    ) : null}
-                  </Space>
-                  <Form.Item
-                    name="email"
-                    label="Enter your new email"
-                    rules={[
-                      {
-                        type: 'email',
-                        message: 'The input is not valid E-mail!',
-                      },
-                      {
-                        required: true,
-                        message: 'Please input your E-mail!',
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item>
-                    <div className="reset-password-button">
-                      <center>
-                        <Button type="primary" htmlType="submit">
-                          Save new Email
-                        </Button>
-                      </center>
-                    </div>
-                  </Form.Item>
-                </Form>
-              </div>
-              <div className="delete-account">
+        items={[
+          {
+            label: <p className="tab-text">Vacncies</p>,
+            key: '1',
+            children: 'test',
+          },
+          {
+            label: <p className="tab-text">CV</p>,
+            key: '2',
+            children: 'test',
+          },
+          {
+            label: <p className="tab-text">Messages</p>,
+            key: '3',
+            children: 'test',
+          },
+          {
+            label: <p className="tab-text">Settings</p>,
+            key: '4',
+            children: (
+              <div className="settings-tab">
                 <center>
-                  <h1>Delete Account</h1>
-                  <p>Push the button to Delete your Crewell account forever.</p>
+                  <h1>Settings</h1>
                 </center>
-                <Space
-                  direction="vertical"
-                  style={{
-                    width: '100%',
-                    marginBottom: 20,
-                  }}
-                >
-                  {responseError ? (
-                    <Alert message={responseError} type="error" showIcon />
-                  ) : null}
-                </Space>
-                <div className="reset-password-button">
-                  <center>
-                    <Button danger htmlType="submit" onClick={showConfirm}>
-                      Delete Account
-                    </Button>
-                  </center>
+                <div className="settings-forms">
+                  <div className="change-email">
+                    {' '}
+                    <Form
+                      name="changeEmail"
+                      className="reset-password-form"
+                      onFinish={onFinishEmail}
+                      scrollToFirstError
+                      labelCol={{ span: 24 }}
+                      wrapperCol={{ span: 24 }}
+                    >
+                      <center>
+                        <h1>Change Email / Login</h1>
+                      </center>
+                      <Space
+                        direction="vertical"
+                        style={{
+                          width: '100%',
+                          marginBottom: 20,
+                        }}
+                      >
+                        {responseError ? (
+                          <Alert
+                            message={responseError}
+                            type="error"
+                            showIcon
+                          />
+                        ) : null}
+                      </Space>
+                      <Form.Item
+                        name="email"
+                        label="Enter your new email"
+                        rules={[
+                          {
+                            type: 'email',
+                            message: 'The input is not valid E-mail!',
+                          },
+                          {
+                            required: true,
+                            message: 'Please input your E-mail!',
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item>
+                        <div className="reset-password-button">
+                          <center>
+                            <Button type="primary" htmlType="submit">
+                              Save new Email
+                            </Button>
+                          </center>
+                        </div>
+                      </Form.Item>
+                    </Form>
+                  </div>
+                  <div className="settings-reset-password">
+                    <Form
+                      name="changePassword"
+                      className="settings-reset-password-form"
+                      onFinish={onFinishPassword}
+                      scrollToFirstError
+                      labelCol={{ span: 24 }}
+                      wrapperCol={{ span: 24 }}
+                    >
+                      <center>
+                        <h1>Change Password</h1>
+                      </center>
+                      <Space
+                        direction="vertical"
+                        style={{
+                          width: '100%',
+                          marginBottom: 20,
+                        }}
+                      >
+                        {responseError ? (
+                          <Alert
+                            message={responseError}
+                            type="error"
+                            showIcon
+                          />
+                        ) : null}
+                      </Space>
+                      <Form.Item
+                        name="password"
+                        label="New Password"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please input your password!',
+                          },
+                          {
+                            min: 6,
+                            message: 'Password must be at least 6 characters',
+                          },
+                        ]}
+                        hasFeedback
+                      >
+                        <Input.Password />
+                      </Form.Item>
+
+                      <Form.Item
+                        name="confirm"
+                        label="Confirm New Password"
+                        dependencies={['password']}
+                        hasFeedback
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please confirm your password!',
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (
+                                !value ||
+                                getFieldValue('password') === value
+                              ) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject(
+                                new Error(
+                                  'The new password that you entered do not match!'
+                                )
+                              );
+                            },
+                          }),
+                        ]}
+                      >
+                        <Input.Password />
+                      </Form.Item>
+                      <Form.Item>
+                        <div className="reset-password-button">
+                          <center>
+                            <Button type="primary" htmlType="submit">
+                              Save new password
+                            </Button>
+                          </center>
+                        </div>
+                      </Form.Item>
+                    </Form>
+                  </div>
+                  <div className="delete-account">
+                    <center>
+                      <h1>Delete Account</h1>
+                      <p>
+                        Push the button to Delete your Crewboard account
+                        forever.
+                      </p>
+                    </center>
+                    <Space
+                      direction="vertical"
+                      style={{
+                        width: '100%',
+                        marginBottom: 20,
+                      }}
+                    >
+                      {responseError ? (
+                        <Alert message={responseError} type="error" showIcon />
+                      ) : null}
+                    </Space>
+                    <div className="reset-password-button">
+                      <center>
+                        <Button danger htmlType="submit" onClick={showConfirm}>
+                          Delete Account
+                        </Button>
+                      </center>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text">Summary</p>} key="5">
-          asdsad
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text">Feedback</p>} key="6">
-          asdsad
-        </Tabs.TabPane>
-        <Tabs.TabPane tab={<p className="tab-text">Vacncies</p>} key="7">
-          asdsad
-        </Tabs.TabPane>
-      </Tabs>
+            ),
+          },
+          {
+            label: <p className="tab-text">Summary</p>,
+            key: '5',
+            children: 'test',
+          },
+          {
+            label: <p className="tab-text">Feedback</p>,
+            key: '6',
+            children: 'test',
+          },
+        ]}
+      />
     </div>
   );
 };

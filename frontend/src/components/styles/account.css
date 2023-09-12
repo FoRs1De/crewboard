@@ -52,33 +52,31 @@
 
 /* inside of settings tab */
 
+.settings-tab {
+  margin-bottom: 40px;
+}
+
 .settings-reset-password-form {
   max-width: 400px;
   background-color: white;
   padding: 20px 40px 40px 40px;
   border-radius: 10px;
   box-shadow: 0 0 12px 1px lightgray;
-  margin-bottom: 20px;
 }
 
 .settings-forms {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
-}
-
-.change-email {
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 40px;
+  align-items: center;
 }
 
 .delete-account {
-  margin-bottom: 40px;
   max-width: 400px;
   background-color: white;
   padding: 20px 40px 40px 40px;
   border-radius: 10px;
   box-shadow: 0 0 12px 1px lightgray;
-  margin-bottom: 40px;
   height: 100%;
 }
