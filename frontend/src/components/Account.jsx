@@ -10,7 +10,10 @@ const Account = ({ setSubmittedForm, setUser }) => {
   const navigate = useNavigate();
 
   const [mode, setMode] = useState('top');
-  const [responseError, setResponseError] = useState(null);
+
+  const [responseEmailChange, setResponseEmailChange] = useState(null);
+  const [responsePasswordChange, setResponsePasswordChange] = useState(null);
+  const [responseDeleteUser, setResponseDeleteUser] = useState(null);
   function handleScreenWidthChange() {
     // Get the current screen width
     const screenWidth = window.innerWidth;
@@ -30,25 +33,39 @@ const Account = ({ setSubmittedForm, setUser }) => {
   //Settings tab
   const onFinishPassword = async (value) => {
     try {
-      await axios.put(`http://localhost:5000/`, value);
+      await axios.put(`http://localhost:5000/password-change`, value);
       document.querySelector('.settings-reset-password-form').reset();
+      setResponsePasswordChange('Password changed successfully');
+      setTimeout(() => {
+        setResponsePasswordChange(null);
+      }, 10000);
     } catch (error) {
-      setResponseError(error.response.data.error);
+      setResponsePasswordChange(error.response.data.error);
+      setTimeout(() => {
+        setResponseEmailChange(null);
+      }, 10000);
       console.log(error);
     }
   };
 
   const onFinishEmail = async (value) => {
     try {
-      await axios.put('http://localhost:5000/', value);
+      await axios.put('http://localhost:5000/email-change', value);
       document.querySelector('.reset-password-form').reset();
+      setResponseEmailChange('Email changed successfully');
+      setTimeout(() => {
+        setResponseEmailChange(null);
+      }, 10000);
     } catch (error) {
-      setResponseError(error.response.data.error);
+      setResponseEmailChange(error.response.data.error);
+      setTimeout(() => {
+        setResponseEmailChange(null);
+      }, 10000);
       console.log(error);
     }
   };
 
-  //Modal for delete confirmation
+  //Modal for delete confirmation inside of settings tab
   const { confirm } = Modal;
 
   const showConfirm = () => {
@@ -64,7 +81,10 @@ const Account = ({ setSubmittedForm, setUser }) => {
           setUser(null);
           navigate('/');
         } catch (error) {
-          setResponseError(error.response.data.error);
+          setResponseDeleteUser(error.response.data.error);
+          setTimeout(() => {
+            setResponseDeleteUser(null);
+          }, 10000);
           console.log(error);
         }
       },
@@ -84,7 +104,7 @@ const Account = ({ setSubmittedForm, setUser }) => {
         }}
         items={[
           {
-            label: <p className="tab-text">Vacncies</p>,
+            label: <p className="tab-text">Vacancies</p>,
             key: '1',
             children: 'test',
           },
@@ -127,17 +147,23 @@ const Account = ({ setSubmittedForm, setUser }) => {
                           marginBottom: 20,
                         }}
                       >
-                        {responseError ? (
+                        {responseEmailChange !== null && (
                           <Alert
-                            message={responseError}
-                            type="error"
+                            message={responseEmailChange}
+                            type={
+                              responseEmailChange ===
+                              'Email changed successfully'
+                                ? 'success'
+                                : 'error'
+                            }
                             showIcon
                           />
-                        ) : null}
+                        )}
                       </Space>
                       <Form.Item
                         name="email"
                         label="Enter your new email"
+                        hasFeedback
                         rules={[
                           {
                             type: 'email',
@@ -147,6 +173,30 @@ const Account = ({ setSubmittedForm, setUser }) => {
                             required: true,
                             message: 'Please input your E-mail!',
                           },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        name="confirm"
+                        label="Confirm New Email"
+                        dependencies={['email']}
+                        hasFeedback
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please confirm your email!',
+                          },
+                          ({ getFieldValue }) => ({
+                            validator(_, value) {
+                              if (!value || getFieldValue('email') === value) {
+                                return Promise.resolve();
+                              }
+                              return Promise.reject(
+                                new Error('Emails are not matching')
+                              );
+                            },
+                          }),
                         ]}
                       >
                         <Input />
@@ -181,13 +231,18 @@ const Account = ({ setSubmittedForm, setUser }) => {
                           marginBottom: 20,
                         }}
                       >
-                        {responseError ? (
+                        {responsePasswordChange !== null && (
                           <Alert
-                            message={responseError}
-                            type="error"
+                            message={responsePasswordChange}
+                            type={
+                              responsePasswordChange ===
+                              'Password changed successfully'
+                                ? 'success'
+                                : 'error'
+                            }
                             showIcon
                           />
-                        ) : null}
+                        )}
                       </Space>
                       <Form.Item
                         name="password"
@@ -262,8 +317,12 @@ const Account = ({ setSubmittedForm, setUser }) => {
                         marginBottom: 20,
                       }}
                     >
-                      {responseError ? (
-                        <Alert message={responseError} type="error" showIcon />
+                      {responseDeleteUser ? (
+                        <Alert
+                          message={responseDeleteUser}
+                          type="error"
+                          showIcon
+                        />
                       ) : null}
                     </Space>
                     <div className="reset-password-button">

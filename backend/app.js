@@ -16,7 +16,8 @@ const countAllUsers = require('./controllers/getControllers/countAllUsers');
 const getUserAuthentication = require('./controllers/getControllers/getUserAuthentication');
 const postUserEmailCheck = require('./controllers/postControllers/postUserEmailCheck');
 const putUserPasswordChange = require('./controllers/putControllers/putUserPasswordChange');
-
+const putUserPasswordChangeFromSettings = require('./controllers/putControllers/putUserPasswordChangeFromSettings');
+const putUserEmailChangeFromSettings = require('./controllers/putControllers/putUserEmailChangeFromSettings');
 //body-parser, coockie-parser
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -29,19 +30,26 @@ const corsConfig = {
 app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 
-//USERS authentication
+//USERS authentication, login/Registration
 app.use('/login-user', postUserLogin);
 app.use('/post-user', postUser);
 app.use('/user-authentication', getUserAuthentication);
 app.use('/password-reset', postUserEmailCheck);
 app.use('/password-reset', putUserPasswordChange);
+//----------------------------------------
 
-//USERS requests ----------------------------
+//USER settings
+app.use('/delete-user', deleteUser);
+app.use('/password-change', putUserPasswordChangeFromSettings);
+app.use('/email-change', putUserEmailChangeFromSettings);
+//----------------------------------------
+
+//USERS requests -------------------------
 app.use('/get-all-users', getAllUsers);
 app.use('/get-user-by-id', getUserById);
-app.use('/delete-user', deleteUser);
 app.use('/count-users', countAllUsers);
 //-------------------------------------------
+
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });

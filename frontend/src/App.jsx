@@ -19,6 +19,7 @@ import PasswordChange from './components/PasswordChange';
 function App() {
   const [user, setUser] = useState(null);
   //State for useffect when form submitted for firing it
+  const [isLoggedIn, setIsloggedIn] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(false);
   const [passwordResetRequested, setPasswordResetRequested] = useState(false);
 
@@ -27,6 +28,7 @@ function App() {
     const tokenSession = Cookies.get('session');
     const tokenPasswordReset = Cookies.get('passwordReset');
     if (tokenSession) {
+      setIsloggedIn(true);
       axios
         .get('http://localhost:5000/user-authentication')
         .then((userData) => {
@@ -50,7 +52,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/seafarers" element={<Seafarers />} />
-          {user ? (
+          {isLoggedIn ? (
             <Route
               path="/account"
               element={
