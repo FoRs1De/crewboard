@@ -78,15 +78,15 @@ app.post('/', async (req, res) => {
 
       //sending cookie as a response
       const token = createToken(result.insertedId.toString());
-      console.log(token);
-      res.cookie('user', token, {
-        httpOnly: true,
-        maxAge: maxAge,
-        domain: 'localhost',
-        sameSite: 'Lax',
-        secure: false,
-        path: '/',
-      });
+      // console.log(token);
+      // res.cookie('user', token, {
+      //   httpOnly: true,
+      //   maxAge: maxAge,
+      //   domain: 'localhost',
+      //   sameSite: 'Lax',
+      //   secure: false,
+      //   path: '/',
+      // });
       res.status(201).json({
         message: 'Data inserted successfully',
         insertedDocument: insertedDocument,

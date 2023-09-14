@@ -17,9 +17,10 @@ import {
 const { Option } = Select;
 import countryList from '../assets/countries.js';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Registration = ({ setSubmittedForm }) => {
+const Registration = ({ setSubmittedForm, setUserEmail }) => {
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [userType, setUserType] = useState('seaman');
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
@@ -62,11 +63,10 @@ const Registration = ({ setSubmittedForm }) => {
         await postRequest('http://localhost:5000/post-user', valueWithUrl);
         setFormIsSubmitted(true);
         setSubmittedForm(true);
-        // install cookie for one session
-        document.cookie = 'session=1 session; path=/;';
-        setTimeout(() => {
-          setSubmittedForm(false);
-        }, 1);
+
+        setUserEmail(valueWithUrl.email);
+        navigate('/login');
+        setSubmittedForm(false);
       } catch (error) {
         console.error('An error occurred during the POST request:', error);
         if (error.response.data.error === 'Email already in use') {

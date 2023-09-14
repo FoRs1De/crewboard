@@ -19,6 +19,7 @@ import EmailVerification from './components/EmailVerification';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [userEmail, setUserEmail] = useState('');
   //State for useffect when form submitted for firing it
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(false);
@@ -67,12 +68,22 @@ function App() {
 
           <Route
             path="/registration"
-            element={<Registration setSubmittedForm={setSubmittedForm} />}
+            element={
+              <Registration
+                setSubmittedForm={setSubmittedForm}
+                setUserEmail={setUserEmail}
+              />
+            }
           />
           <Route path="/verify/:token" element={<EmailVerification />} />
           <Route
             path="/login"
-            element={<Login setSubmittedForm={setSubmittedForm} />}
+            element={
+              <Login
+                setSubmittedForm={setSubmittedForm}
+                userEmail={userEmail}
+              />
+            }
           />
           {passwordResetRequested ? (
             <Route path="/reset-password/:id" element={<PasswordChange />} />

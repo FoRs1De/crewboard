@@ -45,6 +45,10 @@ app.post('/', async (req, res) => {
         employerObj.password
       );
 
+      if (employerObj.verified === false) {
+        return res.status(401).json({ error: 'Not verified' });
+      }
+
       if (!passwordsMatch) {
         return res.status(401).json({ error: 'Invalid password' });
       }
@@ -72,6 +76,10 @@ app.post('/', async (req, res) => {
         userPassword,
         seamanObj.password
       );
+
+      if (seamanObj.verified === false) {
+        return res.status(401).json({ error: 'Not verified' });
+      }
 
       if (!passwordsMatch) {
         return res.status(401).json({ error: 'Invalid password' });

@@ -5,11 +5,13 @@ import { useNavigate, Link } from 'react-router-dom';
 import postRequest from '../assets/axios';
 import { useState } from 'react';
 
-const Login = ({ setSubmittedForm }) => {
+const Login = ({ setSubmittedForm, userEmail }) => {
   const [form] = Form.useForm();
+  const [valueEmail, setValueEmail] = useState('');
   const [responseError, setResponseError] = useState(null);
-
   const navigate = useNavigate();
+  const [isVerified, setIsVerified] = useState(true);
+
   const onFinish = async (values) => {
     try {
       await postRequest('http://localhost:5000/login-user', values);
@@ -35,6 +37,10 @@ const Login = ({ setSubmittedForm }) => {
     } catch (error) {
       if (error.response.data.error === 'User not found') {
         form.setFieldsValue({ password: '', username: '' });
+      } else if (error.response.data.error === 'Not verified') {
+        setValueEmail(values.username);
+        setIsVerified(false);
+        form.setFieldsValue({ password: '', username: '' });
       } else {
         form.setFieldsValue({ password: '' });
       }
@@ -43,6 +49,24 @@ const Login = ({ setSubmittedForm }) => {
     }
   };
 
+  const resendEmailHandler = async () => {
+    const currentUrl = window.location.href;
+    try {
+      if (userEmail) {
+        await postRequest('http://localhost:5000/resend-verification', {
+          email: userEmail,
+          url: currentUrl,
+        });
+      } else {
+        await postRequest('http://localhost:5000/resend-verification', {
+          email: valueEmail,
+          url: currentUrl,
+        });
+      }
+    } catch (error) {
+      console.error('Something went wrong', error.response.data.error);
+    }
+  };
   return (
     <div className="login-page">
       <Form
@@ -55,6 +79,93 @@ const Login = ({ setSubmittedForm }) => {
         }}
         onFinish={onFinish}
       >
+        {userEmail ? (
+          <Alert
+            message={
+              <center>
+                {' '}
+                <p>
+                  <strong>
+                    Please confirm your email to complete the process of
+                    registration.
+                  </strong>
+                </p>
+              </center>
+            }
+            description={
+              <div>
+                <br />
+                <center>
+                  <p>
+                    The email has been sent to your designated address (
+                    <strong>{userEmail}</strong>).
+                  </p>{' '}
+                </center>
+                <br />
+                <center>
+                  <p>
+                    {' '}
+                    Kindly follow the link of our message to activate your
+                    account. Check the Spam folder if the email is not in the
+                    Inbox.
+                  </p>
+                </center>
+                <center>
+                  <p>
+                    <br /> No Email? Please click{' '}
+                    <Button onClick={resendEmailHandler} type="link">
+                      Resend Email
+                    </Button>
+                  </p>
+                </center>
+              </div>
+            }
+            type="info"
+          />
+        ) : null}
+        {!isVerified ? (
+          <Alert
+            message={
+              <div>
+                <center>
+                  <p>
+                    <strong>
+                      Your account has been temporarily locked down because you
+                      have not confirmed your email address.
+                    </strong>
+                  </p>
+                </center>
+              </div>
+            }
+            description={
+              <div>
+                <br />
+                <center>
+                  <p>
+                    The email has been sent to your designated address (
+                    <strong>{valueEmail}</strong>).
+                  </p>{' '}
+                </center>
+                <br />
+                <center>
+                  <p>
+                    Click the link in the email to come back to your account.
+                    Don’t worry, we took care of it during your absence.
+                  </p>
+                </center>
+                <center>
+                  <p>
+                    <br /> No Email? Please click{' '}
+                    <Button onClick={resendEmailHandler} type="link">
+                      Resend Email
+                    </Button>
+                  </p>
+                </center>
+              </div>
+            }
+            type="info"
+          />
+        ) : null}
         <center>
           <h1>Log in</h1>
         </center>

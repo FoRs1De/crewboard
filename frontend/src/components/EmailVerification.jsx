@@ -42,7 +42,6 @@ const EmailVerification = () => {
           console.log(error);
         }
       };
-
       verfication();
     }
   };
@@ -73,7 +72,7 @@ const EmailVerification = () => {
             }
             subTitle={
               response === 'Successfully verified!'
-                ? null
+                ? 'Now you can login with your email and password'
                 : `${response}. Please contact administrtor!`
             }
             extra={
@@ -84,9 +83,9 @@ const EmailVerification = () => {
                   </Button>
                 </Link>
               ) : (
-                <Link key="1" to="/">
+                <Link key="1" to="/login">
                   <Button type="primary" key="console">
-                    To main page
+                    To login
                   </Button>
                 </Link>
               )

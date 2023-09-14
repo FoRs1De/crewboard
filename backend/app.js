@@ -19,6 +19,7 @@ const putUserPasswordChange = require('./controllers/putControllers/putUserPassw
 const putUserPasswordChangeFromSettings = require('./controllers/putControllers/putUserPasswordChangeFromSettings');
 const putUserEmailChangeFromSettings = require('./controllers/putControllers/putUserEmailChangeFromSettings');
 const putUserEmailVerification = require('./controllers/putControllers/putUserEmailVerification');
+const postResendVerfication = require('./controllers/postControllers/postResendVerification');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -34,13 +35,13 @@ app.options('*', cors(corsConfig));
 
 //USERS authentication, login/Registration, verification
 
-//NEED TO MAKE ON VERIFICATION ON PASSWORD CHANGE
 app.use('/login-user', postUserLogin);
 app.use('/post-user', postUser);
 app.use('/user-authentication', getUserAuthentication);
 app.use('/password-reset', postUserEmailCheck);
 app.use('/password-reset', putUserPasswordChange);
 app.use('/email-verification', putUserEmailVerification);
+app.use('/resend-verification', postResendVerfication);
 //----------------------------------------
 
 //USER settings
