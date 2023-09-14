@@ -55,11 +55,11 @@ const Registration = ({ setSubmittedForm }) => {
   const onFinish = async (values) => {
     if (isCaptchaVerified) {
       const { confirm, ...valuesWithoutConfirm } = values;
+      const currentURL = window.location.href;
+      const valueWithUrl = { ...valuesWithoutConfirm, url: currentURL };
+
       try {
-        await postRequest(
-          'http://localhost:5000/post-user',
-          valuesWithoutConfirm
-        );
+        await postRequest('http://localhost:5000/post-user', valueWithUrl);
         setFormIsSubmitted(true);
         setSubmittedForm(true);
         // install cookie for one session

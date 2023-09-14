@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Form, Input, Result, Alert, Space, message } from 'antd';
 import './styles/PasswordReset.css';
 import postRequest from '../assets/axios';

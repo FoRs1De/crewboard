@@ -3,6 +3,8 @@ const client = require('../../dbConnections/mongoDB');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const app = express();
+const nodemailer = require('nodemailer');
+const base64url = require('base64url');
 
 //Create JWT Token
 const maxAge = 30 * 24 * 60 * 60 * 1000;
@@ -12,11 +14,27 @@ const createToken = (id) => {
   });
 };
 
+//SendMailer transporter
+const emailLogin = process.env.EMAIL_LOGIN;
+const emailPassword = process.env.EMAIL_PASSWORD;
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: emailLogin,
+    pass: emailPassword,
+  },
+});
+
 app.post('/', async (req, res) => {
-  const dataToInsert = req.body;
+  const dataReceived = req.body;
+  const { url, ...dataWithoutUrl } = dataReceived;
+  const dataToInsert = { ...dataWithoutUrl, verified: false };
   const userEmail = dataToInsert.email;
   const userCompany = dataToInsert.company;
   const userPassword = dataToInsert.password;
+  const urlObj = new URL(url);
+  const domainUrl = urlObj.origin;
+
   const hashedPassword = await bcrypt.hash(userPassword, 10);
   dataToInsert.password = hashedPassword;
 
@@ -72,6 +90,25 @@ app.post('/', async (req, res) => {
       res.status(201).json({
         message: 'Data inserted successfully',
         insertedDocument: insertedDocument,
+      });
+
+      const encodedToken = base64url.encode(token);
+      //send verification email
+      const mailOptions = {
+        from: 'Crewboard',
+        to: `${userEmail}`,
+        subject: 'Crewboard: email-confirmation',
+        text: `Hi! There, You have recently registered 
+        on Crewboard.
+        Please follow the given link to verify your email
+        ${domainUrl}/verify/${encodedToken} `,
+      };
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(info.response);
+        }
       });
     }
   } catch (err) {

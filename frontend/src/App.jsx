@@ -15,6 +15,7 @@ import PasswordReset from './components/PasswordReset';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import Account from './components/Account';
 import PasswordChange from './components/PasswordChange';
+import EmailVerification from './components/EmailVerification';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -68,6 +69,7 @@ function App() {
             path="/registration"
             element={<Registration setSubmittedForm={setSubmittedForm} />}
           />
+          <Route path="/verify/:token" element={<EmailVerification />} />
           <Route
             path="/login"
             element={<Login setSubmittedForm={setSubmittedForm} />}
