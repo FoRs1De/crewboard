@@ -1,16 +1,26 @@
 import './styles/login.css';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Form, Input, Alert, Space } from 'antd';
+import { Button, Checkbox, Form, Input, Alert, Space, message } from 'antd';
 import { useNavigate, Link } from 'react-router-dom';
 import postRequest from '../assets/axios';
 import { useState } from 'react';
-
-const Login = ({ setSubmittedForm, userEmail }) => {
+const Login = ({ setSubmittedForm, userEmail, setUserEmail }) => {
+  const [messageApi, contextHolder] = message.useMessage();
   const [form] = Form.useForm();
   const [valueEmail, setValueEmail] = useState('');
   const [responseError, setResponseError] = useState(null);
   const navigate = useNavigate();
   const [isVerified, setIsVerified] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [isAlertVisible, setIsAlertVisible] = useState(true);
+
+  const successMsg = () => {
+    messageApi.open({
+      type: 'success',
+      content: `Email has been sent successfully to ${valueEmail}${userEmail}`,
+      duration: 10,
+    });
+  };
 
   const onFinish = async (values) => {
     try {
@@ -40,6 +50,8 @@ const Login = ({ setSubmittedForm, userEmail }) => {
       } else if (error.response.data.error === 'Not verified') {
         setValueEmail(values.username);
         setIsVerified(false);
+        setIsAlertVisible(true);
+        setUserEmail('');
         form.setFieldsValue({ password: '', username: '' });
       } else {
         form.setFieldsValue({ password: '' });
@@ -57,18 +69,31 @@ const Login = ({ setSubmittedForm, userEmail }) => {
           email: userEmail,
           url: currentUrl,
         });
+        successMsg();
+        setIsButtonDisabled(true);
+        setIsAlertVisible(false);
+        setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, 60000);
       } else {
         await postRequest('http://localhost:5000/resend-verification', {
           email: valueEmail,
           url: currentUrl,
         });
       }
+      successMsg();
+      setIsButtonDisabled(true);
+      setIsAlertVisible(false);
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 60000);
     } catch (error) {
       console.error('Something went wrong', error.response.data.error);
     }
   };
   return (
     <div className="login-page">
+      {contextHolder}
       <Form
         form={form}
         name="normal_login"
@@ -79,7 +104,7 @@ const Login = ({ setSubmittedForm, userEmail }) => {
         }}
         onFinish={onFinish}
       >
-        {userEmail ? (
+        {isAlertVisible && userEmail ? (
           <Alert
             message={
               <center>
@@ -112,10 +137,16 @@ const Login = ({ setSubmittedForm, userEmail }) => {
                 </center>
                 <center>
                   <p>
-                    <br /> No Email? Please click{' '}
-                    <Button onClick={resendEmailHandler} type="link">
-                      Resend Email
-                    </Button>
+                    <br /> No Email? Please click
+                    <>
+                      <Button
+                        disabled={isButtonDisabled}
+                        onClick={resendEmailHandler}
+                        type="link"
+                      >
+                        Resend Email
+                      </Button>
+                    </>
                   </p>
                 </center>
               </div>
@@ -123,7 +154,7 @@ const Login = ({ setSubmittedForm, userEmail }) => {
             type="info"
           />
         ) : null}
-        {!isVerified ? (
+        {isAlertVisible && !isVerified ? (
           <Alert
             message={
               <div>
@@ -156,9 +187,15 @@ const Login = ({ setSubmittedForm, userEmail }) => {
                 <center>
                   <p>
                     <br /> No Email? Please click{' '}
-                    <Button onClick={resendEmailHandler} type="link">
-                      Resend Email
-                    </Button>
+                    <>
+                      <Button
+                        disabled={isButtonDisabled}
+                        onClick={resendEmailHandler}
+                        type="link"
+                      >
+                        Resend Email
+                      </Button>
+                    </>
                   </p>
                 </center>
               </div>

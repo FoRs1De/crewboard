@@ -1,5 +1,5 @@
 import './styles/registration.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import postRequest from '../assets/axios';
 
 import {
@@ -19,7 +19,7 @@ import countryList from '../assets/countries.js';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Registration = ({ setSubmittedForm, setUserEmail }) => {
+const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [userType, setUserType] = useState('seaman');
@@ -27,6 +27,9 @@ const Registration = ({ setSubmittedForm, setUserEmail }) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [responseError, setResponseError] = useState(null);
   const [formIsSubmitted, setFormIsSubmitted] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [seconds, setSeconds] = useState(60);
+
   const handleSelectUserChange = (value) => {
     setUserType(value);
   };
@@ -53,6 +56,14 @@ const Registration = ({ setSubmittedForm, setUserEmail }) => {
     });
   };
 
+  const successMsg = () => {
+    messageApi.open({
+      type: 'success',
+      content: `Email has been sent successfully to ${userEmail}`,
+      duration: 10,
+    });
+  };
+
   const onFinish = async (values) => {
     if (isCaptchaVerified) {
       const { confirm, ...valuesWithoutConfirm } = values;
@@ -63,9 +74,7 @@ const Registration = ({ setSubmittedForm, setUserEmail }) => {
         await postRequest('http://localhost:5000/post-user', valueWithUrl);
         setFormIsSubmitted(true);
         setSubmittedForm(true);
-
         setUserEmail(valueWithUrl.email);
-        navigate('/login');
         setSubmittedForm(false);
       } catch (error) {
         console.error('An error occurred during the POST request:', error);
@@ -117,14 +126,87 @@ const Registration = ({ setSubmittedForm, setUserEmail }) => {
     value: website,
   }));
 
+  const resendEmailHandler = async () => {
+    const currentUrl = window.location.href;
+    try {
+      if (userEmail) {
+        successMsg();
+        setIsButtonDisabled(true);
+        setSeconds(60);
+        await postRequest('http://localhost:5000/resend-verification', {
+          email: userEmail,
+          url: currentUrl,
+        });
+      }
+
+      setTimeout(() => {
+        setIsButtonDisabled(false);
+      }, 60000);
+    } catch (error) {
+      console.error('Something went wrong', error.response.data.error);
+    }
+  };
+
+  useEffect(() => {
+    let intervalId;
+
+    if (isButtonDisabled) {
+      intervalId = setInterval(() => {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(intervalId);
+  }, [seconds, isButtonDisabled]);
+
   return (
     <>
       {formIsSubmitted ? (
         <div className="registration-success-page">
           <Result
             status="success"
-            title="You have been successfully registered!"
-            subTitle="Please check your email for confirmation."
+            title="You have been successfully registered! Please confirm your email to complete the process of
+            registration."
+            subTitle={
+              <div>
+                <br />
+                <center>
+                  <p>
+                    The email has been sent to your designated address (
+                    <strong>{userEmail}</strong>).
+                  </p>{' '}
+                </center>
+                <br />
+                <center>
+                  <p>
+                    {' '}
+                    Kindly follow the link of our message to activate your
+                    account. Check the Spam folder if the email is not in the
+                    Inbox.
+                  </p>
+                </center>
+                <center>
+                  <p>
+                    No Email? Please click
+                    <>
+                      {contextHolder}
+                      <Button
+                        disabled={isButtonDisabled}
+                        onClick={resendEmailHandler}
+                        type="link"
+                      >
+                        Resend Email
+                      </Button>
+                      {isButtonDisabled
+                        ? `will be enabled after ${seconds} sec`
+                        : null}
+                    </>
+                  </p>
+                </center>
+              </div>
+            }
           />
         </div>
       ) : (

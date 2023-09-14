@@ -72,6 +72,7 @@ function App() {
               <Registration
                 setSubmittedForm={setSubmittedForm}
                 setUserEmail={setUserEmail}
+                userEmail={userEmail}
               />
             }
           />
@@ -82,6 +83,7 @@ function App() {
               <Login
                 setSubmittedForm={setSubmittedForm}
                 userEmail={userEmail}
+                setUserEmail={setUserEmail}
               />
             }
           />
