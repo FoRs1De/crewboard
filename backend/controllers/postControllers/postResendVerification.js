@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Handle user registration and email verification
+// Handle user  email verification
 app.post('/', async (req, res) => {
   try {
     const { email, url } = req.body;

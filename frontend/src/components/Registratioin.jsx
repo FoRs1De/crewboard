@@ -17,10 +17,9 @@ import {
 const { Option } = Select;
 import countryList from '../assets/countries.js';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
-  const navigate = useNavigate();
   const [form] = Form.useForm();
   const [userType, setUserType] = useState('seaman');
   const [isCaptchaVerified, setCaptchaVerified] = useState(false);
@@ -67,6 +66,7 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
   const onFinish = async (values) => {
     if (isCaptchaVerified) {
       const { confirm, ...valuesWithoutConfirm } = values;
+
       const currentURL = window.location.href;
       const valueWithUrl = { ...valuesWithoutConfirm, url: currentURL };
 
@@ -129,16 +129,13 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
   const resendEmailHandler = async () => {
     const currentUrl = window.location.href;
     try {
-      if (userEmail) {
-        successMsg();
-        setIsButtonDisabled(true);
-        setSeconds(60);
-        await postRequest('http://localhost:5000/resend-verification', {
-          email: userEmail,
-          url: currentUrl,
-        });
-      }
-
+      setIsButtonDisabled(true);
+      setSeconds(60);
+      await postRequest('http://localhost:5000/resend-verification', {
+        email: userEmail,
+        url: currentUrl,
+      });
+      successMsg();
       setTimeout(() => {
         setIsButtonDisabled(false);
       }, 60000);

@@ -75,18 +75,18 @@ const Login = ({ setSubmittedForm, userEmail, setUserEmail }) => {
         setTimeout(() => {
           setIsButtonDisabled(false);
         }, 60000);
-      } else {
+      } else if (valueEmail) {
         await postRequest('http://localhost:5000/resend-verification', {
           email: valueEmail,
           url: currentUrl,
         });
+        successMsg();
+        setIsButtonDisabled(true);
+        setIsAlertVisible(false);
+        setTimeout(() => {
+          setIsButtonDisabled(false);
+        }, 60000);
       }
-      successMsg();
-      setIsButtonDisabled(true);
-      setIsAlertVisible(false);
-      setTimeout(() => {
-        setIsButtonDisabled(false);
-      }, 60000);
     } catch (error) {
       console.error('Something went wrong', error.response.data.error);
     }

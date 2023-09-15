@@ -13,7 +13,7 @@ import Registration from './components/Registratioin';
 import Login from './components/Login';
 import PasswordReset from './components/PasswordReset';
 import PrivacyPolicy from './components/PrivacyPolicy';
-import Account from './components/Account';
+import Account from './components/account/Account';
 import PasswordChange from './components/PasswordChange';
 import EmailVerification from './components/EmailVerification';
 

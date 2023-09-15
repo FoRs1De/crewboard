@@ -12,6 +12,13 @@ body {
   background-color: #f9f9f9;
 }
 
+footer {
+  background-color: #3a4b55;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
 /* Style your header and main content as needed */
 
 main {
