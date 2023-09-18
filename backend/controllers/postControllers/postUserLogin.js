@@ -61,7 +61,6 @@ app.post('/', async (req, res) => {
         httpOnly: true,
         maxAge: maxAge,
         sameSite: 'Lax',
-        secure: false,
         path: '/',
       });
 
@@ -92,7 +91,7 @@ app.post('/', async (req, res) => {
         httpOnly: true,
         maxAge: maxAge, // Set the token expiration time
         sameSite: 'Lax',
-        secure: false, // Set to true in a production environment with HTTPS
+        // Set to true in a production environment with HTTPS
         path: '/',
       });
 
