@@ -60,7 +60,6 @@ app.post('/', async (req, res) => {
       res.cookie('user', token, {
         httpOnly: true,
         maxAge: maxAge,
-        sameSite: 'Lax',
         secure: true,
         path: '/',
       });
@@ -91,7 +90,6 @@ app.post('/', async (req, res) => {
       res.cookie('user', token, {
         httpOnly: true,
         maxAge: maxAge, // Set the token expiration time
-        sameSite: 'Lax',
         secure: true,
         // Set to true in a production environment with HTTPS
         path: '/',
