@@ -50,7 +50,16 @@ function App() {
   return (
     <div className="app">
       <Routes>
-        <Route path="/" element={<MainLayOut user={user} setUser={setUser} />}>
+        <Route
+          path="/"
+          element={
+            <MainLayOut
+              user={user}
+              setUser={setUser}
+              setSubmittedForm={setSubmittedForm}
+            />
+          }
+        >
           <Route index element={<Home />} />
           <Route path="/vacancies" element={<Vacancies />} />
           <Route path="/seafarers" element={<Seafarers />} />

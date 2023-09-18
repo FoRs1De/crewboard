@@ -16,7 +16,7 @@ import './styles/menu.css';
 import axios from 'axios';
 import './styles/menu.css';
 
-const NavMenu = ({ user, setUser }) => {
+const NavMenu = ({ user, setUser, setSubmittedForm }) => {
   const [usersNumber, setUsersNumber] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -44,6 +44,7 @@ const NavMenu = ({ user, setUser }) => {
   const handleLogout = () => {
     setUser(null);
     setOpen(false);
+    setSubmittedForm('submitted on logout');
     document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   };
   return (
