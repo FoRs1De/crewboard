@@ -24,7 +24,7 @@ const Login = ({ setSubmittedForm, userEmail, setUserEmail }) => {
 
   const onFinish = async (values) => {
     try {
-      await postRequest('http://localhost:5001/login-user', values);
+      await postRequest(`${import.meta.env.VITE_API_URL}/login-user`, values);
       document.querySelector('.login-form').reset();
       console.log(values);
       if (values.remember === true) {
@@ -65,10 +65,13 @@ const Login = ({ setSubmittedForm, userEmail, setUserEmail }) => {
     const currentUrl = window.location.href;
     try {
       if (userEmail) {
-        await postRequest('http://localhost:5001/resend-verification', {
-          email: userEmail,
-          url: currentUrl,
-        });
+        await postRequest(
+          `${import.meta.env.VITE_API_URL}/resend-verification`,
+          {
+            email: userEmail,
+            url: currentUrl,
+          }
+        );
         successMsg();
         setIsButtonDisabled(true);
         setIsAlertVisible(false);
@@ -76,10 +79,13 @@ const Login = ({ setSubmittedForm, userEmail, setUserEmail }) => {
           setIsButtonDisabled(false);
         }, 60000);
       } else if (valueEmail) {
-        await postRequest('http://localhost:5001/resend-verification', {
-          email: valueEmail,
-          url: currentUrl,
-        });
+        await postRequest(
+          `${import.meta.env.VITE_API_URL}/resend-verification`,
+          {
+            email: valueEmail,
+            url: currentUrl,
+          }
+        );
         successMsg();
         setIsButtonDisabled(true);
         setIsAlertVisible(false);

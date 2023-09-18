@@ -16,7 +16,7 @@ import './styles/menu.css';
 import axios from 'axios';
 import './styles/menu.css';
 
-const NavMenu = ({ user, setUser, setSubmittedForm }) => {
+const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
   const [usersNumber, setUsersNumber] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -31,7 +31,7 @@ const NavMenu = ({ user, setUser, setSubmittedForm }) => {
   useEffect(() => {
     setTimeout(() => {
       axios
-        .get('http://localhost:5001/count-users')
+        .get(`${import.meta.env.VITE_API_URL}/count-users`)
         .then((response) => {
           setUsersNumber(response.data);
         })
@@ -42,10 +42,11 @@ const NavMenu = ({ user, setUser, setSubmittedForm }) => {
   }, []);
 
   const handleLogout = () => {
+    document.cookie =
+      'session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    setIsLoggedIn(false);
     setUser(null);
     setOpen(false);
-    setSubmittedForm('submitted on logout');
-    document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
   };
   return (
     <>
@@ -101,7 +102,7 @@ const NavMenu = ({ user, setUser, setSubmittedForm }) => {
                   </Badge>
                 </Space>{' '}
               </Link>
-              <Link to="/login" onClick={handleLogout}>
+              <Link to="/" onClick={handleLogout}>
                 {' '}
                 <LogoutOutlined /> Logout
               </Link>
@@ -151,7 +152,7 @@ const NavMenu = ({ user, setUser, setSubmittedForm }) => {
                         Account
                       </NavLink>
                     </div>
-                    <Link to="/login" onClick={handleLogout}>
+                    <Link to="/" onClick={handleLogout}>
                       {' '}
                       <LogoutOutlined /> Logout
                     </Link>

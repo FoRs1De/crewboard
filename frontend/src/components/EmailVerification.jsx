@@ -14,7 +14,7 @@ const EmailVerification = () => {
   //     const verfication = async () => {
   //       try {
   //         await axios.put(
-  //           `http://localhost:5000/email-verification/${token.token}`
+  //           `${import.meta.env.VITE_API_URL}/email-verification/${token.token}`
   //         );
   //         setIsVerified(true);
   //       } catch (error) {
@@ -32,7 +32,7 @@ const EmailVerification = () => {
       const verfication = async () => {
         try {
           await axios.put(
-            `http://localhost:5001/email-verification/${token.token}`
+            `${import.meta.env.VITE_API_URL}/email-verification/${token.token}`
           );
           setIsVerified(true);
           setResponse('Successfully verified!');

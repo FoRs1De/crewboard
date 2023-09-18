@@ -71,7 +71,10 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
       const valueWithUrl = { ...valuesWithoutConfirm, url: currentURL };
 
       try {
-        await postRequest('http://localhost:5001/post-user', valueWithUrl);
+        await postRequest(
+          `${import.meta.env.VITE_API_URL}/post-user`,
+          valueWithUrl
+        );
         setFormIsSubmitted(true);
         setSubmittedForm(true);
         setUserEmail(valueWithUrl.email);
@@ -131,7 +134,7 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
     try {
       setIsButtonDisabled(true);
       setSeconds(60);
-      await postRequest('http://localhost:5001/resend-verification', {
+      await postRequest(`${import.meta.env.VITE_API_URL}/resend-verification`, {
         email: userEmail,
         url: currentUrl,
       });

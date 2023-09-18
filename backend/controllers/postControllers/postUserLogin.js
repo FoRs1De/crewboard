@@ -58,7 +58,6 @@ app.post('/', async (req, res) => {
 
       // Set the JWT token as a cookie
       res.cookie('user', token, {
-        domain: 'crewboard-avie.vercel.app',
         httpOnly: true,
         maxAge: maxAge,
         secure: true,
@@ -90,7 +89,6 @@ app.post('/', async (req, res) => {
       // Set the JWT token as a cookie
       res.cookie('user', token, {
         httpOnly: true,
-        domain: 'crewboard-avie.vercel.app',
         maxAge: maxAge, // Set the token expiration time
         secure: true,
         // Set to true in a production environment with HTTPS

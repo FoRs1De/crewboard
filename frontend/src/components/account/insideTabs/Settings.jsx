@@ -15,7 +15,7 @@ const Settings = ({ setSubmittedForm, setUser }) => {
   //Settings tab
   const onFinishPassword = async (value) => {
     try {
-      await axios.put(`http://localhost:5001/password-change`, value);
+      await axios.put(`${import.meta.env.VITE_API_URL}/password-change`, value);
       document.querySelector('.settings-reset-password-form').reset();
       setResponsePasswordChange('Password changed successfully');
       setTimeout(() => {
@@ -32,7 +32,7 @@ const Settings = ({ setSubmittedForm, setUser }) => {
 
   const onFinishEmail = async (value) => {
     try {
-      await axios.put('http://localhost:5001/email-change', value);
+      await axios.put(`${import.meta.env.VITE_API_URL}/email-change`, value);
       document.querySelector('.reset-password-form').reset();
       setResponseEmailChange('Email changed successfully');
       setTimeout(() => {
@@ -58,7 +58,7 @@ const Settings = ({ setSubmittedForm, setUser }) => {
       centered: true,
       async onOk() {
         try {
-          await axios.delete('http://localhost:5001/delete-user');
+          await axios.delete(`${import.meta.env.VITE_API_URL}/delete-user`);
           document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
           setUser(null);
           navigate('/');
