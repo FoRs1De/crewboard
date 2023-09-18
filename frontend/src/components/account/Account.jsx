@@ -4,7 +4,7 @@ import { Tabs } from 'antd';
 import Settings from './insideTabs/Settings';
 import Vacancies from './insideTabs/Vacancies';
 
-const Account = ({ setSubmittedForm, setUser }) => {
+const Account = ({ setSubmittedForm, setUser, user }) => {
   const [mode, setMode] = useState('top');
 
   function handleScreenWidthChange() {
@@ -35,7 +35,7 @@ const Account = ({ setSubmittedForm, setUser }) => {
           {
             label: <p className="tab-text">Vacancies</p>,
             key: '1',
-            children: <Vacancies />,
+            children: <Vacancies user={user} />,
           },
           {
             label: <p className="tab-text">CV</p>,

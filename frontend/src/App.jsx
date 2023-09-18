@@ -61,39 +61,48 @@ function App() {
                 <Account
                   setSubmittedForm={setSubmittedForm}
                   setUser={setUser}
+                  user={user}
                 />
               }
             />
           ) : null}
+          {!isLoggedIn && (
+            <Route
+              path="/registration"
+              element={
+                <Registration
+                  setSubmittedForm={setSubmittedForm}
+                  setUserEmail={setUserEmail}
+                  userEmail={userEmail}
+                />
+              }
+            />
+          )}
+          {!isLoggedIn && (
+            <Route path="/verify/:token" element={<EmailVerification />} />
+          )}
+          {!isLoggedIn && (
+            <Route
+              path="/login"
+              element={
+                <Login
+                  setSubmittedForm={setSubmittedForm}
+                  userEmail={userEmail}
+                  setUserEmail={setUserEmail}
+                />
+              }
+            />
+          )}
 
-          <Route
-            path="/registration"
-            element={
-              <Registration
-                setSubmittedForm={setSubmittedForm}
-                setUserEmail={setUserEmail}
-                userEmail={userEmail}
-              />
-            }
-          />
-          <Route path="/verify/:token" element={<EmailVerification />} />
-          <Route
-            path="/login"
-            element={
-              <Login
-                setSubmittedForm={setSubmittedForm}
-                userEmail={userEmail}
-                setUserEmail={setUserEmail}
-              />
-            }
-          />
           {passwordResetRequested ? (
             <Route path="/reset-password/:id" element={<PasswordChange />} />
           ) : null}
-          <Route
-            path="/reset-password"
-            element={<PasswordReset setSubmittedForm={setSubmittedForm} />}
-          />
+          {!isLoggedIn && (
+            <Route
+              path="/reset-password"
+              element={<PasswordReset setSubmittedForm={setSubmittedForm} />}
+            />
+          )}
 
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="*" element={<NotFound />} />

@@ -20,6 +20,7 @@ const putUserPasswordChangeFromSettings = require('./controllers/putControllers/
 const putUserEmailChangeFromSettings = require('./controllers/putControllers/putUserEmailChangeFromSettings');
 const putUserEmailVerification = require('./controllers/putControllers/putUserEmailVerification');
 const postResendVerfication = require('./controllers/postControllers/postResendVerification');
+const postVacancy = require('./controllers/postControllers/postVacancy');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -56,6 +57,9 @@ app.use('/get-user-by-id', getUserById);
 app.use('/count-users', countAllUsers);
 //-------------------------------------------
 
+//Vacancies requests -------------------------
+app.use('/add-vacancy', postVacancy);
+//-------------------------------------------
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
