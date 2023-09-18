@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Form, Input, Result, Alert, Space } from 'antd';
-import './styles/PasswordReset.css';
+import './styles/passwordReset.css';
 import axios from 'axios';
 
 const PasswordChange = () => {
