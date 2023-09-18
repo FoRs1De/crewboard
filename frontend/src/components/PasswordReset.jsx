@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Form, Input, Result, Alert, Space, message } from 'antd';
-import './styles/PasswordReset.css';
+import './styles/passwordReset.css';
 import postRequest from '../assets/axios';
 
 const PasswordReset = ({ setSubmittedForm }) => {
