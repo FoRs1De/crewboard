@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Button, Result } from 'antd';
-import './styles/PasswordReset.css';
+import './styles/passwordReset.css';
 import axios from 'axios';
 
 const EmailVerification = () => {
