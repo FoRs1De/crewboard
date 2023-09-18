@@ -32,7 +32,7 @@ function App() {
     if (tokenSession) {
       setIsloggedIn(true);
       axios
-        .get('http://localhost:5000/user-authentication')
+        .get('http://localhost:5001/user-authentication')
         .then((userData) => {
           setUser(userData.data);
         })

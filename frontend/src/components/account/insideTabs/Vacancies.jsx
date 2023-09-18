@@ -91,7 +91,7 @@ const Vacancies = ({ user }) => {
     };
     try {
       const response = await axios.post(
-        'http://localhost:5000/add-vacancy',
+        `http://localhost:5001/add-vacancy`,
         modifiedValues
       );
       setResponseMsg(response.data.message);

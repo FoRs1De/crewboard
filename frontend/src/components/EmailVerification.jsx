@@ -32,7 +32,7 @@ const EmailVerification = () => {
       const verfication = async () => {
         try {
           await axios.put(
-            `http://localhost:5000/email-verification/${token.token}`
+            `http://localhost:5001/email-verification/${token.token}`
           );
           setIsVerified(true);
           setResponse('Successfully verified!');

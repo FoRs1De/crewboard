@@ -20,7 +20,7 @@ const PasswordReset = ({ setSubmittedForm }) => {
     try {
       const currentURL = window.location.href;
       const valueWithUrl = { ...value, url: currentURL };
-      await postRequest('http://localhost:5000/password-reset', valueWithUrl);
+      await postRequest('http://localhost:5001/password-reset', valueWithUrl);
       document.querySelector('.reset-password-form').reset();
       setIsSubmitted(true);
       setSubmittedForm(true);

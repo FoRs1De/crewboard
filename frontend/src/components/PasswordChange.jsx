@@ -11,7 +11,7 @@ const PasswordChange = () => {
 
   const onFinish = async (value) => {
     try {
-      await axios.put(`http://localhost:5000/password-reset/${id.id}`, value);
+      await axios.put(`http://localhost:5001/password-reset/${id.id}`, value);
       document.querySelector('.reset-password-form').reset();
       setIsSubmitted(true);
     } catch (error) {

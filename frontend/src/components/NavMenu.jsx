@@ -31,7 +31,7 @@ const NavMenu = ({ user, setUser, setSubmittedForm }) => {
   useEffect(() => {
     setTimeout(() => {
       axios
-        .get('http://localhost:5000/count-users')
+        .get('http://localhost:5001/count-users')
         .then((response) => {
           setUsersNumber(response.data);
         })
