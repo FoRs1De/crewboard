@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { UserOutlined } from '@ant-design/icons';
 import '../../styles/vacancies.css';
 import ranksSelect from '../../../assets/ranksSelect';
 import countryList from '../../../assets/countries';
@@ -13,13 +14,14 @@ import {
   Space,
   message,
   Empty,
+  Avatar,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
-const Vacancies = ({ user }) => {
+const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
   const { Option } = Select;
   const { TextArea } = Input;
   const [messageApi, contextHolder] = message.useMessage();
@@ -64,7 +66,7 @@ const Vacancies = ({ user }) => {
   const successMsg = () => {
     messageApi.open({
       type: 'success',
-      content: responseMsg,
+      content: 'Vacancy posted',
       duration: 10,
     });
   };
@@ -78,6 +80,7 @@ const Vacancies = ({ user }) => {
 
   const onFinish = async (fieldsValue) => {
     console.log(fieldsValue);
+
     let embarkationDate = fieldsValue.startDate.$d;
     embarkationDate = moment(embarkationDate).format('DD.MM.YYYY');
     let currentDate = moment();
@@ -88,14 +91,19 @@ const Vacancies = ({ user }) => {
       timeStamp: currentDate,
       company: user.company,
       userRole: user.user,
+      createdById: user._id,
     };
+    setVacancyPosted(false);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-vacancy`,
         modifiedValues
       );
+      setVacancyPosted(true);
       setResponseMsg(response.data.message);
-      console.log(response.data.message);
+      setTimeout(() => {
+        setVacancyPosted(false);
+      }, 100);
       successMsg();
       setShowAddVacancieForm(false);
     } catch (error) {
@@ -107,273 +115,340 @@ const Vacancies = ({ user }) => {
   return (
     <>
       {contextHolder}
-      {user.user !== 'seaman' ? (
-        <div>
-          {showAddVacancyForm ? (
-            <div className="add-vacancy">
-              <div className="go-back">
-                <Button onClick={handleGoBack} type="link">
-                  {'<'} Go Back
-                </Button>
-              </div>
-              <div className="add-vacancy-form">
-                <Form
-                  labelCol={{
-                    span: 24,
-                  }}
-                  wrapperCol={{
-                    span: 24,
-                  }}
-                  layout="vertical"
-                  style={{
-                    maxWidth: 400,
-                  }}
-                  initialValues={{
-                    suffix: '$',
-                    citizenship: ['Any Citizenship'],
-                  }}
-                  onFinish={onFinish}
-                >
-                  <Form.Item
-                    name="position"
-                    label="Position"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please select!',
-                      },
-                    ]}
-                  >
-                    <Select options={transformedArray} showSearch></Select>
-                  </Form.Item>
-
-                  <Form.Item label="Duration" required>
-                    <Space.Compact>
+      {user && (
+        <>
+          {user.user !== 'seaman' ? (
+            <div>
+              {showAddVacancyForm ? (
+                <div className="add-vacancy">
+                  <div className="go-back">
+                    <Button onClick={handleGoBack} type="link">
+                      {'<'} Go Back
+                    </Button>
+                  </div>
+                  <div className="add-vacancy-form">
+                    <Form
+                      labelCol={{
+                        span: 24,
+                      }}
+                      wrapperCol={{
+                        span: 24,
+                      }}
+                      layout="vertical"
+                      style={{
+                        maxWidth: 400,
+                      }}
+                      initialValues={{
+                        suffix: '$',
+                        citizenship: ['Any Citizenship'],
+                      }}
+                      onFinish={onFinish}
+                    >
                       <Form.Item
-                        name={['duration', 'number']}
-                        noStyle
+                        name="position"
+                        label="Position"
                         rules={[
                           {
                             required: true,
-                            message: 'Number is required',
+                            message: 'Please select!',
                           },
                         ]}
                       >
-                        <Select placeholder="Select number">
-                          {selectNumbers.map((number) => (
-                            <Option key={number} value={number}>
-                              {number}
+                        <Select options={transformedArray} showSearch></Select>
+                      </Form.Item>
+
+                      <Form.Item label="Duration" required>
+                        <Space.Compact>
+                          <Form.Item
+                            name={['duration', 'number']}
+                            noStyle
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Number is required',
+                              },
+                            ]}
+                          >
+                            <Select placeholder="Select number">
+                              {selectNumbers.map((number) => (
+                                <Option key={number} value={number}>
+                                  {number}
+                                </Option>
+                              ))}
+                            </Select>
+                          </Form.Item>
+                          <Form.Item
+                            name={['duration', 'period']}
+                            noStyle
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Period is required',
+                              },
+                            ]}
+                          >
+                            <Select placeholder="Period">
+                              <Option value="weeks">Weeks</Option>
+                              <Option value="months">Months</Option>
+                            </Select>
+                          </Form.Item>
+                        </Space.Compact>
+                      </Form.Item>
+
+                      <Form.Item
+                        label={
+                          <>
+                            Wage
+                            <Tooltip title="Can be 'negotiable' or 'from-to' or number">
+                              <QuestionCircleOutlined
+                                style={{ color: 'gray', marginLeft: '8px' }}
+                              />
+                            </Tooltip>
+                          </>
+                        }
+                        required
+                      >
+                        <Space.Compact>
+                          <Form.Item
+                            name={['wage', 'amount']}
+                            noStyle
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Number is required',
+                              },
+                            ]}
+                          >
+                            <Input
+                              addonAfter={suffixSelector}
+                              style={{
+                                width: '50%',
+                              }}
+                            />
+                          </Form.Item>
+                          <Form.Item
+                            name={['wage', 'period']}
+                            noStyle
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Period is required',
+                              },
+                            ]}
+                          >
+                            <Select
+                              placeholder="Period"
+                              style={{
+                                width: '35%',
+                              }}
+                            >
+                              <Option value="day">per day</Option>
+                              <Option value="month">per month</Option>
+                              <Option value="year">per year</Option>
+                            </Select>
+                          </Form.Item>
+                        </Space.Compact>
+                      </Form.Item>
+                      <Form.Item name="startDate" label="Start Date" required>
+                        <DatePicker
+                          placeholder="DD.MM.YYYY"
+                          format="DD.MM.YYYY"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="citizenship"
+                        label="Seaman Citizenship"
+                        rules={[
+                          {
+                            type: 'array',
+                          },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          placeholder="Select so many as you need"
+                        >
+                          {countryList.map((country, index) => (
+                            <Option key={index} value={country}>
+                              {country}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="description" label="Job description">
+                        <TextArea
+                          rows={4}
+                          placeholder="Add any information about the Job"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name="vesselType"
+                        label="Vessel Type"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Please select!',
+                          },
+                        ]}
+                      >
+                        <Select showSearch>
+                          {shipTypes.map((ship, index) => (
+                            <Option key={index} value={ship}>
+                              {ship}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="vesselFlag" label="Vessel Flag">
+                        <Select showSearch>
+                          {flagStates.map((state, index) => (
+                            <Option key={index} value={state}>
+                              {state}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="vesselOwner" label="Vessel Owner">
+                        <Select showSearch>
+                          {countryList.map((country, index) => (
+                            <Option key={index} value={country}>
+                              {country}
+                            </Option>
+                          ))}
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="tradingRegion" label="Trading Region">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item name="vesselDWT" label="Vessel DWT">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item name="mainEngineKw" label="Main Engine kW">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item name="yearBuilt" label="Year Built">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item
+                        name="crew"
+                        label="Crew on board"
+                        rules={[
+                          {
+                            type: 'array',
+                          },
+                        ]}
+                      >
+                        <Select
+                          mode="multiple"
+                          placeholder="Select so many as you need"
+                        >
+                          {countryList.map((country, index) => (
+                            <Option key={index} value={country}>
+                              {country}
                             </Option>
                           ))}
                         </Select>
                       </Form.Item>
                       <Form.Item
-                        name={['duration', 'period']}
-                        noStyle
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Period is required',
+                        wrapperCol={{
+                          xs: {
+                            span: 24,
+                            offset: 0,
                           },
-                        ]}
+                          sm: {
+                            span: 16,
+                            offset: 8,
+                          },
+                        }}
                       >
-                        <Select placeholder="Period">
-                          <Option value="weeks">Weeks</Option>
-                          <Option value="months">Months</Option>
-                        </Select>
+                        <Button type="primary" htmlType="submit">
+                          Submit
+                        </Button>
                       </Form.Item>
-                    </Space.Compact>
-                  </Form.Item>
+                    </Form>
+                  </div>
+                </div>
+              ) : (
+                <div className="posted-vacancies">
+                  <Button onClick={handleAddVacancy} type="primary">
+                    + Add Vacancy
+                  </Button>
+                  <h2>My posted vacancies</h2>
+                  {vacancies.length === 0 ? (
+                    <div className="no-active-vacancies">
+                      <Empty
+                        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                        imageStyle={{
+                          height: 100,
+                        }}
+                        description={<span>No vacancies posted yet...</span>}
+                      ></Empty>
+                    </div>
+                  ) : (
+                    <div className="active-vacancies">
+                      {vacancies.map((vacancy) => {
+                        return (
+                          <div key={vacancy._id} className="vacancy-wrapper">
+                            <div className="vacancy-top">
+                              <h2>{vacancy.position}</h2>
+                              <div className="vacancy-posted">
+                                {vacancy.timeStamp}
+                              </div>
+                            </div>
 
-                  <Form.Item
-                    label={
-                      <>
-                        Wage
-                        <Tooltip title="Can be 'negotiable' or 'from-to' or number">
-                          <QuestionCircleOutlined
-                            style={{ color: 'gray', marginLeft: '8px' }}
-                          />
-                        </Tooltip>
-                      </>
-                    }
-                    required
-                  >
-                    <Space.Compact>
-                      <Form.Item
-                        name={['wage', 'amount']}
-                        noStyle
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Number is required',
-                          },
-                        ]}
-                      >
-                        <Input
-                          addonAfter={suffixSelector}
-                          style={{
-                            width: '50%',
-                          }}
-                        />
-                      </Form.Item>
-                      <Form.Item
-                        name={['wage', 'period']}
-                        noStyle
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Period is required',
-                          },
-                        ]}
-                      >
-                        <Select
-                          placeholder="Period"
-                          style={{
-                            width: '35%',
-                          }}
-                        >
-                          <Option value="day">per day</Option>
-                          <Option value="month">per month</Option>
-                          <Option value="year">per year</Option>
-                        </Select>
-                      </Form.Item>
-                    </Space.Compact>
-                  </Form.Item>
-                  <Form.Item name="startDate" label="Start Date" required>
-                    <DatePicker placeholder="DD.MM.YYYY" format="DD.MM.YYYY" />
-                  </Form.Item>
-                  <Form.Item
-                    name="citizenship"
-                    label="Seaman Citizenship"
-                    rules={[
-                      {
-                        type: 'array',
-                      },
-                    ]}
-                  >
-                    <Select
-                      mode="multiple"
-                      placeholder="Select so many as you need"
-                    >
-                      {countryList.map((country, index) => (
-                        <Option key={index} value={country}>
-                          {country}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item name="description" label="Job description">
-                    <TextArea
-                      rows={4}
-                      placeholder="Add any information about the Job"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    name="vesselType"
-                    label="Vessel Type"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please select!',
-                      },
-                    ]}
-                  >
-                    <Select showSearch>
-                      {shipTypes.map((ship, index) => (
-                        <Option key={index} value={ship}>
-                          {ship}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item name="vesselFlag" label="Vessel Flag">
-                    <Select showSearch>
-                      {flagStates.map((state, index) => (
-                        <Option key={index} value={state}>
-                          {state}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item name="vesselOwner" label="Vessel Owner">
-                    <Select showSearch>
-                      {countryList.map((country, index) => (
-                        <Option key={index} value={country}>
-                          {country}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item name="tradingRegion" label="Trading Region">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="vesselDWT" label="Vessel DWT">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="mainEngineKw" label="Main Engine kW">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item name="yearBuilt" label="Year Built">
-                    <Input />
-                  </Form.Item>
-                  <Form.Item
-                    name="crew"
-                    label="Crew on board"
-                    rules={[
-                      {
-                        type: 'array',
-                      },
-                    ]}
-                  >
-                    <Select
-                      mode="multiple"
-                      placeholder="Select so many as you need"
-                    >
-                      {countryList.map((country, index) => (
-                        <Option key={index} value={country}>
-                          {country}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                  <Form.Item
-                    wrapperCol={{
-                      xs: {
-                        span: 24,
-                        offset: 0,
-                      },
-                      sm: {
-                        span: 16,
-                        offset: 8,
-                      },
-                    }}
-                  >
-                    <Button type="primary" htmlType="submit">
-                      Submit
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </div>
+                            <div className="vacancy-info">
+                              <div className="vacancy-info-keys">
+                                <div className="key-value">
+                                  <p className="left-key">Wage:</p>
+                                  <p className="right-value">
+                                    {vacancy.wage.amount} {vacancy.suffix} /{' '}
+                                    {vacancy.wage.period}
+                                  </p>
+                                </div>
+                                <div className="key-value">
+                                  <p className="left-key">Vessel type:</p>
+                                  <p className="right-value">
+                                    {vacancy.vesselType}
+                                  </p>
+                                </div>
+                                <div className="key-value">
+                                  <p className="left-key">Start date:</p>
+                                  <p className="right-value">
+                                    {vacancy.embarkation}
+                                  </p>
+                                </div>
+                                <div className="key-value">
+                                  <p className="left-key">Contract duration:</p>
+                                  <p className="right-value">
+                                    {vacancy.duration.number}{' '}
+                                    {vacancy.duration.period}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="company-info">
+                                <div className="company-logo">
+                                  <Space wrap size={16}>
+                                    <Avatar
+                                      shape="square"
+                                      size={120}
+                                      icon={<UserOutlined />}
+                                    />
+                                  </Space>
+                                </div>
+                                <div className="company-country">country</div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="posted-vacancies">
-              <Button onClick={handleAddVacancy} type="primary">
-                + Add Vacancy
-              </Button>
-              <h2>My posted vacancies</h2>
-              <div className="posted-active-vacancies">
-                <Empty
-                  image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                  imageStyle={{
-                    height: 100,
-                  }}
-                  description={<span>No vacancies posted yet...</span>}
-                ></Empty>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : null}
+          ) : null}
+        </>
+      )}
     </>
   );
 };

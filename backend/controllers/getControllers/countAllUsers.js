@@ -41,7 +41,9 @@ app.get('/', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   } finally {
     // Close the MongoDB connection
-    client.close();
+    setTimeout(() => {
+      client.close();
+    }, 5000);
   }
 });
 

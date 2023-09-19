@@ -29,8 +29,8 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      axios
+    const countUsers = async () => {
+      await axios
         .get(`${import.meta.env.VITE_API_URL}/count-users`)
         .then((response) => {
           setUsersNumber(response.data);
@@ -38,7 +38,8 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
         .catch((error) => {
           console.error('Error:', error);
         });
-    }, 1000);
+    };
+    countUsers();
   }, []);
 
   const handleLogout = () => {

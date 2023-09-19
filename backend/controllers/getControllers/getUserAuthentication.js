@@ -42,7 +42,9 @@ app.get('/', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     } finally {
       // Make sure to close the MongoDB connection when done
-      await client.close();
+      setTimeout(() => {
+        client.close();
+      }, 5000);
     }
   } else {
     console.log('No userId');

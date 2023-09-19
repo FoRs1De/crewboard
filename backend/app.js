@@ -21,6 +21,7 @@ const putUserEmailChangeFromSettings = require('./controllers/putControllers/put
 const putUserEmailVerification = require('./controllers/putControllers/putUserEmailVerification');
 const postResendVerfication = require('./controllers/postControllers/postResendVerification');
 const postVacancy = require('./controllers/postControllers/postVacancy');
+const getEmplyerVacancies = require('./controllers/getControllers/getEmployerVacancies');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -59,6 +60,7 @@ app.use('/count-users', countAllUsers);
 
 //Vacancies requests -------------------------
 app.use('/add-vacancy', postVacancy);
+app.use('/user-vacancies', getEmplyerVacancies);
 //-------------------------------------------
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);

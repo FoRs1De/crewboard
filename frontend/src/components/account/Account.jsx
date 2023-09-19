@@ -3,9 +3,12 @@ import { useState, useEffect } from 'react';
 import { Tabs } from 'antd';
 import Settings from './insideTabs/Settings';
 import Vacancies from './insideTabs/Vacancies';
+import axios from 'axios';
 
 const Account = ({ setSubmittedForm, setUser, user }) => {
   const [mode, setMode] = useState('top');
+  const [vacancies, setVacancies] = useState([]);
+  const [vacanyPosted, setVacancyPosted] = useState(false);
 
   function handleScreenWidthChange() {
     // Get the current screen width
@@ -23,6 +26,22 @@ const Account = ({ setSubmittedForm, setUser, user }) => {
     handleScreenWidthChange();
   }, []);
 
+  useEffect(() => {
+    const getEmployerVacancies = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/user-vacancies`
+        );
+        console.log(response.data);
+        setVacancies(response.data.reverse());
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    getEmployerVacancies();
+  }, [vacanyPosted]);
+
   return (
     <div className="account-page">
       <Tabs
@@ -35,7 +54,13 @@ const Account = ({ setSubmittedForm, setUser, user }) => {
           {
             label: <p className="tab-text">Vacancies</p>,
             key: '1',
-            children: <Vacancies user={user} />,
+            children: (
+              <Vacancies
+                user={user}
+                vacancies={vacancies}
+                setVacancyPosted={setVacancyPosted}
+              />
+            ),
           },
           {
             label: <p className="tab-text">CV</p>,
