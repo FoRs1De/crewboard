@@ -3,13 +3,15 @@ const Home = () => {
   return (
     <>
       <div className="hero">
-        <strong>
-          <p>FIND YOUR PERFECT JOB</p>
-        </strong>
-        <h1>CREWBOARD</h1>
-        <strong>
-          <p>FOR SEAMEN AND EMPLOYERS</p>
-        </strong>
+        <div className="hero-content">
+          <strong>
+            <p>FIND YOUR PERFECT JOB</p>
+          </strong>
+          <h1>CREWBOARD</h1>
+          <strong>
+            <p>FOR SEAMEN AND EMPLOYERS</p>
+          </strong>
+        </div>
       </div>
       <div>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ipsa

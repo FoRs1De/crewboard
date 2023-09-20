@@ -11,6 +11,7 @@ import {
   LoginOutlined,
   LogoutOutlined,
   UserOutlined,
+  GlobalOutlined,
 } from '@ant-design/icons';
 import './styles/menu.css';
 import axios from 'axios';
@@ -66,116 +67,123 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
         </div>
       </div>
       <nav id="sticky">
-        <div className="logo">
-          <h1>CREWBOARD</h1>
-        </div>
-        <div className="navlinks">
-          <NavLink to="/">
-            {' '}
-            <HomeOutlined /> Home
-          </NavLink>
-          <NavLink to="/vacancies">
-            {' '}
-            <UnorderedListOutlined /> Vacancies
-          </NavLink>
-          <NavLink to="/seafarers">
-            {' '}
-            <SolutionOutlined /> Seafarers
-          </NavLink>
-
-          {!user ? (
-            <>
-              <NavLink to="/registration">
-                {' '}
-                <UserAddOutlined /> Registration
-              </NavLink>
-              <NavLink to="/login">
-                {' '}
-                <LoginOutlined /> Login
-              </NavLink>
-            </>
-          ) : (
-            <>
-              <Link to="/account">
-                <Space size={24}>
-                  <Badge count={1}>
-                    <Avatar shape="square" icon={<UserOutlined />} />
-                  </Badge>
-                </Space>{' '}
-              </Link>
-              <Link to="/" onClick={handleLogout}>
-                {' '}
-                <LogoutOutlined /> Logout
-              </Link>
-            </>
-          )}
-        </div>
-        <div className="menu-button-wrapper">
-          <Button
-            className="menu-button"
-            type="default"
-            ghost
-            onClick={showDrawer}
-          >
-            <MenuOutlined />
-          </Button>
-          <Drawer
-            title="CREWBOARD"
-            placement="left"
-            onClose={onClose}
-            open={open}
-          >
-            <div className="drawer-menu">
-              <div className="login-reg ">
-                {!user ? (
-                  <>
-                    <NavLink to="/registration" onClick={onClose}>
-                      {' '}
-                      <UserAddOutlined /> Registration
-                    </NavLink>
-                    <NavLink to="/login" onClick={onClose}>
-                      {' '}
-                      <LoginOutlined /> Login
-                    </NavLink>
-                  </>
-                ) : (
-                  <>
-                    <div>
-                      <Link to="/account" onClick={onClose}>
-                        <Space size={24}>
-                          <Badge count={1}>
-                            <Avatar shape="square" icon={<UserOutlined />} />
-                          </Badge>
-                        </Space>{' '}
-                      </Link>
-                      <NavLink to="/account" onClick={onClose}>
+        <div className="nav-container">
+          <div className="logo">
+            <Link to="/" className="logo-link">
+              <h1>CREWBOARD</h1>
+            </Link>
+          </div>
+          <div className="navlinks">
+            <NavLink to="/vacancies">
+              {' '}
+              <UnorderedListOutlined /> Vacancies
+            </NavLink>
+            <NavLink to="/seafarers">
+              {' '}
+              <SolutionOutlined /> Seafarers
+            </NavLink>
+            <NavLink to="/companies">
+              {' '}
+              <GlobalOutlined /> Companies
+            </NavLink>
+            {!user ? (
+              <>
+                <NavLink to="/registration">
+                  {' '}
+                  <UserAddOutlined /> Registration
+                </NavLink>
+                <NavLink to="/login">
+                  {' '}
+                  <LoginOutlined /> Login
+                </NavLink>
+              </>
+            ) : (
+              <>
+                <Link to="/account">
+                  <Space size={24}>
+                    <Badge count={1}>
+                      <Avatar shape="square" icon={<UserOutlined />} />
+                    </Badge>
+                  </Space>{' '}
+                </Link>
+                <Link to="/" onClick={handleLogout}>
+                  {' '}
+                  <LogoutOutlined /> Logout
+                </Link>
+              </>
+            )}
+          </div>
+          <div className="menu-button-wrapper">
+            <Button
+              className="menu-button"
+              type="default"
+              ghost
+              onClick={showDrawer}
+            >
+              <MenuOutlined />
+            </Button>
+            <Drawer
+              title="CREWBOARD"
+              placement="left"
+              onClose={onClose}
+              open={open}
+            >
+              <div className="drawer-menu">
+                <div className="login-reg ">
+                  {!user ? (
+                    <>
+                      <NavLink to="/registration" onClick={onClose}>
                         {' '}
-                        Account
+                        <UserAddOutlined /> Registration
                       </NavLink>
-                    </div>
-                    <Link to="/" onClick={handleLogout}>
-                      {' '}
-                      <LogoutOutlined /> Logout
-                    </Link>
-                  </>
-                )}
+                      <NavLink to="/login" onClick={onClose}>
+                        {' '}
+                        <LoginOutlined /> Login
+                      </NavLink>
+                    </>
+                  ) : (
+                    <>
+                      <div>
+                        <Link to="/account" onClick={onClose}>
+                          <Space size={24}>
+                            <Badge count={1}>
+                              <Avatar shape="square" icon={<UserOutlined />} />
+                            </Badge>
+                          </Space>{' '}
+                        </Link>
+                        <NavLink to="/account" onClick={onClose}>
+                          {' '}
+                          Account
+                        </NavLink>
+                      </div>
+                      <Link to="/" onClick={handleLogout}>
+                        {' '}
+                        <LogoutOutlined /> Logout
+                      </Link>
+                    </>
+                  )}
+                </div>
+                <div className="navlinks-in-drower">
+                  <NavLink to="/" onClick={onClose}>
+                    {' '}
+                    <HomeOutlined /> Home
+                  </NavLink>
+                  <NavLink to="/vacancies" onClick={onClose}>
+                    {' '}
+                    <UnorderedListOutlined /> Vacancies
+                  </NavLink>
+                  <NavLink to="/seafarers" onClick={onClose}>
+                    {' '}
+                    <SolutionOutlined /> Seafarers
+                  </NavLink>
+                  <NavLink to="/companies" onClick={onClose}>
+                    {' '}
+                    <GlobalOutlined /> Companies
+                  </NavLink>
+                </div>
               </div>
-              <div className="navlinks-in-drower">
-                <NavLink to="/" onClick={onClose}>
-                  {' '}
-                  <HomeOutlined /> Home
-                </NavLink>
-                <NavLink to="/vacancies" onClick={onClose}>
-                  {' '}
-                  <UnorderedListOutlined /> Vacancies
-                </NavLink>
-                <NavLink to="/seafarers" onClick={onClose}>
-                  {' '}
-                  <SolutionOutlined /> Seafarers
-                </NavLink>
-              </div>
-            </div>
-          </Drawer>
+            </Drawer>
+          </div>
         </div>
       </nav>
     </>

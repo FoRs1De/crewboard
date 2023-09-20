@@ -3,10 +3,7 @@
   flex-direction: column;
   padding: 40px 0 40px 0;
   gap: 40px;
-}
-
-.footer-logo {
-  width: 300px;
+  width: 1230px;
 }
 
 .footer-logo h1 {
@@ -20,9 +17,10 @@
 
 .footer-top {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
-  gap: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .footer-bottom {
@@ -62,13 +60,12 @@
 
 @media (max-width: 768px) {
   .footer-logo {
-    width: 300px;
+    margin-bottom: 20px;
   }
-
   .footer-links {
     display: flex;
     justify-content: space-around;
-    gap: 0;
+    gap: 15px;
   }
 
   .footer-links1 {

@@ -23,6 +23,12 @@ footer {
 
 main {
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.container-outlet {
+  width: 1230px;
 }
 
 /* Common fonts */

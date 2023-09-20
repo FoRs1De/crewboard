@@ -8,8 +8,11 @@ const MainLayOut = ({ user, setUser, setIsLoggedIn }) => {
     <div className="container-main">
       <Navmenu user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />
       <main>
-        <Outlet />
+        <div className="container-outlet">
+          <Outlet />
+        </div>
       </main>
+
       <footer>
         <Footer />
       </footer>

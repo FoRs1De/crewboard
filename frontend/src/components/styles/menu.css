@@ -35,11 +35,16 @@ p {
 
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   background-color: #4899d8;
   position: sticky;
   top: 0;
   z-index: 100;
+}
+.nav-container {
+  display: flex;
+  width: 1230px;
+  justify-content: space-between;
 }
 
 .navlinks a {
@@ -126,4 +131,9 @@ nav {
   color: black;
   font-size: 1.3em;
   font-weight: 600;
+}
+
+.logo-link {
+  text-decoration: none;
+  color: white;
 }

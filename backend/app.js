@@ -22,6 +22,7 @@ const putUserEmailVerification = require('./controllers/putControllers/putUserEm
 const postResendVerfication = require('./controllers/postControllers/postResendVerification');
 const postVacancy = require('./controllers/postControllers/postVacancy');
 const getEmplyerVacancies = require('./controllers/getControllers/getEmployerVacancies');
+const getAllCompanies = require('./controllers/getControllers/getAllCompanies');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -36,7 +37,6 @@ app.use(cors(corsConfig));
 app.options('*', cors(corsConfig));
 
 //USERS authentication, login/Registration, verification
-
 app.use('/login-user', postUserLogin);
 app.use('/post-user', postUser);
 app.use('/user-authentication', getUserAuthentication);
@@ -62,6 +62,11 @@ app.use('/count-users', countAllUsers);
 app.use('/add-vacancy', postVacancy);
 app.use('/user-vacancies', getEmplyerVacancies);
 //-------------------------------------------
+
+//Companies requests-------------------------
+app.use('/all-companies', getAllCompanies);
+//------------------------------------------
+
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);
 });
