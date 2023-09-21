@@ -23,6 +23,8 @@ const postResendVerfication = require('./controllers/postControllers/postResendV
 const postVacancy = require('./controllers/postControllers/postVacancy');
 const getEmplyerVacancies = require('./controllers/getControllers/getEmployerVacancies');
 const getAllCompanies = require('./controllers/getControllers/getAllCompanies');
+const getAllVacancies = require('./controllers/getControllers/getAllVacancies');
+const getVacancy = require('./controllers/getControllers/getVacancy');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -59,6 +61,8 @@ app.use('/count-users', countAllUsers);
 //-------------------------------------------
 
 //Vacancies requests -------------------------
+app.use('/all-vacancies', getAllVacancies);
+app.use('/vacancy', getVacancy);
 app.use('/add-vacancy', postVacancy);
 app.use('/user-vacancies', getEmplyerVacancies);
 //-------------------------------------------

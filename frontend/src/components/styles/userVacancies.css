@@ -1,0 +1,90 @@
+.no-active-vacancies {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.active-vacancies {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.user-vacancy-wrapper {
+  background-color: white;
+  padding: 20px 40px 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px 1px lightgray;
+}
+
+.user-vacancy-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-vacancy-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 160px;
+}
+
+.user-vacancy-company-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-vacancy-info-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.user-vacancy-key-value {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 90px;
+}
+
+@media (max-width: 768px) {
+  .user-vacancy-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+  }
+  .user-vacancy-key-value {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+.user-vacancy-left-key {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 1.1em;
+  color: darkslategrey;
+  width: 130px;
+}
+
+.user-vacancy-right-value {
+  flex: 1;
+  font-weight: bold;
+  font-size: 1.1em;
+  min-width: 130px;
+}
+
+.user-vacancy-posted {
+  width: 120px;
+  text-align: end;
+}

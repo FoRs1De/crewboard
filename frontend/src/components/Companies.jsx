@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './styles/companies.css';
 import ShowMoreText from 'react-show-more-text';
-import { Button, Avatar, Rate, Form, Input } from 'antd';
+import { Button, Avatar, Rate, Form, Input, Empty } from 'antd';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
@@ -209,8 +209,14 @@ const Companies = () => {
               })}
             </>
           ) : (
-            <div className="no-results">
-              <h2>No results found...</h2>
+            <div className="no-companies">
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{
+                  height: 100,
+                }}
+                description={<span>No companies found...</span>}
+              ></Empty>
             </div>
           )}
         </div>

@@ -17,6 +17,7 @@ import Account from './components/account/Account';
 import PasswordChange from './components/PasswordChange';
 import EmailVerification from './components/EmailVerification';
 import Companies from './components/Companies';
+import Vacancy from './components/Vacancy';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -62,7 +63,8 @@ function App() {
           }
         >
           <Route index element={<Home />} />
-          <Route path="/vacancies" element={<Vacancies />} />
+          <Route path="/vacancies/" element={<Vacancies />} />
+          <Route path="/vacancies/:id" element={<Vacancy />} />
           <Route path="/seafarers" element={<Seafarers />} />
           <Route path="/companies" element={<Companies />} />
           {isLoggedIn ? (

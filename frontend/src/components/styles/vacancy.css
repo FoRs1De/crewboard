@@ -1,0 +1,111 @@
+.vacancy-container {
+  margin: 20px;
+}
+
+.vacancy-body {
+  display: flex;
+}
+
+.vacancy-info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.key-value-cityzenship {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  gap: 60px;
+}
+
+.right-value-cityzenship {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.nationalities {
+  display: flex;
+  flex-direction: row;
+  margin-right: 10px;
+}
+
+.left-key-cityzenship {
+  font-size: 1.1em;
+  color: darkslategrey;
+  font-weight: 500;
+}
+
+.right-value-cityzenship {
+  flex: 1;
+  font-weight: 600;
+  font-size: 1.1em;
+  min-width: 300px;
+  margin-bottom: 20px;
+}
+
+.vessel-info {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.vessel-info-left {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.vessel-info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .vacancy-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .key-value {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .key-value-cityzenship {
+    display: flex;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .vacancies-side-bar {
+    width: 100%;
+  }
+
+  .vacancies-list {
+    width: 100%;
+  }
+  .no-vacancies {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1230px) {
+  .vacancies-side-bar {
+    width: 650px;
+  }
+  .vacancy-wrapper {
+    width: 650px;
+  }
+
+  .vacancy-info {
+    gap: 0;
+  }
+  .no-vacancies {
+    width: 730px;
+  }
+}

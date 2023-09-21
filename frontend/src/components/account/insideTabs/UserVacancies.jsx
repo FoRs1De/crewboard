@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UserOutlined } from '@ant-design/icons';
-import '../../styles/vacancies.css';
+import '../../styles/userVacancies.css';
 import ranksSelect from '../../../assets/ranksSelect';
 import countryList from '../../../assets/countries';
 import shipTypes from '../../../assets/shipTypes';
@@ -320,7 +320,13 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
                       <Form.Item name="tradingRegion" label="Trading Region">
                         <Input />
                       </Form.Item>
+                      <Form.Item name="vesselName" label="Veessel Name">
+                        <Input />
+                      </Form.Item>
                       <Form.Item name="vesselDWT" label="Vessel DWT">
+                        <Input />
+                      </Form.Item>
+                      <Form.Item name="mainEngineType" label="Main Engine Type">
                         <Input />
                       </Form.Item>
                       <Form.Item name="mainEngineKw" label="Main Engine kW">
@@ -388,45 +394,54 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
                     <div className="active-vacancies">
                       {vacancies.map((vacancy) => {
                         return (
-                          <div key={vacancy._id} className="vacancy-wrapper">
-                            <div className="vacancy-top">
+                          <div
+                            key={vacancy._id}
+                            className="user-vacancy-wrapper"
+                          >
+                            <div className="user-vacancy-top">
                               <h2>{vacancy.position}</h2>
-                              <div className="vacancy-posted">
+                              <div className="user-vacancy-posted">
                                 {vacancy.timeStamp}
                               </div>
                             </div>
 
-                            <div className="vacancy-info">
-                              <div className="vacancy-info-keys">
-                                <div className="key-value">
-                                  <p className="left-key">Wage:</p>
-                                  <p className="right-value">
+                            <div className="user-vacancy-info">
+                              <div className="user-vacancy-info-keys">
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">Wage:</p>
+                                  <p className="user-vacancy-right-value">
                                     {vacancy.wage.amount} {vacancy.suffix} /{' '}
                                     {vacancy.wage.period}
                                   </p>
                                 </div>
-                                <div className="key-value">
-                                  <p className="left-key">Vessel type:</p>
-                                  <p className="right-value">
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">
+                                    Vessel type:
+                                  </p>
+                                  <p className="user-vacancy-right-value">
                                     {vacancy.vesselType}
                                   </p>
                                 </div>
-                                <div className="key-value">
-                                  <p className="left-key">Start date:</p>
-                                  <p className="right-value">
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">
+                                    Start date:
+                                  </p>
+                                  <p className="user-vacancy-right-value">
                                     {vacancy.embarkation}
                                   </p>
                                 </div>
-                                <div className="key-value">
-                                  <p className="left-key">Contract duration:</p>
-                                  <p className="right-value">
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">
+                                    Contract duration:
+                                  </p>
+                                  <p className="user-vacancy-right-value">
                                     {vacancy.duration.number}{' '}
                                     {vacancy.duration.period}
                                   </p>
                                 </div>
                               </div>
-                              <div className="company-info">
-                                <div className="company-logo">
+                              <div className="user-vacancy-company-info">
+                                <div className="user-vacancy-company-logo">
                                   <Space wrap size={16}>
                                     <Avatar
                                       shape="square"
@@ -435,7 +450,9 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
                                     />
                                   </Space>
                                 </div>
-                                <div className="company-country">country</div>
+                                <div className="user-vacancy-company-country">
+                                  country
+                                </div>
                               </div>
                             </div>
                           </div>

@@ -46,6 +46,7 @@
 .company-top-left {
   display: flex;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .company-top-right {
@@ -90,27 +91,10 @@
   justify-content: space-between;
 }
 
-.no-results {
+.no-companies {
   display: flex;
   justify-content: center;
   width: 870px;
-}
-
-@media (max-width: 768px) {
-  .side-bar {
-    width: 100%;
-    max-width: 768px;
-  }
-  .no-results {
-    max-width: 870px;
-    width: 300px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1230px) {
-  .side-bar {
-    width: 790px;
-  }
 }
 
 .all-countries {
@@ -138,4 +122,28 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .side-bar {
+    width: 100%;
+    max-width: 768px;
+  }
+  .no-companies {
+    max-width: 870px;
+    width: 300px;
+  }
+
+  .company-top-left {
+    max-width: 200px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1230px) {
+  .side-bar {
+    width: 650px;
+  }
+  .company-wrapper {
+    width: 650px;
+  }
 }
