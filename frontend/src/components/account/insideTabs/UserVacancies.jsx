@@ -92,6 +92,8 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
       company: user.company,
       userRole: user.user,
       createdById: user._id,
+      companyCountry: user.country,
+      companyLogo: user.logo,
     };
     setVacancyPosted(false);
     try {

@@ -6,6 +6,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 dotenv.config();
 const PORT = process.env.PORT;
+const path = require('path');
 
 const getAllUsers = require('./controllers/getControllers/getAllUsers');
 const getUserById = require('./controllers/getControllers/getUserById');
@@ -25,6 +26,9 @@ const getEmplyerVacancies = require('./controllers/getControllers/getEmployerVac
 const getAllCompanies = require('./controllers/getControllers/getAllCompanies');
 const getAllVacancies = require('./controllers/getControllers/getAllVacancies');
 const getVacancy = require('./controllers/getControllers/getVacancy');
+const postUploadLicenses = require('./controllers/postControllers/postUploadLicenses');
+const postUploadLogos = require('./controllers/postControllers/postUploadLogos');
+const putUpdateEmplyerData = require('./controllers/putControllers/putUpdateEmployerData');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -52,6 +56,7 @@ app.use('/resend-verification', postResendVerfication);
 app.use('/delete-user', deleteUser);
 app.use('/password-change', putUserPasswordChangeFromSettings);
 app.use('/email-change', putUserEmailChangeFromSettings);
+app.use('/update-employer', putUpdateEmplyerData);
 //----------------------------------------
 
 //USERS requests -------------------------
@@ -70,6 +75,16 @@ app.use('/user-vacancies', getEmplyerVacancies);
 //Companies requests-------------------------
 app.use('/all-companies', getAllCompanies);
 //------------------------------------------
+
+//Files uploads------------------------------
+
+app.use('/upload/companies/licenses', postUploadLicenses);
+app.use('/upload/companies/logos', postUploadLogos);
+//-------------------------------------------
+
+//Uploaded files path------------------------
+app.use(express.static(path.join(__dirname, 'uploads')));
+//--------------------------------------
 
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);

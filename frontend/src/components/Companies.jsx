@@ -156,7 +156,13 @@ const Companies = () => {
                           <Avatar
                             shape="square"
                             size={120}
-                            icon={<UserOutlined />}
+                            icon={
+                              company.logoUrl ? (
+                                <img src={company.logoUrl} alt="Logo" />
+                              ) : (
+                                <UserOutlined />
+                              )
+                            }
                           />
                         </div>
                         <div className="company-details">
@@ -173,7 +179,7 @@ const Companies = () => {
                             </div>
                             <div className="sub-detail">
                               <p>Address</p>
-                              <p>Test</p>
+                              <p>{company.address}</p>
                             </div>
                           </div>
                         </div>
@@ -192,15 +198,11 @@ const Companies = () => {
                           anchorClass="show-more-link" // CSS class for the link
                           expanded={false} // Whether the text should be initially expanded
                         >
-                          Lorem ipsum, dolor sit amet consectetur adipisicing
-                          elit. Quae saepe perferendis, autem quisquam eveniet
-                          amet quas aperiam! A atque obcaecati saepe laudantium
-                          reprehenderit mollitia, error nesciunt aut quaerat,
-                          expedita odit! Lorem ipsum dolor sit amet consectetur
-                          adipisicing elit. Recusandae, officiis mollitia
-                          quibusdam, soluta nemo eos error illum id, distinctio
-                          maiores voluptatem voluptates sapiente voluptate
-                          explicabo unde tenetur expedita? Impedit, optio.
+                          {company.description ? (
+                            company.description
+                          ) : (
+                            <p>No description added</p>
+                          )}
                         </ShowMoreText>
                       </div>
                     </div>

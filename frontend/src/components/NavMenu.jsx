@@ -102,7 +102,16 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
                 <Link to="/account">
                   <Space size={24}>
                     <Badge count={1}>
-                      <Avatar shape="square" icon={<UserOutlined />} />
+                      <Avatar
+                        shape="square"
+                        icon={
+                          user.logoUrl ? (
+                            <img src={user.logoUrl} alt="Logo" />
+                          ) : (
+                            <UserOutlined />
+                          )
+                        }
+                      />
                     </Badge>
                   </Space>{' '}
                 </Link>
@@ -147,7 +156,16 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
                         <Link to="/account" onClick={onClose}>
                           <Space size={24}>
                             <Badge count={1}>
-                              <Avatar shape="square" icon={<UserOutlined />} />
+                              <Avatar
+                                shape="square"
+                                icon={
+                                  user.logoUrl ? (
+                                    <img src={user.logoUrl} alt="Logo" />
+                                  ) : (
+                                    <UserOutlined />
+                                  )
+                                }
+                              />
                             </Badge>
                           </Space>{' '}
                         </Link>

@@ -19,6 +19,8 @@
   padding: 20px 40px 20px 40px;
   border-radius: 10px;
   box-shadow: 0 0 12px 1px lightgray;
+  width: 740px;
+  box-sizing: border-box;
 }
 
 .user-vacancy-top {
@@ -64,6 +66,9 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 10px;
+  }
+  .user-vacancy-wrapper {
+    width: 100%;
   }
 }
 
