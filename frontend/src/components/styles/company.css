@@ -1,0 +1,87 @@
+.company-page-container {
+  margin: 20px;
+}
+.company-page-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.company-content-wrapper {
+  background-color: white;
+  padding: 20px 40px 20px 40px;
+  box-shadow: 0 0 12px 1px lightgray;
+  width: 760px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.company-content-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.company-content-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+}
+
+.company-content-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.company-info-key-value {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.company-info-key {
+  width: 150px;
+}
+
+.company-crewboard-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.company-type {
+  color: #52c2df;
+  font-weight: 700;
+}
+.company-info-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .company-page-sidebar {
+    width: 100%;
+  }
+
+  .company-content-wrapper {
+    width: 100%;
+  }
+
+  .company-info-logo {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1230px) {
+  .company-content-wrapper {
+    width: 650px;
+  }
+  .company-page-sidebar {
+    width: 650px;
+  }
+}

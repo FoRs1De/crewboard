@@ -6,7 +6,7 @@ import UserVacancies from './insideTabs/UserVacancies';
 import EmployerData from './insideTabs/EmployerData';
 import axios from 'axios';
 
-const Account = ({ setSubmittedForm, setUser, user }) => {
+const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
   const [mode, setMode] = useState('top');
   const [vacancies, setVacancies] = useState([]);
   const [vacanyPosted, setVacancyPosted] = useState(false);
@@ -73,7 +73,12 @@ const Account = ({ setSubmittedForm, setUser, user }) => {
               : {
                   label: <p className="tab-text">My Data</p>,
                   key: '2',
-                  children: <EmployerData user={user} />,
+                  children: (
+                    <EmployerData
+                      user={user}
+                      setSubmittedForm={setSubmittedForm}
+                    />
+                  ),
                 },
             {
               label: <p className="tab-text">Messages</p>,
@@ -87,6 +92,7 @@ const Account = ({ setSubmittedForm, setUser, user }) => {
                 <Settings
                   setSubmittedForm={setSubmittedForm}
                   setUser={setUser}
+                  setIsloggedIn={setIsloggedIn}
                 />
               ),
             },

@@ -21,9 +21,7 @@ app.get('/', async (req, res) => {
   }
 
   if (client) {
-    setTimeout(() => {
-      client.close();
-    }, 5000);
+    await client.close();
   }
 });
 

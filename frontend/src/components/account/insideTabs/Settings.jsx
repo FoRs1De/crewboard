@@ -6,7 +6,7 @@ import { Button, Form, Input, Modal, Alert, Space } from 'antd';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const Settings = ({ setSubmittedForm, setUser }) => {
+const Settings = ({ setSubmittedForm, setUser, setIsloggedIn }) => {
   const navigate = useNavigate();
   const [responseEmailChange, setResponseEmailChange] = useState(null);
   const [responsePasswordChange, setResponsePasswordChange] = useState(null);
@@ -61,6 +61,7 @@ const Settings = ({ setSubmittedForm, setUser }) => {
           await axios.delete(`${import.meta.env.VITE_API_URL}/delete-user`);
           document.cookie = `session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
           setUser(null);
+          setIsloggedIn(false);
           navigate('/');
         } catch (error) {
           setResponseDeleteUser(error.response.data.error);

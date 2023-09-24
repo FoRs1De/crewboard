@@ -83,8 +83,8 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
 
     let embarkationDate = fieldsValue.startDate.$d;
     embarkationDate = moment(embarkationDate).format('DD.MM.YYYY');
-    let currentDate = moment();
-    currentDate = moment(currentDate).utc().format('DD MMM YYYY, hh:mm [GMT]');
+
+    const currentDate = moment().utc().format('DD MMM YYYY, hh:mm [GMT]');
     const modifiedValues = {
       ...fieldsValue,
       embarkation: embarkationDate,

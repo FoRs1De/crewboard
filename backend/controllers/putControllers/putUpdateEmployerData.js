@@ -26,25 +26,26 @@ app.put('/', async (req, res) => {
       const vacanciesCollection = db.collection('vacancies');
 
       const receivedData = req.body;
-
-      const updateOperation = {
-        $set: {
-          logoUrl: receivedData.logoUrl,
-          licenseUrl: receivedData.licenseUrl,
-          address: receivedData.address,
-          city: receivedData.city,
-          contactPerson: receivedData.ContactPerson,
-          country: receivedData.country,
-          description: receivedData.description,
-          licenseNumber: receivedData.licenseNumber,
-          phone: receivedData.phone,
-          website: receivedData.website,
-        },
-      };
+      console.log(receivedData);
+      // const updateOperation = {
+      //   $set: {
+      //     logoUrl: receivedData.logoUrl,
+      //     licenseUrl: receivedData.licenseUrl,
+      //     address: receivedData.address,
+      //     city: receivedData.city,
+      //     contactPerson: receivedData.ContactPerson,
+      //     country: receivedData.country,
+      //     description: receivedData.description,
+      //     licenseNumber: receivedData.licenseNumber,
+      //     phone: receivedData.phone,
+      //     website: receivedData.website,
+      //   },
+      // };
       const result = await employersCollection.findOneAndUpdate(
         { _id: new ObjectId(userId) },
-        updateOperation,
-        { returnOriginal: false } // To return the updated document
+        {
+          $set: receivedData,
+        }
       );
 
       await vacanciesCollection.updateMany(

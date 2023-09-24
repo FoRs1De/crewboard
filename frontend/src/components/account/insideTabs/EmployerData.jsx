@@ -14,9 +14,10 @@ import {
 import { Avatar, Upload, Button, Form, Input, Select, Modal } from 'antd';
 import axios from 'axios';
 
-const EmployerData = ({ user }) => {
+const EmployerData = ({ user, setSubmittedForm }) => {
   const { TextArea } = Input;
   const { Option } = Select;
+
   const [isOpen, setIsOpen] = useState(true);
 
   const handlePreview = async (file) => {
@@ -66,7 +67,7 @@ const EmployerData = ({ user }) => {
       licenseUrl: licenseUrl,
       address: values.address,
       city: values.city,
-      contactPerson: values.ContactPerson,
+      contactPerson: values.contactPerson,
       country: values.country,
       description: values.description,
       licenseNumber: values.licenseNumber,
@@ -74,6 +75,7 @@ const EmployerData = ({ user }) => {
       website: values.website,
     };
 
+    console.log(dataToSend);
     const putUpdateEmployerData = async () => {
       try {
         const response = await axios.put(
@@ -81,9 +83,7 @@ const EmployerData = ({ user }) => {
           dataToSend
         );
         setIsOpen((prevState) => !prevState);
-
-        const responseData = response.data;
-        console.log(responseData);
+        setSubmittedForm((prevState) => !prevState);
       } catch (error) {
         console.log(error.message);
       }
@@ -451,7 +451,7 @@ const EmployerData = ({ user }) => {
                     address: user.address,
                     phone: user.phone,
                     website: user.website,
-                    license: user.licenseNumber,
+                    licenseNumber: user.licenseNumber,
                     contactPerson: user.contactPerson,
                     description: user.description,
                   }}

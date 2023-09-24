@@ -1,6 +1,7 @@
 import './styles/registration.css';
 import { useState, useEffect } from 'react';
 import postRequest from '../assets/axios';
+import moment from 'moment';
 
 import {
   AutoComplete,
@@ -68,7 +69,14 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
       const { confirm, ...valuesWithoutConfirm } = values;
 
       const currentURL = window.location.href;
-      const valueWithUrl = { ...valuesWithoutConfirm, url: currentURL };
+      const currentDate = moment().utc().format('DD.MM.YYYY');
+
+      console.log(currentDate);
+      const valueWithUrl = {
+        ...valuesWithoutConfirm,
+        url: currentURL,
+        registration: currentDate,
+      };
 
       try {
         await postRequest(
@@ -251,11 +259,13 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
                 onChange={handleSelectUserChange}
               >
                 <Option value="seaman">Seaman / Job seeker</Option>
-                <Option value="crewing">Crewing compnay</Option>
-                <Option value="owner">Ship owner / Ship operator</Option>
+                <Option value="Crewing agency">Crewing compnay</Option>
+                <Option value="Shipowner company">
+                  Ship owner / Ship operator
+                </Option>
               </Select>
             </Form.Item>
-            {userType === 'crewing' || userType === 'owner' ? (
+            {userType !== 'seaman' ? (
               <>
                 <Form.Item
                   name="company"

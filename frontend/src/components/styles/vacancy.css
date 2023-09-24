@@ -4,6 +4,7 @@
 
 .vacancy-body {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .vacancy-info-header {

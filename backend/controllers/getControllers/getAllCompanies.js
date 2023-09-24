@@ -13,16 +13,12 @@ app.get('/', (req, res) => {
       const documents = await collection.find({}).toArray();
 
       res.status(200).json(documents);
+      if (client) {
+        await client.close();
+      }
     })
     .catch((err) => {
       res.status(500).json({ error: 'Internal server error', message: err });
-    })
-    .finally(() => {
-      if (client) {
-        setTimeout(() => {
-          client.close();
-        }, 5000);
-      }
     });
 });
 

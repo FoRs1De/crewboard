@@ -169,24 +169,27 @@ const Companies = () => {
                           <h2>{company.company}</h2>
 
                           <div className="company-sub-details">
-                            <p>
-                              {company.user.charAt(0).toUpperCase() +
-                                company.user.slice(1)}
-                            </p>
+                            <p>{company.user}</p>
                             <div className="sub-detail">
-                              <p>Country</p>
+                              <p>Country:</p>
                               <p>{company.country}</p>
                             </div>
                             <div className="sub-detail">
-                              <p>Address</p>
-                              <p>{company.address}</p>
+                              <p>Sign-in:</p>
+                              <p>{company.registration}</p>
                             </div>
                           </div>
                         </div>
                       </div>
                       <div className="company-top-right">
                         <Rate disabled defaultValue={4} />
-                        <Button>secondary</Button>
+                        <Link to={`/companies/${company._id}`}>
+                          <Button>
+                            {company.postedVacancies &&
+                              company.postedVacancies.length}
+                            vacancies
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                     <div className="company-bottom">

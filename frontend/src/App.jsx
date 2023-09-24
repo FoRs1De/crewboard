@@ -18,6 +18,7 @@ import PasswordChange from './components/PasswordChange';
 import EmailVerification from './components/EmailVerification';
 import Companies from './components/Companies';
 import Vacancy from './components/Vacancy';
+import Company from './components/Company';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -67,6 +68,7 @@ function App() {
           <Route path="/vacancies/:id" element={<Vacancy />} />
           <Route path="/seafarers" element={<Seafarers />} />
           <Route path="/companies" element={<Companies />} />
+          <Route path="companies/:id" element={<Company />} />
           {isLoggedIn ? (
             <Route
               path="/account"
@@ -75,6 +77,7 @@ function App() {
                   setSubmittedForm={setSubmittedForm}
                   setUser={setUser}
                   user={user}
+                  setIsloggedIn={setIsloggedIn}
                 />
               }
             />

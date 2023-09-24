@@ -28,6 +28,7 @@ const getVacancy = require('./controllers/getControllers/getVacancy');
 const postUploadLicenses = require('./controllers/postControllers/postUploadLicenses');
 const postUploadLogos = require('./controllers/postControllers/postUploadLogos');
 const putUpdateEmplyerData = require('./controllers/putControllers/putUpdateEmployerData');
+const getCompany = require('./controllers/getControllers/getCompany');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -72,6 +73,7 @@ app.use('/user-vacancies', getEmplyerVacancies);
 
 //Companies requests-------------------------
 app.use('/all-companies', getAllCompanies);
+app.use('/company', getCompany);
 //------------------------------------------
 
 //Files uploads------------------------------

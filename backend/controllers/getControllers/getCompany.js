@@ -7,15 +7,15 @@ app.get('/:id', async (req, res) => {
   try {
     await client.connect();
     const db = client.db('admin');
-    const vacanciesCollection = db.collection('vacancies');
+    const companiesCollection = db.collection('employers');
 
-    const vacancyId = req.params.id;
+    const companyId = req.params.id;
 
-    const objectId = new ObjectId(vacancyId);
+    const objectId = new ObjectId(companyId);
 
-    const document = await vacanciesCollection.findOne({ _id: objectId });
+    const document = await companiesCollection.findOne({ _id: objectId });
 
-    await vacanciesCollection.updateOne(
+    await companiesCollection.updateOne(
       { _id: objectId },
       {
         $inc: { viewed: 1 }, // Increment the viewed field by 1

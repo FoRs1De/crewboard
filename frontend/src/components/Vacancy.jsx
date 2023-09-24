@@ -10,7 +10,7 @@ const Vacancy = () => {
   const [vacancy, setVacancy] = useState([]);
 
   useEffect(() => {
-    const getAllCompanies = async () => {
+    const getVacancy = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/vacancy/${id}`
@@ -20,7 +20,7 @@ const Vacancy = () => {
         console.log(error.message);
       }
     };
-    getAllCompanies();
+    getVacancy();
   }, [id]);
 
   console.log(vacancy);
