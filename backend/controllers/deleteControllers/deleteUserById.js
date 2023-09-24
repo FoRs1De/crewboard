@@ -7,12 +7,14 @@ const { ObjectId } = require('mongodb');
 app.delete('/', async (req, res) => {
   const userToken = req.cookies.user;
   let userId;
+  let createdById;
   if (userToken) {
     jwt.verify(userToken, `${process.env.JWT_SECRET}`, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
       } else {
         userId = new ObjectId(decodedToken.userId);
+        createdById = decodedToken.userId;
       }
     });
   } else {
@@ -25,6 +27,7 @@ app.delete('/', async (req, res) => {
       const db = client.db('admin');
       const seamenCollection = db.collection('seamen');
       const employersCollection = db.collection('employers');
+      const vacanciesCollection = db.collection('vacancies');
 
       // Try to delete the user from the seamen collection
       const seamanDeleteResult = await seamenCollection.deleteOne({
@@ -41,6 +44,11 @@ app.delete('/', async (req, res) => {
         // If the user wasn't found in the seamen collection, try deleting from employers
         const employerDeleteResult = await employersCollection.deleteOne({
           _id: userId,
+        });
+
+        //delete all vacancies of employer
+        await vacanciesCollection.deleteMany({
+          createdById: createdById,
         });
 
         if (employerDeleteResult.deletedCount === 1) {

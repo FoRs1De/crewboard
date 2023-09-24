@@ -92,8 +92,6 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
       company: user.company,
       userRole: user.user,
       createdById: user._id,
-      companyCountry: user.country,
-      companyLogo: user.logo,
     };
     setVacancyPosted(false);
     try {
@@ -448,12 +446,21 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
                                     <Avatar
                                       shape="square"
                                       size={120}
-                                      icon={<UserOutlined />}
+                                      icon={
+                                        vacancy.userLogoUrl ? (
+                                          <img
+                                            src={vacancy.userLogoUrl}
+                                            alt="Logo"
+                                          />
+                                        ) : (
+                                          <UserOutlined />
+                                        )
+                                      }
                                     />
                                   </Space>
                                 </div>
                                 <div className="user-vacancy-company-country">
-                                  country
+                                  <p>{vacancy.userCountry}</p>
                                 </div>
                               </div>
                             </div>

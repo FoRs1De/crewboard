@@ -21,7 +21,7 @@ const Vacancy = () => {
       }
     };
     getAllCompanies();
-  }, []);
+  }, [id]);
 
   console.log(vacancy);
 
@@ -84,10 +84,18 @@ const Vacancy = () => {
                           <Avatar
                             shape="square"
                             size={120}
-                            icon={<UserOutlined />}
+                            icon={
+                              vacancy.userLogoUrl ? (
+                                <img src={vacancy.userLogoUrl} alt="Logo" />
+                              ) : (
+                                <UserOutlined />
+                              )
+                            }
                           />
                         </div>
-                        <div className="company-country">country</div>
+                        <div className="company-country">
+                          <p>{vacancy.userCountry}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="key-value-cityzenship">
@@ -150,7 +158,7 @@ const Vacancy = () => {
                       </div>
                     </div>
                     <div className="vacancy-content-bottom">
-                      <p>Viewed</p>
+                      <p>Viewed: {vacancy.viewed}</p>
                     </div>
                   </div>{' '}
                 </>

@@ -21,7 +21,9 @@ app.put('/', async (req, res) => {
     try {
       await client.connect();
       const db = client.db('admin');
+
       const employersCollection = db.collection('employers');
+      const vacanciesCollection = db.collection('vacancies');
 
       const receivedData = req.body;
 
@@ -43,6 +45,16 @@ app.put('/', async (req, res) => {
         { _id: new ObjectId(userId) },
         updateOperation,
         { returnOriginal: false } // To return the updated document
+      );
+
+      await vacanciesCollection.updateMany(
+        { createdById: userId },
+        {
+          $set: {
+            userLogoUrl: receivedData.logoUrl,
+            userCountry: receivedData.country,
+          },
+        }
       );
 
       if (result) {

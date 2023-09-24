@@ -15,6 +15,13 @@ app.get('/:id', async (req, res) => {
 
     const document = await vacanciesCollection.findOne({ _id: objectId });
 
+    await vacanciesCollection.updateOne(
+      { _id: objectId },
+      {
+        $inc: { viewed: 1 }, // Increment the viewed field by 1
+      }
+    );
+
     res.json(document);
   } catch (err) {
     console.error('Error during request:', err);
@@ -22,9 +29,7 @@ app.get('/:id', async (req, res) => {
   }
 
   if (client) {
-    setTimeout(() => {
-      client.close();
-    }, 5000);
+    client.close();
   }
 });
 

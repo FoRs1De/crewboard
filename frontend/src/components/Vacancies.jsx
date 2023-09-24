@@ -129,11 +129,19 @@ const Vacancies = () => {
                             <Avatar
                               shape="square"
                               size={120}
-                              icon={<UserOutlined />}
+                              icon={
+                                vacancy.userLogoUrl ? (
+                                  <img src={vacancy.userLogoUrl} alt="Logo" />
+                                ) : (
+                                  <UserOutlined />
+                                )
+                              }
                             />
                           </Space>
                         </div>
-                        <div className="company-country">country</div>
+                        <div className="company-country">
+                          <p>{vacancy.userCountry}</p>
+                        </div>
                       </div>
                     </div>
                     <div className="vacancy-bottom">
@@ -142,7 +150,9 @@ const Vacancies = () => {
                           Details and apply {'>'}{' '}
                         </Link>
                       </div>
-                      <div className="vacnct-bottom-right">Views</div>
+                      <div className="vacnct-bottom-right">
+                        Views: {vacancy.viewed}
+                      </div>
                     </div>
                   </div>
                 );

@@ -9,7 +9,6 @@ const PORT = process.env.PORT;
 const path = require('path');
 
 const getAllUsers = require('./controllers/getControllers/getAllUsers');
-const getUserById = require('./controllers/getControllers/getUserById');
 const postUser = require('./controllers/postControllers/postUser');
 const postUserLogin = require('./controllers/postControllers/postUserLogin');
 const deleteUser = require('./controllers/deleteControllers/deleteUserById');
@@ -61,7 +60,6 @@ app.use('/update-employer', putUpdateEmplyerData);
 
 //USERS requests -------------------------
 app.use('/get-all-users', getAllUsers);
-app.use('/get-user-by-id', getUserById);
 app.use('/count-users', countAllUsers);
 //-------------------------------------------
 
