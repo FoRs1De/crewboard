@@ -1,15 +1,24 @@
-import { useState, useEffect } from 'react';
-import { Button, Avatar, Rate, Form, Input, Empty, Space } from 'antd';
+import { Button, Avatar, Form, Input, Empty, Space } from 'antd';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import CountUp from 'react-countup';
 import './styles/vacancies.css';
-import axios from 'axios';
 
-const Vacancies = () => {
+import ranks from '../assets/ranks';
+
+const Vacancies = ({
+  countVacancies,
+  setCountVacancies,
+  allVacancies,
+  setClear,
+  vacancies,
+  setVacancies,
+}) => {
   const [form] = Form.useForm();
-  const [clear, setClear] = useState(false);
-  const [vacancies, setVacancies] = useState([]);
-  const [allVacancies, setAllVacancies] = useState([]);
+
+  if (countVacancies === 0) {
+    setCountVacancies((prev) => !prev);
+  }
 
   const onFinish = (values) => {
     const searchResult =
@@ -23,21 +32,27 @@ const Vacancies = () => {
     setVacancies(searchResult);
   };
 
-  useEffect(() => {
-    const getAllCompanies = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/all-vacancies/`
-        );
-        const reversedResponse = response.data.reverse();
-        setVacancies(reversedResponse);
-        setAllVacancies(reversedResponse);
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    getAllCompanies();
-  }, [clear]);
+  const handleVacancyClick = (e) => {
+    const value = e.currentTarget.getAttribute('value');
+    if (value === 'shipowner') {
+      const filteredVacancies = allVacancies.filter((vacancy) => {
+        return value.includes(vacancy.userRole);
+      });
+      setVacancies(filteredVacancies);
+    } else if (value === 'other') {
+      console.log(ranks);
+      const filteredVacancies = allVacancies.filter((vacancy) => {
+        return ranks[2].OTHER.includes(vacancy.position);
+      });
+      setVacancies(filteredVacancies);
+    } else {
+      console.log(value.split(','));
+      const filteredVacancies = allVacancies.filter((vacancy) => {
+        return value.includes(vacancy.position);
+      });
+      setVacancies(filteredVacancies);
+    }
+  };
 
   const handleClearSearch = () => {
     form.setFieldsValue({ search: '' });
@@ -89,6 +104,177 @@ const Vacancies = () => {
           </Form>
         </div>
         <div className="vacancies-list">
+          <div className="ranks-wrapper">
+            <div className="ranks-vacancies">
+              <div className="ranks-left-list">
+                <Link
+                  value="Master"
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.masters} />
+                  </p>
+                  <p>Masters</p>
+                </Link>
+                <Link
+                  value="Chief Officer"
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.chiefOfficers} />
+                  </p>
+                  <p> Chief Officers</p>
+                </Link>
+                <Link
+                  value={[
+                    'Single Officer',
+                    '2nd Officer',
+                    '3rd Officer',
+                    'Trainee Officer',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.watchOfficers} />
+                  </p>
+                  <p> Watch Officers</p>
+                </Link>
+                <Link
+                  value={[
+                    'Bosun (Boatswain)',
+                    'Pumpman',
+                    'AB (Able Seaman)',
+                    'AB/Welder',
+                    'OS (Ordinary Seaman)',
+                    'Deck Cadet',
+                    'Cadet/Trainee',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.deckRatings} />
+                  </p>
+                  <p> Deck Ratings</p>
+                </Link>
+                <Link
+                  value={[
+                    'Chief Cook',
+                    'Cook',
+                    '2nd Cook',
+                    'Messboy',
+                    'AB/Cook',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.galley} />
+                  </p>
+                  <p>Galley</p>
+                </Link>
+                <Link
+                  value="shipowners"
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.fromShipowners} />
+                  </p>
+                  <p>From Shipowners</p>
+                </Link>
+              </div>
+              <div className="ranks-right-list">
+                <Link
+                  value={[
+                    'Chief Engineer',
+                    'Single Engineer',
+                    'Superintendent',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.chiefEngineers} />
+                  </p>
+                  <p>Chief Engineers</p>
+                </Link>
+                <Link
+                  value="2nd Engineer"
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.secondEngineers} />
+                  </p>
+                  <p>Second Engineers</p>
+                </Link>
+                <Link
+                  value={[
+                    '3rd Engineer',
+                    '4th Engineer',
+                    'Watch Engineer',
+                    'Ref. Engineer',
+                    'Gas Engineer',
+                    'Trainee Engineer',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.engineers} />
+                  </p>
+                  <p>Engineers</p>
+                </Link>
+                <Link
+                  value={[
+                    'Electrical Engineer',
+                    'ETO',
+                    'Electrician',
+                    'Assistant Electrical Engineer',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.electricalEngineers} />
+                  </p>
+                  <p>Electrical Engineers</p>
+                </Link>
+                <Link
+                  value={[
+                    'Motorman/Oiler',
+                    'Wiper',
+                    'Motorman/Electrician',
+                    'AB/MM',
+                    'Engine Cadet',
+                    'Fitter/Welder',
+                    'Turner',
+                  ]}
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.engineRatings} />
+                  </p>
+                  <p>Engine Ratings</p>
+                </Link>
+                <Link
+                  value="other"
+                  onClick={handleVacancyClick}
+                  className="ranks-item"
+                >
+                  <p className="count-vacancies">
+                    <CountUp end={countVacancies.other} />
+                  </p>
+                  <p>Other ranks</p>
+                </Link>
+              </div>
+            </div>
+          </div>
           {vacancies.length > 0 ? (
             <>
               {vacancies.map((vacancy) => {

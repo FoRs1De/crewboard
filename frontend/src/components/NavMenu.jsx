@@ -17,7 +17,7 @@ import './styles/menu.css';
 import axios from 'axios';
 import './styles/menu.css';
 
-const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
+const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
   const [usersNumber, setUsersNumber] = useState(0);
   const [open, setOpen] = useState(false);
 
@@ -64,6 +64,10 @@ const NavMenu = ({ user, setUser, setIsLoggedIn }) => {
         <div className="top-menu-item">
           <h3>{usersNumber.employers}</h3>
           <p>Employers</p>
+        </div>
+        <div className="top-menu-item">
+          <h3>{countVacancies.allVacancies}</h3>
+          <p>Vacancies</p>
         </div>
       </div>
       <nav id="sticky">

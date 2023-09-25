@@ -8,11 +8,11 @@ dotenv.config();
 const PORT = process.env.PORT;
 const path = require('path');
 
-const getAllUsers = require('./controllers/getControllers/getAllUsers');
 const postUser = require('./controllers/postControllers/postUser');
 const postUserLogin = require('./controllers/postControllers/postUserLogin');
 const deleteUser = require('./controllers/deleteControllers/deleteUserById');
 const countAllUsers = require('./controllers/getControllers/countAllUsers');
+const countVacancies = require('./controllers/getControllers/countVacancies');
 const getUserAuthentication = require('./controllers/getControllers/getUserAuthentication');
 const postUserEmailCheck = require('./controllers/postControllers/postUserEmailCheck');
 const putUserPasswordChange = require('./controllers/putControllers/putUserPasswordChange');
@@ -60,8 +60,8 @@ app.use('/update-employer', putUpdateEmplyerData);
 //----------------------------------------
 
 //USERS requests -------------------------
-app.use('/get-all-users', getAllUsers);
 app.use('/count-users', countAllUsers);
+app.use('/count-vacancies', countVacancies);
 //-------------------------------------------
 
 //Vacancies requests -------------------------

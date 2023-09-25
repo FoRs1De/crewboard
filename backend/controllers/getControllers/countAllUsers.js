@@ -36,14 +36,14 @@ app.get('/', async (req, res) => {
       employers: count2,
       total: totalCount,
     });
+    if (client) {
+      setTimeout(() => {
+        client.close();
+      }, 5000);
+    }
   } catch (err) {
     console.error('Error connecting to MongoDB or counting documents:', err);
     res.status(500).json({ error: 'Internal server error' });
-  } finally {
-    // Close the MongoDB connection
-    setTimeout(() => {
-      client.close();
-    }, 5000);
   }
 });
 

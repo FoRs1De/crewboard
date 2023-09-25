@@ -23,6 +23,11 @@ import Company from './components/Company';
 function App() {
   const [user, setUser] = useState(null);
   const [userEmail, setUserEmail] = useState('');
+  const [countVacancies, setCountVacancies] = useState({});
+  const [loadVacancies, setLoadVacancies] = useState(false);
+  const [allVacancies, setAllVacancies] = useState([]);
+  const [clear, setClear] = useState(false);
+  const [vacancies, setVacancies] = useState([]);
   //State for useffect when form submitted for firing it
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(false);
@@ -50,6 +55,36 @@ function App() {
     }
   }, [submittedForm]);
 
+  useEffect(() => {
+    const receiveCountVacancies = async () => {
+      await axios
+        .get(`${import.meta.env.VITE_API_URL}/count-vacancies`)
+        .then((response) => {
+          setCountVacancies(response.data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    };
+    receiveCountVacancies();
+  }, [loadVacancies]);
+
+  useEffect(() => {
+    const getAllVacancies = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/all-vacancies/`
+        );
+        const reversedResponse = response.data.reverse();
+        setVacancies(reversedResponse);
+        setAllVacancies(reversedResponse);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getAllVacancies();
+  }, [clear]);
+
   return (
     <div className="app">
       <Routes>
@@ -60,11 +95,36 @@ function App() {
               user={user}
               setUser={setUser}
               setIsloggedIn={setIsloggedIn}
+              countVacancies={countVacancies}
             />
           }
         >
-          <Route index element={<Home />} />
-          <Route path="/vacancies/" element={<Vacancies />} />
+          <Route
+            index
+            element={
+              <Home
+                countVacancies={countVacancies}
+                setCountVacancies={setCountVacancies}
+                setLoadVacancies={setLoadVacancies}
+                allVacancies={allVacancies}
+                vacancies={vacancies}
+                setVacancies={setVacancies}
+              />
+            }
+          />
+          <Route
+            path="/vacancies/"
+            element={
+              <Vacancies
+                countVacancies={countVacancies}
+                setLoadVacancies={setLoadVacancies}
+                setClear={setClear}
+                allVacancies={allVacancies}
+                vacancies={vacancies}
+                setVacancies={setVacancies}
+              />
+            }
+          />
           <Route path="/vacancies/:id" element={<Vacancy />} />
           <Route path="/seafarers" element={<Seafarers />} />
           <Route path="/companies" element={<Companies />} />

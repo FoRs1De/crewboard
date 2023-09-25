@@ -3,10 +3,15 @@ import Navmenu from './NavMenu';
 import Footer from './Footer';
 import './styles/menu.css';
 
-const MainLayOut = ({ user, setUser, setIsLoggedIn }) => {
+const MainLayOut = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
   return (
     <div className="container-main">
-      <Navmenu user={user} setUser={setUser} setIsLoggedIn={setIsLoggedIn} />
+      <Navmenu
+        user={user}
+        setUser={setUser}
+        setIsLoggedIn={setIsLoggedIn}
+        countVacancies={countVacancies}
+      />
       <main>
         <div className="container-outlet">
           <Outlet />
