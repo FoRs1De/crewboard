@@ -28,20 +28,37 @@ const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
   }, []);
 
   useEffect(() => {
-    const getEmployerVacancies = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/user-vacancies`
-        );
-        console.log(response.data);
-        setVacancies(response.data.reverse());
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
+    if (user) {
+      if (user.user === 'seaman') {
+        const getSeamanVacancies = async () => {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_API_URL}/seaman-vacancies`
+            );
 
-    getEmployerVacancies();
-  }, [vacanyPosted]);
+            setVacancies(response.data.reverse());
+          } catch (error) {
+            console.log(error.message);
+          }
+        };
+        getSeamanVacancies();
+      } else {
+        const getEmployerVacancies = async () => {
+          try {
+            const response = await axios.get(
+              `${import.meta.env.VITE_API_URL}/user-vacancies`
+            );
+            console.log(response.data);
+            setVacancies(response.data.reverse());
+          } catch (error) {
+            console.log(error.message);
+          }
+        };
+
+        getEmployerVacancies();
+      }
+    }
+  }, [vacanyPosted, user]);
 
   return (
     <div className="account-page">
@@ -61,6 +78,7 @@ const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
                   user={user}
                   vacancies={vacancies}
                   setVacancyPosted={setVacancyPosted}
+                  setSubmittedForm={setSubmittedForm}
                 />
               ),
             },

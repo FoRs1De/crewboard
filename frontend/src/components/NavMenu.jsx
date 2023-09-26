@@ -16,6 +16,7 @@ import {
 import './styles/menu.css';
 import axios from 'axios';
 import './styles/menu.css';
+import CountUp from 'react-countup';
 
 const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
   const [usersNumber, setUsersNumber] = useState(0);
@@ -54,19 +55,27 @@ const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
     <>
       <div className="top-menu">
         <div className="top-menu-item">
-          <h3>{usersNumber.total}</h3>
+          <h3>
+            <CountUp end={usersNumber.total} />
+          </h3>
           <p>All Users</p>
         </div>
         <div className="top-menu-item">
-          <h3>{usersNumber.seamen}</h3>
+          <h3>
+            <CountUp end={usersNumber.seamen} />
+          </h3>
           <p>Seamen</p>
         </div>
         <div className="top-menu-item">
-          <h3>{usersNumber.employers}</h3>
+          <h3>
+            <CountUp end={usersNumber.employers} />
+          </h3>
           <p>Employers</p>
         </div>
         <div className="top-menu-item">
-          <h3>{countVacancies.allVacancies}</h3>
+          <h3>
+            <CountUp end={countVacancies.allVacancies} />
+          </h3>
           <p>Vacancies</p>
         </div>
       </div>

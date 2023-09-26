@@ -72,6 +72,51 @@
   font-size: 0.8em !important;
 }
 
+.home-vacancies {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-vacancy-wrapper {
+  background-color: white;
+  padding: 20px 40px 20px 40px;
+  box-shadow: 0 0 12px 1px lightgray;
+  max-width: 480px;
+}
+
+.home-vacancy-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.home-recent-popular-vacancies {
+  display: flex;
+  gap: 20px;
+}
+
+.home-popular-vacancies {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-recent-vacancies {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.home-key-value {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0px;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
   .hero {
     height: 500px;
@@ -110,6 +155,11 @@
   .count-vacancies {
     width: 20px;
     height: 20px;
+  }
+
+  .home-recent-popular-vacancies {
+    flex-wrap: wrap-reverse;
+    justify-content: center;
   }
 }
 

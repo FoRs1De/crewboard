@@ -29,6 +29,9 @@ const postUploadLicenses = require('./controllers/postControllers/postUploadLice
 const postUploadLogos = require('./controllers/postControllers/postUploadLogos');
 const putUpdateEmplyerData = require('./controllers/putControllers/putUpdateEmployerData');
 const getCompany = require('./controllers/getControllers/getCompany');
+const putApplyVacancy = require('./controllers/putControllers/putApplyVacancy');
+const putRemoveApplyVacancy = require('./controllers/putControllers/putApplyRemoveVacancy');
+const getSeamanVacancies = require('./controllers/getControllers/getSeamanVacancies');
 
 //body-parser, coockie-parser
 app.use(bodyParser.json());
@@ -69,6 +72,9 @@ app.use('/all-vacancies', getAllVacancies);
 app.use('/vacancy', getVacancy);
 app.use('/add-vacancy', postVacancy);
 app.use('/user-vacancies', getEmplyerVacancies);
+app.use('/vacancy-apply', putApplyVacancy);
+app.use('/remove-apply-vacancy', putRemoveApplyVacancy);
+app.use('/seaman-vacancies', getSeamanVacancies);
 //-------------------------------------------
 
 //Companies requests-------------------------

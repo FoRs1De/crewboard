@@ -1,13 +1,17 @@
-import { Breadcrumb, Avatar } from 'antd';
+import { Breadcrumb, Avatar, Button, Modal, Input, Alert } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './styles/vacancy.css';
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Vacancy = () => {
+const Vacancy = ({ user, setSubmittedForm }) => {
   const id = useParams().id;
   const [vacancy, setVacancy] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { TextArea } = Input;
+  const [comment, setComment] = useState('');
+  const [applyResponse, setApplyResponse] = useState(null);
 
   useEffect(() => {
     const getVacancy = async () => {
@@ -23,7 +27,36 @@ const Vacancy = () => {
     getVacancy();
   }, [id]);
 
-  console.log(vacancy);
+  const handleApply = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+    console.log(comment);
+    const applyVacancy = async () => {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/vacancy-apply/${id}`
+        );
+        setSubmittedForm((prev) => !prev);
+        setApplyResponse('Successfully applied');
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    applyVacancy();
+    setComment('');
+  };
+
+  let hasAppliedVacancy;
+  if (user) {
+    hasAppliedVacancy = user.vacanciesApplied.includes(id);
+  }
 
   return (
     <>
@@ -157,6 +190,70 @@ const Vacancy = () => {
                         </div>
                       </div>
                     </div>
+                    <hr />
+                    <div className="vacancy-description">
+                      <h4>Additional info</h4>
+                      <p>{vacancy.description}</p>
+                    </div>
+                    <hr />
+                    {!hasAppliedVacancy ? (
+                      <>
+                        <div className="vacancy-apply">
+                          <center>
+                            <Button
+                              className="apply-button"
+                              type="primary"
+                              onClick={handleApply}
+                            >
+                              Vacancy Apply
+                            </Button>
+                            <Modal
+                              open={isModalOpen}
+                              onOk={handleOk}
+                              onCancel={handleCancel}
+                              okText="Apply"
+                              centered
+                            >
+                              <h2>I apply for the vacancy:</h2>
+                              <h3>{vacancy.position}</h3>
+                              <p></p>
+                              <p>I confirm that my CV is filled correctly!</p>
+                              <p>
+                                {' '}
+                                I understand and accept conditions of this
+                                vacancy!
+                              </p>
+                              <p>
+                                By applying for this vacancy I give my consent
+                                for processing of my personal data to{' '}
+                                <strong>{vacancy.company}</strong>.
+                              </p>
+                              <br />
+                              <TextArea
+                                rows={4}
+                                placeholder="Your comment for the Employer"
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                              />
+                            </Modal>
+                          </center>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        {user.user === 'seaman' && (
+                          <div className="apply-success">
+                            <Alert
+                              message="Successfully applied"
+                              description="Your application data has been forwarded to applicants list of the Employer."
+                              type="success"
+                              showIcon
+                            />{' '}
+                          </div>
+                        )}
+                      </>
+                    )}
+
                     <div className="vacancy-content-bottom">
                       <p>Viewed: {vacancy.viewed}</p>
                     </div>
@@ -165,7 +262,7 @@ const Vacancy = () => {
               )}
             </div>
           </div>
-          <div className="vacancy-sidebar">sadasd</div>
+          <div className="vacancy-sidebar"></div>
         </div>
       </div>
     </>

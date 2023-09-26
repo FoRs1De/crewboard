@@ -2,9 +2,8 @@ const express = require('express');
 const client = require('../../dbConnections/mongoDB');
 const jwt = require('jsonwebtoken');
 const app = express();
-const { ObjectId } = require('mongodb');
 
-app.put('/', async (req, res) => {
+app.get('/', async (req, res) => {
   const userToken = req.cookies.user;
   let userId;
   if (userToken) {
@@ -21,35 +20,18 @@ app.put('/', async (req, res) => {
     try {
       await client.connect();
       const db = client.db('admin');
-
-      const employersCollection = db.collection('employers');
       const vacanciesCollection = db.collection('vacancies');
 
-      const receivedData = req.body;
+      const vacancies = await vacanciesCollection
+        .find({
+          'seamenApplied.seamanId': userId,
+        })
+        .toArray();
 
-      const result = await employersCollection.findOneAndUpdate(
-        { _id: new ObjectId(userId) },
-        {
-          $set: receivedData,
-        }
-      );
-
-      await vacanciesCollection.updateMany(
-        { createdById: userId },
-        {
-          $set: {
-            userLogoUrl: receivedData.logoUrl,
-            userCountry: receivedData.country,
-          },
-        }
-      );
-
-      if (result) {
-        // User was found and updated
-        res.status(200).json(result);
+      if (vacancies.length > 0) {
+        res.status(200).json(vacancies);
       } else {
-        // User not found
-        res.status(404).json({ message: 'User not found' });
+        res.status(200).json({ message: 'No vacancies applied yet...' });
       }
     } catch (err) {
       console.error('Error during request:', err);

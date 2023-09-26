@@ -2,7 +2,8 @@ import './styles/home.css';
 import CountUp from 'react-countup';
 import { Link } from 'react-router-dom';
 import ranks from '../assets/ranks';
-
+import { Avatar, Space } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 const Home = ({ countVacancies, allVacancies, setVacancies }) => {
   const handleVacancyClick = (e) => {
     const value = e.currentTarget.getAttribute('value');
@@ -25,6 +26,10 @@ const Home = ({ countVacancies, allVacancies, setVacancies }) => {
       setVacancies(filteredVacancies);
     }
   };
+
+  const recentVacancies = allVacancies.slice(0, 5);
+  const popularVacancies = allVacancies.slice();
+  popularVacancies.sort((a, b) => b.viewed - a.viewed);
 
   return (
     <>
@@ -216,6 +221,152 @@ const Home = ({ countVacancies, allVacancies, setVacancies }) => {
                 </p>
                 <p>Other ranks</p>
               </Link>
+            </div>
+          </div>
+        </div>
+        <div className="home-vacancies">
+          <div className="home-recent-popular-vacancies">
+            <div className="home-recent-vacancies">
+              <center>
+                <h1>Recent Vacancies</h1>
+              </center>
+              {recentVacancies.map((vacancy) => {
+                return (
+                  <div key={vacancy._id} className="home-vacancy-wrapper">
+                    <div className="vacancy-top">
+                      <h2>{vacancy.position}</h2>
+                      <div className="vacancy-posted">{vacancy.timeStamp}</div>
+                    </div>
+
+                    <div className="home-vacancy-info">
+                      <div className="info-keys">
+                        <div className="home-key-value">
+                          <p className="left-key">Wage:</p>
+                          <p className="right-value">
+                            {vacancy.wage.amount} {vacancy.suffix} /{' '}
+                            {vacancy.wage.period}
+                          </p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Vessel type:</p>
+                          <p className="right-value">{vacancy.vesselType}</p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Start date:</p>
+                          <p className="right-value">{vacancy.embarkation}</p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Contract duration:</p>
+                          <p className="right-value">
+                            {vacancy.duration.number} {vacancy.duration.period}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="company-info">
+                        <div className="company-logo">
+                          <Space wrap size={16}>
+                            <Avatar
+                              shape="square"
+                              size={120}
+                              icon={
+                                vacancy.userLogoUrl ? (
+                                  <img src={vacancy.userLogoUrl} alt="Logo" />
+                                ) : (
+                                  <UserOutlined />
+                                )
+                              }
+                            />
+                          </Space>
+                        </div>
+                        <div className="company-country">
+                          <p>{vacancy.userCountry}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="vacancy-bottom">
+                      <div className="vacnct-bottom-left">
+                        <Link to={`/vacancies/${vacancy._id}`}>
+                          Details and apply {'>'}{' '}
+                        </Link>
+                      </div>
+                      <div className="vacnct-bottom-right">
+                        Views: {vacancy.viewed}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="home-popular-vacancies">
+              <center>
+                <h1>Popular Vacancies</h1>
+              </center>
+              {popularVacancies.map((vacancy) => {
+                return (
+                  <div key={vacancy._id} className="home-vacancy-wrapper">
+                    <div className="vacancy-top">
+                      <h2>{vacancy.position}</h2>
+                      <div className="vacancy-posted">{vacancy.timeStamp}</div>
+                    </div>
+
+                    <div className="home-vacancy-info">
+                      <div className="info-keys">
+                        <div className="home-key-value">
+                          <p className="left-key">Wage:</p>
+                          <p className="right-value">
+                            {vacancy.wage.amount} {vacancy.suffix} /{' '}
+                            {vacancy.wage.period}
+                          </p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Vessel type:</p>
+                          <p className="right-value">{vacancy.vesselType}</p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Start date:</p>
+                          <p className="right-value">{vacancy.embarkation}</p>
+                        </div>
+                        <div className="home-key-value">
+                          <p className="left-key">Contract duration:</p>
+                          <p className="right-value">
+                            {vacancy.duration.number} {vacancy.duration.period}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="company-info">
+                        <div className="company-logo">
+                          <Space wrap size={16}>
+                            <Avatar
+                              shape="square"
+                              size={120}
+                              icon={
+                                vacancy.userLogoUrl ? (
+                                  <img src={vacancy.userLogoUrl} alt="Logo" />
+                                ) : (
+                                  <UserOutlined />
+                                )
+                              }
+                            />
+                          </Space>
+                        </div>
+                        <div className="company-country">
+                          <p>{vacancy.userCountry}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="vacancy-bottom">
+                      <div className="vacnct-bottom-left">
+                        <Link to={`/vacancies/${vacancy._id}`}>
+                          Details and apply {'>'}{' '}
+                        </Link>
+                      </div>
+                      <div className="vacnct-bottom-right">
+                        Views: {vacancy.viewed}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

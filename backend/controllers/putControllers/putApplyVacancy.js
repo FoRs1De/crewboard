@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const { ObjectId } = require('mongodb');
 
-app.put('/', async (req, res) => {
+app.put('/:id', async (req, res) => {
   const userToken = req.cookies.user;
   let userId;
   if (userToken) {
@@ -22,35 +22,35 @@ app.put('/', async (req, res) => {
       await client.connect();
       const db = client.db('admin');
 
-      const employersCollection = db.collection('employers');
+      const seamenCollection = db.collection('seamen');
       const vacanciesCollection = db.collection('vacancies');
 
-      const receivedData = req.body;
+      const comment = req.body.comment;
+      const vacancyId = req.params.id;
+      userId;
 
-      const result = await employersCollection.findOneAndUpdate(
+      const resultSeaman = await seamenCollection.findOneAndUpdate(
         { _id: new ObjectId(userId) },
         {
-          $set: receivedData,
-        }
-      );
-
-      await vacanciesCollection.updateMany(
-        { createdById: userId },
-        {
-          $set: {
-            userLogoUrl: receivedData.logoUrl,
-            userCountry: receivedData.country,
+          $push: {
+            vacanciesApplied: vacancyId,
           },
         }
       );
 
-      if (result) {
-        // User was found and updated
-        res.status(200).json(result);
-      } else {
-        // User not found
-        res.status(404).json({ message: 'User not found' });
-      }
+      const resultVacancy = await vacanciesCollection.findOneAndUpdate(
+        { _id: new ObjectId(vacancyId) },
+        {
+          $push: {
+            seamenApplied: {
+              seamanId: userId,
+              comment,
+            },
+          },
+        }
+      );
+
+      res.status(200).json([resultSeaman, resultVacancy]);
     } catch (err) {
       console.error('Error during request:', err);
       res.status(500).json({ error: 'Internal server error' });

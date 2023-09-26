@@ -93,3 +93,9 @@
   width: 120px;
   text-align: end;
 }
+
+.user-vacancy-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}

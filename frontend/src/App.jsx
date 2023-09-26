@@ -125,7 +125,12 @@ function App() {
               />
             }
           />
-          <Route path="/vacancies/:id" element={<Vacancy />} />
+          <Route
+            path="/vacancies/:id"
+            element={
+              <Vacancy user={user} setSubmittedForm={setSubmittedForm} />
+            }
+          />
           <Route path="/seafarers" element={<Seafarers />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="companies/:id" element={<Company />} />

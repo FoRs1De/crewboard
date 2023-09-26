@@ -19,12 +19,6 @@ app.get('/', async (req, res) => {
     console.error('Error during request:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
-
-  if (client) {
-    setTimeout(() => {
-      client.close();
-    }, 2000);
-  }
 });
 
 module.exports = app;

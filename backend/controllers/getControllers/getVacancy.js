@@ -23,9 +23,11 @@ app.get('/:id', async (req, res) => {
     );
 
     res.json(document);
-    if (client) {
-      await client.close();
-    }
+    setTimeout(() => {
+      if (client) {
+        client.close();
+      }
+    }, 5000);
   } catch (err) {
     console.error('Error during request:', err);
     res.status(500).json({ error: 'Internal server error' });

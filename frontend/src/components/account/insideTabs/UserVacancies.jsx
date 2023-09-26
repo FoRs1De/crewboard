@@ -21,7 +21,7 @@ import { Tooltip } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
-const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
+const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
   const { Option } = Select;
   const { TextArea } = Input;
   const [messageApi, contextHolder] = message.useMessage();
@@ -66,7 +66,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
   const successMsg = () => {
     messageApi.open({
       type: 'success',
-      content: 'Vacancy posted',
+      content: responseMsg,
       duration: 10,
     });
   };
@@ -93,23 +93,42 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
       userRole: user.user,
       createdById: user._id,
     };
-    setVacancyPosted(false);
+    setVacancyPosted((prev) => !prev);
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-vacancy`,
         modifiedValues
       );
       setVacancyPosted(true);
-      setResponseMsg(response.data.message);
+      setResponseMsg('Vacancy successfully posted');
       setTimeout(() => {
-        setVacancyPosted(false);
+        setVacancyPosted((prev) => !prev);
       }, 100);
       successMsg();
-      setShowAddVacancieForm(false);
+      setShowAddVacancieForm((prev) => !prev);
     } catch (error) {
       setResponseMsg(error.message);
       errorMsg();
     }
+  };
+
+  const handleCancelApplying = (e) => {
+    const value = e.currentTarget.value;
+    const vacancyId = { vacancyId: value };
+    const applyRemove = async () => {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/remove-apply-vacancy`,
+          vacancyId
+        );
+        setVacancyPosted((prev) => !prev);
+        setSubmittedForm((prev) => !prev);
+        setResponseMsg('Applying succesfully cancelled');
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    applyRemove();
   };
 
   return (
@@ -118,6 +137,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
       {user && (
         <>
           {user.user !== 'seaman' ? (
+            /* IF USER IS EMPLOYER */
             <div>
               {showAddVacancyForm ? (
                 <div className="add-vacancy">
@@ -472,7 +492,110 @@ const Vacancies = ({ user, vacancies, setVacancyPosted }) => {
                 </div>
               )}
             </div>
-          ) : null}
+          ) : (
+            /* IF USER IS SEAMAN */
+            <div className="posted-vacancies">
+              <h2>Applied Vacancies</h2>
+              {vacancies.length === 0 ? (
+                <div className="no-active-vacancies">
+                  <Empty
+                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                    imageStyle={{
+                      height: 100,
+                    }}
+                    description={<span>No vacancies applied yet...</span>}
+                  ></Empty>
+                </div>
+              ) : (
+                <div className="active-vacancies">
+                  {vacancies.map((vacancy) => {
+                    return (
+                      <div key={vacancy._id} className="user-vacancy-wrapper">
+                        <div className="user-vacancy-top">
+                          <h2>{vacancy.position}</h2>
+                          <div className="user-vacancy-posted">
+                            {vacancy.timeStamp}
+                          </div>
+                        </div>
+
+                        <div className="user-vacancy-info">
+                          <div className="user-vacancy-info-keys">
+                            <div className="user-vacancy-key-value">
+                              <p className="user-vacancy-left-key">Wage:</p>
+                              <p className="user-vacancy-right-value">
+                                {vacancy.wage.amount} {vacancy.suffix} /{' '}
+                                {vacancy.wage.period}
+                              </p>
+                            </div>
+                            <div className="user-vacancy-key-value">
+                              <p className="user-vacancy-left-key">
+                                Vessel type:
+                              </p>
+                              <p className="user-vacancy-right-value">
+                                {vacancy.vesselType}
+                              </p>
+                            </div>
+                            <div className="user-vacancy-key-value">
+                              <p className="user-vacancy-left-key">
+                                Start date:
+                              </p>
+                              <p className="user-vacancy-right-value">
+                                {vacancy.embarkation}
+                              </p>
+                            </div>
+                            <div className="user-vacancy-key-value">
+                              <p className="user-vacancy-left-key">
+                                Contract duration:
+                              </p>
+                              <p className="user-vacancy-right-value">
+                                {vacancy.duration.number}{' '}
+                                {vacancy.duration.period}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="user-vacancy-company-info">
+                            <div className="user-vacancy-company-logo">
+                              <Space wrap size={16}>
+                                <Avatar
+                                  shape="square"
+                                  size={120}
+                                  icon={
+                                    vacancy.userLogoUrl ? (
+                                      <img
+                                        src={vacancy.userLogoUrl}
+                                        alt="Logo"
+                                      />
+                                    ) : (
+                                      <UserOutlined />
+                                    )
+                                  }
+                                />
+                              </Space>
+                            </div>
+                            <div className="user-vacancy-company-country">
+                              <p>{vacancy.userCountry}</p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="user-vacancy-bottom">
+                          <div>Viewed: {vacancy.viewed}</div>
+                          <div>
+                            <Button
+                              value={vacancy._id}
+                              onClick={handleCancelApplying}
+                              danger
+                            >
+                              Cancel Applying
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </>
       )}
     </>
