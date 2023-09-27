@@ -24,7 +24,9 @@ app.get('/:id', async (req, res) => {
 
     res.json(document);
     if (client) {
-      await client.close();
+      setTimeout(() => {
+        client.close();
+      }, 3000);
     }
   } catch (err) {
     console.error('Error during request:', err);

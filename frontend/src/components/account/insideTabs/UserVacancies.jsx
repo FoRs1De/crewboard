@@ -131,6 +131,11 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
     applyRemove();
   };
 
+  function disabledDate(current) {
+    // If the date is before today, disable it
+    return current && current < moment().startOf('day');
+  }
+
   return (
     <>
       {contextHolder}
@@ -240,6 +245,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
                             ]}
                           >
                             <Input
+                              placeholder="0"
                               addonAfter={suffixSelector}
                               style={{
                                 width: '50%',
@@ -271,6 +277,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
                       </Form.Item>
                       <Form.Item name="startDate" label="Start Date" required>
                         <DatePicker
+                          disabledDate={disabledDate}
                           placeholder="DD.MM.YYYY"
                           format="DD.MM.YYYY"
                         />

@@ -4,6 +4,7 @@ import { Tabs } from 'antd';
 import Settings from './insideTabs/Settings';
 import UserVacancies from './insideTabs/UserVacancies';
 import EmployerData from './insideTabs/EmployerData';
+import SeamanData from './insideTabs/SeamanData';
 import axios from 'axios';
 
 const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
@@ -84,9 +85,14 @@ const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
             },
             user.user === 'seaman'
               ? {
-                  label: <p className="tab-text">CV</p>,
+                  label: <p className="tab-text">My Data</p>,
                   key: '2',
-                  children: 'test',
+                  children: (
+                    <SeamanData
+                      user={user}
+                      setSubmittedForm={setSubmittedForm}
+                    />
+                  ),
                 }
               : {
                   label: <p className="tab-text">My Data</p>,

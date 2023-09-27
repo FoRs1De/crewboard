@@ -27,7 +27,9 @@ const getAllVacancies = require('./controllers/getControllers/getAllVacancies');
 const getVacancy = require('./controllers/getControllers/getVacancy');
 const postUploadLicenses = require('./controllers/postControllers/postUploadLicenses');
 const postUploadLogos = require('./controllers/postControllers/postUploadLogos');
+const postUploadSeamenPhotos = require('./controllers/postControllers/postUploadSeamenPhotos');
 const putUpdateEmplyerData = require('./controllers/putControllers/putUpdateEmployerData');
+const putUpdateSeamanData = require('./controllers/putControllers/putUpdateSeamanData');
 const getCompany = require('./controllers/getControllers/getCompany');
 const putApplyVacancy = require('./controllers/putControllers/putApplyVacancy');
 const putRemoveApplyVacancy = require('./controllers/putControllers/putApplyRemoveVacancy');
@@ -55,11 +57,12 @@ app.use('/email-verification', putUserEmailVerification);
 app.use('/resend-verification', postResendVerfication);
 //----------------------------------------
 
-//USER settings
+//USERS requests-------------------------
 app.use('/delete-user', deleteUser);
 app.use('/password-change', putUserPasswordChangeFromSettings);
 app.use('/email-change', putUserEmailChangeFromSettings);
 app.use('/update-employer', putUpdateEmplyerData);
+app.use('/update-seaman', putUpdateSeamanData);
 //----------------------------------------
 
 //USERS requests -------------------------
@@ -86,6 +89,7 @@ app.use('/company', getCompany);
 
 app.use('/upload/companies/licenses', postUploadLicenses);
 app.use('/upload/companies/logos', postUploadLogos);
+app.use('/upload/seamen/photos', postUploadSeamenPhotos);
 //-------------------------------------------
 
 //Uploaded files path------------------------

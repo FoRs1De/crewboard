@@ -13,8 +13,11 @@ app.get('/', (req, res) => {
       const documents = await collection.find({}).toArray();
 
       res.status(200).json(documents);
+
       if (client) {
-        await client.close();
+        setTimeout(() => {
+          client.close();
+        }, 3000);
       }
     })
     .catch((err) => {
