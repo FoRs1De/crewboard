@@ -71,12 +71,22 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
       const currentURL = window.location.href;
       const currentDate = moment().utc().format('DD.MM.YYYY');
 
-      console.log(currentDate);
-      const valueWithUrl = {
-        ...valuesWithoutConfirm,
-        url: currentURL,
-        registration: currentDate,
-      };
+      let valueWithUrl;
+      if (valuesWithoutConfirm.user !== 'seaman') {
+        valueWithUrl = {
+          ...valuesWithoutConfirm,
+          url: currentURL,
+          registration: currentDate,
+        };
+      } else {
+        valueWithUrl = {
+          ...valuesWithoutConfirm,
+          url: currentURL,
+          registration: currentDate,
+          personalDetails: {},
+          seaService: [],
+        };
+      }
 
       try {
         await postRequest(

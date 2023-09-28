@@ -176,6 +176,8 @@ const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
                                 icon={
                                   user.logoUrl ? (
                                     <img src={user.logoUrl} alt="Logo" />
+                                  ) : user.photo ? (
+                                    <img src={user.photo} alt="Photo" />
                                   ) : (
                                     <UserOutlined />
                                   )

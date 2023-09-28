@@ -1,82 +1,49 @@
 import { useState } from 'react';
 
-import { message } from 'antd';
 import moment from 'moment';
 import dayjs from 'dayjs';
-import ranksSelect from '../../../assets/ranksSelect';
-
+import countryList from '../../../assets/countries';
 import {
   EditOutlined,
   CloseCircleOutlined,
   CheckCircleOutlined,
   FormOutlined,
-  AntDesignOutlined,
-  PlusOutlined,
 } from '@ant-design/icons';
-import {
-  Avatar,
-  Upload,
-  Button,
-  Form,
-  Input,
-  Select,
-  Modal,
-  DatePicker,
-  Space,
-} from 'antd';
+import { Button, Form, Input, Select, DatePicker } from 'antd';
 import axios from 'axios';
 
 const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
-  const { TextArea } = Input;
   const { Option } = Select;
 
   const [isOpen, setIsOpen] = useState(true);
 
-  const handlePreview = async (file) => {
-    const url = file.response.url;
-
-    if (url) {
-      Modal.success({
-        footer: null,
-        maskClosable: true,
-        centered: true,
-        icon: null,
-        content: <img alt="Preview" src={url} style={{ width: '100%' }} />,
-      });
+  const onSubmitPersonalInfo = (values) => {
+    let birthDate;
+    if (values.dateOfBirth && values.dateOfBirth.$d) {
+      birthDate = values.dateOfBirth.$d;
+      birthDate = moment(birthDate).format('DD.MM.YYYY');
     } else {
-      console.log('File URL is missing.');
-    }
-  };
-  const onSubmitGeneralInfo = (values) => {
-    let photo;
-
-    if (
-      values.photo &&
-      values.photo.file &&
-      values.photo.file.response &&
-      values.photo.file.response.url
-    ) {
-      photo = values.photo.file.response.url;
-    } else {
-      photo = user.photo;
-    }
-    let availability;
-    if (values.availableFrom && values.availableFrom.$d) {
-      availability = values.availableFrom.$d;
-      availability = moment(availability).format('DD.MM.YYYY');
-    } else {
-      availability = null;
+      birthDate = null;
     }
 
     const dataToSend = {
-      photo: photo,
-      position: values.position,
-      employmentStatus: values.employmentStatus,
-      availableFrom: availability,
-      desiredWage: {
-        amount: values.wage.amount,
-        currency: values.currency,
-        period: values.wage.period,
+      personalDetails: {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        dateOfBirth: birthDate,
+        cityzenship: values.cityzenship,
+        residence: values.residence,
+        city: values.city,
+        address: values.address,
+        phone: values.phone,
+        airport: values.airport,
+        englishLevel: values.englishLevel,
+        height: values.height,
+        weight: values.weight,
+        sizeShoe: values.sizeShoe,
+        sizeOverall: values.sizeOverall,
+        colorHair: values.colorHair,
+        colorEye: values.colorEye,
       },
     };
     console.log(dataToSend);
@@ -98,47 +65,41 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
 
   //Check Status of profile completion
   const status = [
-    user.photo,
-    user.position,
-    user.employmentStatus,
-    user.availableFrom,
-    user.desiredWage,
+    user.personalDetails.firstName,
+    user.personalDetails.dateOfBirth,
+    user.personalDetails.lastName,
+    user.personalDetails.cityzenship,
+    user.personalDetails.residence,
+    user.personalDetails.city,
+    user.personalDetails.address,
+    user.personalDetails.phone,
+    user.personalDetails.airport,
+    user.personalDetails.englishLevel,
+    user.personalDetails.height,
+    user.personalDetails.weight,
+    user.personalDetails.sizeShoe,
+    user.personalDetails.sizeOverall,
+    user.personalDetails.colorHair,
   ];
   const isProfileComplete = status.every((item) => !!item);
   const isAtLeastOneComplete = status.some((item) => !!item);
 
-  //transformed array for Position select field
-  const transformedArray = ranksSelect.map((category) => {
-    return {
-      label: category.label,
-      options: category.options.map((option) => ({
-        label: option,
-        value: option,
-      })),
-    };
-  });
-
   const disabledDate = (current) => {
-    // If the date is before today, disable it
-    return current && current < moment().startOf('day');
+    // Calculate the date 16 years ago from the current date
+    const sixteenYearsAgo = moment().subtract(17, 'years');
+
+    // Disable dates that are before 16 years ago
+    return (
+      (current && current > moment().startOf('day')) ||
+      current > sixteenYearsAgo
+    );
   };
 
-  const suffixSelector = (
-    <Form.Item name="currency" noStyle>
-      <Select
-        style={{
-          width: 50,
-        }}
-      >
-        <Option value="$">$</Option>
-        <Option value="€">€</Option>
-      </Select>
-    </Form.Item>
-  );
   let jsDate;
-  if (user.availableFrom) {
-    jsDate = dayjs(user.availableFrom, 'DD.MM.YYYY');
+  if (user.personalDetails.dateOfBirth) {
+    jsDate = dayjs(user.personalDetails.dateOfBirth, 'DD.MM.YYYY');
   }
+
   return (
     <>
       {' '}
@@ -157,7 +118,7 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
             ) : (
               <EditOutlined style={{ fontSize: '26px', cursor: 'pointer' }} />
             )}{' '}
-            <h2>General information</h2>
+            <h2>Personal Details</h2>
           </div>
           <div className="seaman-data-top-right">
             {isProfileComplete ? (
@@ -172,27 +133,10 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
         <div className="seaman-data-body">
           {isOpen ? (
             <div className="seaman-data-columns">
-              <div className="seaman-data-column-avatar">
-                {' '}
-                <Avatar
-                  shape="square"
-                  size={120}
-                  icon={
-                    user.photo ? (
-                      <img src={user.photo} alt="Photo" />
-                    ) : (
-                      <AntDesignOutlined />
-                    )
-                  }
-                  onClick={() => {
-                    setIsOpen((prevState) => !prevState);
-                  }}
-                />
-              </div>
               <div className="seaman-data-column">
                 <div className="seaman-check-data">
                   <div className="status">
-                    {user.position ? (
+                    {user.personalDetails.firstName ? (
                       <CheckCircleOutlined
                         style={{
                           fontSize: '18px',
@@ -218,126 +162,559 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
                   </div>
                   <div
                     className={
-                      user.position ? 'check-data-ok' : 'check-data-bad'
-                    }
-                  >
-                    <p className="seaman-data-key">Position: </p>{' '}
-                    <p>{user.position && user.position} </p>
-                  </div>
-                </div>
-                <div className="check-data">
-                  <div className="status">
-                    {user.employmentStatus ? (
-                      <CheckCircleOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#6BC259',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    ) : (
-                      <FormOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#b4c5d5',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div
-                    className={
-                      user.employmentStatus ? 'check-data-ok' : 'check-data-bad'
-                    }
-                  >
-                    <p className="seaman-data-key"> Employment Status: </p>
-                    <p>{user.employmentStatus && user.employmentStatus}</p>
-                  </div>
-                </div>
-                <div className="check-data">
-                  <div className="status">
-                    {user.availableFrom ? (
-                      <CheckCircleOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#6BC259',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    ) : (
-                      <FormOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#b4c5d5',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div
-                    className={
-                      user.availableFrom ? 'check-data-ok' : 'check-data-bad'
-                    }
-                  >
-                    <p className="seaman-data-key">
-                      Available for joining from:
-                    </p>
-                    <p> {user.availableFrom && user.availableFrom}</p>
-                  </div>
-                </div>
-                <div className="check-data">
-                  <div className="status">
-                    {user.desiredWage.amount ? (
-                      <CheckCircleOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#6BC259',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    ) : (
-                      <FormOutlined
-                        style={{
-                          fontSize: '18px',
-                          color: '#b4c5d5',
-                          marginTop: 5,
-                        }}
-                        onClick={() => {
-                          setIsOpen((prevState) => !prevState);
-                        }}
-                      />
-                    )}
-                  </div>
-                  <div
-                    className={
-                      user.desiredWage.amount
+                      user.personalDetails.firstName
                         ? 'check-data-ok'
                         : 'check-data-bad'
                     }
                   >
-                    <p className="seaman-data-key">Desired Wage:</p>
-                    <p>
-                      {user.desiredWage.amount &&
-                        user.desiredWage.amount +
-                          user.desiredWage.currency +
-                          ' / ' +
-                          user.desiredWage.period}
-                    </p>
+                    <p className="seaman-data-key">First Name </p>{' '}
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.lastName ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.lastName
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key"> Last Name </p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.dateOfBirth ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.dateOfBirth
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Date Of Birth</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.cityzenship ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.cityzenship
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Cityzenship</p>
+                  </div>
+                </div>
+              </div>
+              <div className="seaman-data-column">
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.residence ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.residence
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Country of Residence</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.city ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.city
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">City</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.address ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.address
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Address</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.phone ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.phone
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Phone Number</p>
+                  </div>
+                </div>
+              </div>
+              <div className="seaman-data-column">
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.airport ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.airport
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Closest Airport</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.englishLevel ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.englishLevel
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Level of English</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.height ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.height
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Height</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.weight ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.weight
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Weight</p>
+                  </div>
+                </div>
+              </div>
+              <div className="seaman-data-column">
+                {' '}
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.colorHair ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.colorHair
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Hair Color</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.colorEye ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.colorEye
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Eye Color</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.sizeShoe ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.sizeShoe
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Shoe Size</p>
+                  </div>
+                </div>
+                <div className="check-data">
+                  <div className="status">
+                    {user.personalDetails.sizeOverall ? (
+                      <CheckCircleOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#6BC259',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    ) : (
+                      <FormOutlined
+                        style={{
+                          fontSize: '18px',
+                          color: '#b4c5d5',
+                          marginTop: 5,
+                        }}
+                        onClick={() => {
+                          setIsOpen((prevState) => !prevState);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div
+                    className={
+                      user.personalDetails.sizeOverall
+                        ? 'check-data-ok'
+                        : 'check-data-bad'
+                    }
+                  >
+                    <p className="seaman-data-key">Overall Size</p>
                   </div>
                 </div>
               </div>
@@ -357,76 +734,32 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
                   maxWidth: 400,
                 }}
                 initialValues={{
-                  photo: user.photo,
-                  position: user.position,
-                  employmentStatus: user.employmentStatus,
-                  currency: '$',
-                  wage: {
-                    period: user.desiredWage.period
-                      ? user.desiredWage.period
-                      : 'per month',
-                    amount: user.desiredWage.amount,
-                  },
-                  availableFrom: jsDate,
+                  firstName: user.personalDetails.firstName,
+                  lastName: user.personalDetails.lastName,
+                  dateOfBirth: jsDate,
+                  cityzenship: user.personalDetails.cityzenship,
+                  residence: user.personalDetails.residence,
+                  city: user.personalDetails.city,
+                  address: user.personalDetails.address,
+                  phone: user.personalDetails.phone,
+                  airport: user.personalDetails.airport,
+                  englishLevel: user.personalDetails.englishLevel,
+                  height: user.personalDetails.height,
+                  weight: user.personalDetails.weight,
+                  sizeShoe: user.personalDetails.sizeShoe,
+                  sizeOverall: user.personalDetails.sizeOverall,
+                  colorHair: user.personalDetails.colorHair,
+                  colorEye: user.personalDetails.colorEye,
                 }}
-                onFinish={onSubmitGeneralInfo}
+                onFinish={onSubmitPersonalInfo}
               >
-                <Form.Item
-                  label="Photo"
-                  name="photo"
-                  className="photo-upload"
-                  valuePropName="logo"
-                >
-                  <Upload
-                    action={`${
-                      import.meta.env.VITE_API_URL
-                    }/upload/seamen/photos`}
-                    listType="picture-card"
-                    accept=".jpg,.jpeg,.png"
-                    onPreview={handlePreview}
-                    multiple={false}
-                    maxCount={1}
-                    beforeUpload={(file) => {
-                      const maxSize = 5 * 1024 * 1024;
-                      if (file.size > maxSize) {
-                        message.error(
-                          'File size exceeds the maximum limit (5MB)'
-                        );
-                        return Upload.LIST_IGNORE; // Prevent the file from being uploaded
-                      }
-                      return true; // Allow the file to be uploaded
-                    }}
-                  >
-                    <div>
-                      <PlusOutlined />
-                      <div
-                        style={{
-                          marginTop: 8,
-                        }}
-                      >
-                        Upload
-                      </div>
-                    </div>
-                  </Upload>
+                <Form.Item name="firstName" label="First Name">
+                  <Input />
                 </Form.Item>
-                <div className="upload-description">
-                  <p> Acceptable files: .jpg, .jpeg, .png</p>
-                </div>
-                <Form.Item name="position" label="Your Position">
-                  <Select options={transformedArray} showSearch></Select>
+                <Form.Item name="lastName" label="Last Name">
+                  <Input />
                 </Form.Item>
-                <Form.Item name="employmentStatus" label="Employment Status">
-                  <Select>
-                    <Option value="Looking for a job">Looking for a job</Option>
-                    <Option value="On vacation">On vacation</Option>
-                    <Option value="At sea">At sea</Option>
-                    <Option value="No longer working">No longer working</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  name="availableFrom"
-                  label="Available for joining from"
-                >
+                <Form.Item name="dateOfBirth" label="Date Of Birth">
                   <DatePicker
                     allowEmpty
                     disabledDate={disabledDate}
@@ -434,40 +767,78 @@ const SeamanPersonalDetails = ({ user, setSubmittedForm }) => {
                     format="DD.MM.YYYY"
                   />
                 </Form.Item>
-                <Form.Item label="Desired Wage">
-                  <Space.Compact>
-                    <Form.Item
-                      name={['wage', 'amount']}
-                      noStyle
-                      rules={[
-                        {
-                          message: 'Number is required',
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder="0"
-                        addonAfter={suffixSelector}
-                        style={{
-                          width: '50%',
-                        }}
-                      />
-                    </Form.Item>
-                    <Form.Item name={['wage', 'period']} noStyle>
-                      <Select
-                        placeholder="Period"
-                        style={{
-                          width: '35%',
-                        }}
-                      >
-                        <Option value="day">per day</Option>
-                        <Option value="month">per month</Option>
-                        <Option value="year">per year</Option>
-                      </Select>
-                    </Form.Item>
-                  </Space.Compact>
+                <Form.Item name="cityzenship" label="Cityzenship">
+                  <Select placeholder="Select country" showSearch>
+                    {countryList.map((country, index) => (
+                      <Option key={index} value={country}>
+                        {country}
+                      </Option>
+                    ))}
+                  </Select>
                 </Form.Item>
-
+                <Form.Item name="residence" label="Country of residence">
+                  <Select placeholder="Select country" showSearch>
+                    {countryList.map((country, index) => (
+                      <Option key={index} value={country}>
+                        {country}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+                <Form.Item name="city" label="City">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="address" label="Address">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="phone" label="Phone Number">
+                  <Input placeholder="+38" />
+                </Form.Item>
+                <Form.Item name="airport" label="Closest Airport">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="englishLevel" label="Level of English">
+                  <Select>
+                    <Option value="Beginner">Beginner</Option>
+                    <Option value="Elementary">Elementary</Option>
+                    <Option value="Intermediate">Intermediate</Option>
+                    <Option value="Upper Intermediate">
+                      Upper Intermediate
+                    </Option>
+                    <Option value="Advanced">Advanced</Option>
+                    <Option value="Proficient">Proficient</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item name="height" label="Height, cm">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="weight" label="Weight, kg">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="sizeShoe" label="Shoe Size, cm">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="sizeOverall" label="Overall Size">
+                  <Input />
+                </Form.Item>
+                <Form.Item name="colorHair" label="Hair Color">
+                  <Select>
+                    <Option value="Blond">Blond</Option>
+                    <Option value="Black">Black</Option>
+                    <Option value="Brown">Brown</Option>
+                    <Option value="Ginger">Ginger</Option>
+                    <Option value="Gray">Gray</Option>
+                    <Option value="Bald">Bald</Option>
+                  </Select>
+                </Form.Item>
+                <Form.Item name="colorEye" label="Eye Color">
+                  <Select>
+                    <Option value="Blue">Blue</Option>
+                    <Option value="Gray">Gray</Option>
+                    <Option value="Brown">Brown</Option>
+                    <Option value="Green">Green</Option>
+                  </Select>
+                </Form.Item>
                 <Form.Item
                   wrapperCol={{
                     xs: {

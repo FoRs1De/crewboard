@@ -26,13 +26,22 @@ app.put('/', async (req, res) => {
 
       const receivedData = req.body;
 
-      const result = await seamenCollection.findOneAndUpdate(
-        { _id: new ObjectId(userId) },
-        {
-          $set: receivedData,
-        }
-      );
-
+      let result;
+      if (receivedData.personalDetails) {
+        result = await seamenCollection.findOneAndUpdate(
+          { _id: new ObjectId(userId) },
+          {
+            $set: receivedData,
+          }
+        );
+      } else if (receivedData.seaService) {
+        result = await seamenCollection.findOneAndUpdate(
+          { _id: new ObjectId(userId) },
+          {
+            $push: receivedData,
+          }
+        );
+      }
       if (result) {
         // User was found and updated
         res.status(200).json(result);

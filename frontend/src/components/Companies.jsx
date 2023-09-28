@@ -25,6 +25,7 @@ const Companies = () => {
         console.log(error.message);
       }
     };
+
     getAllCompanies();
   }, [clear]);
 

@@ -28,7 +28,10 @@ const transporter = nodemailer.createTransport({
 app.post('/', async (req, res) => {
   const dataReceived = req.body;
   const { url, ...dataWithoutUrl } = dataReceived;
-  const dataToInsert = { ...dataWithoutUrl, verified: false };
+  const dataToInsert = {
+    ...dataWithoutUrl,
+    verified: false,
+  };
   const userEmail = dataToInsert.email;
   const userCompany = dataToInsert.company;
   const userPassword = dataToInsert.password;

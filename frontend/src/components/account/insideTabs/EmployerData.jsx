@@ -499,7 +499,7 @@ const EmployerData = ({ user, setSubmittedForm }) => {
                     <p> Acceptable files: .jpg, .jpeg, .png</p>
                   </div>
                   <Form.Item name="country" label="Country">
-                    <Select placeholder="Select country">
+                    <Select placeholder="Select country" showSearch>
                       {countryList.map((country, index) => (
                         <Option key={index} value={country}>
                           {country}

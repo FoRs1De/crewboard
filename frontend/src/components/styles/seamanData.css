@@ -67,7 +67,7 @@
 .seaman-data-columns {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px;
+  gap: 29px;
 }
 
 .seaman-data-column-avatar {
@@ -82,6 +82,25 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.sea-service-form-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.sea-service-form-submit {
+  margin-bottom: 0;
+}
+
+.form-inputs {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.input {
+  width: 250px;
 }
 
 @media (max-width: 768px) {

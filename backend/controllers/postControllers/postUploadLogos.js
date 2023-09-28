@@ -24,11 +24,9 @@ const storageLogos = multer.diskStorage({
   },
 });
 
-// Create a multer instance with the defined storage
 const upload = multer({ storage: storageLogos });
 
 app.post('/', upload.single('file'), async (req, res) => {
-  // The uploaded file can be accessed as req.file
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
@@ -37,10 +35,9 @@ app.post('/', upload.single('file'), async (req, res) => {
 
   const filename = file.originalname.replace(/[\s/]+/g, '-');
 
-  // File saved successfully
   return res.status(200).json({
     message: 'File uploaded and saved successfully',
-    url: `${host}/companies/logos/${filename}`, // Correct file URL
+    url: `${host}/companies/logos/${filename}`,
   });
 });
 
