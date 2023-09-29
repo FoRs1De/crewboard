@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import ranks from '../assets/ranks';
 import { Avatar, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { useEffect } from 'react';
 const Home = ({ countVacancies, allVacancies, setVacancies }) => {
   const handleVacancyClick = (e) => {
     const value = e.currentTarget.getAttribute('value');

@@ -58,7 +58,7 @@ const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
           <h3>
             <CountUp end={usersNumber.total} />
           </h3>
-          <p>All Users</p>
+          <p>Users</p>
         </div>
         <div className="top-menu-item">
           <h3>

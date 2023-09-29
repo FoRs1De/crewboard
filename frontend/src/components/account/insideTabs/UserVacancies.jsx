@@ -15,6 +15,7 @@ import {
   message,
   Empty,
   Avatar,
+  Modal,
 } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
@@ -28,6 +29,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
 
   const [showAddVacancyForm, setShowAddVacancieForm] = useState(false);
   const [responseMsg, setResponseMsg] = useState(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleAddVacancy = () => {
     setShowAddVacancieForm(true);
@@ -92,6 +94,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
       company: user.company,
       userRole: user.user,
       createdById: user._id,
+      seamenApplied: [],
     };
     setVacancyPosted((prev) => !prev);
     try {
@@ -99,11 +102,8 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
         `${import.meta.env.VITE_API_URL}/add-vacancy`,
         modifiedValues
       );
-      setVacancyPosted(true);
+      setVacancyPosted((prev) => !prev);
       setResponseMsg('Vacancy successfully posted');
-      setTimeout(() => {
-        setVacancyPosted((prev) => !prev);
-      }, 100);
       successMsg();
       setShowAddVacancieForm((prev) => !prev);
     } catch (error) {
@@ -112,23 +112,38 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
     }
   };
 
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const handleCancelApplying = (e) => {
     const value = e.currentTarget.value;
     const vacancyId = { vacancyId: value };
+    showModal();
     const applyRemove = async () => {
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_API_URL}/remove-apply-vacancy`,
           vacancyId
         );
+        handleCancel();
         setVacancyPosted((prev) => !prev);
         setSubmittedForm((prev) => !prev);
         setResponseMsg('Applying succesfully cancelled');
       } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
       }
     };
-    applyRemove();
+    Modal.confirm({
+      centered: true,
+      title: 'Confirmation required',
+      content: 'Are you sure you want to cancel appliying the vacancy?',
+      onOk: applyRemove,
+      onCancel: handleCancel,
+    });
   };
 
   function disabledDate(current) {
@@ -503,14 +518,14 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
             /* IF USER IS SEAMAN */
             <div className="posted-vacancies">
               <h2>Applied Vacancies</h2>
-              {vacancies.length === 0 ? (
+              {vacancies.length < 1 ? (
                 <div className="no-active-vacancies">
                   <Empty
                     image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                     imageStyle={{
                       height: 100,
                     }}
-                    description={<span>No vacancies applied yet...</span>}
+                    description={<span>No vacancies applied...</span>}
                   ></Empty>
                 </div>
               ) : (

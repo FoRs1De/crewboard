@@ -28,11 +28,7 @@ app.get('/', async (req, res) => {
         })
         .toArray();
 
-      if (vacancies.length > 0) {
-        res.status(200).json(vacancies);
-      } else {
-        res.status(200).json({ message: 'No vacancies applied yet...' });
-      }
+      res.status(200).json(vacancies);
     } catch (err) {
       console.error('Error during request:', err);
       res.status(500).json({ error: 'Internal server error' });

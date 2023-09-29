@@ -36,9 +36,40 @@ app.put('/', async (req, res) => {
         );
       } else if (receivedData.seaService) {
         result = await seamenCollection.findOneAndUpdate(
+          {
+            _id: new ObjectId(userId),
+            'seaService.id': receivedData.seaService.id,
+          },
+          {
+            $set: {
+              'seaService.$': receivedData.seaService,
+            },
+          }
+        );
+        console.log(result);
+        if (!result) {
+          result = await seamenCollection.findOneAndUpdate(
+            { _id: new ObjectId(userId) },
+            {
+              $push: receivedData,
+            }
+          );
+        }
+      } else if (receivedData.deleteId) {
+        result = await seamenCollection.findOneAndUpdate(
+          {
+            _id: new ObjectId(userId),
+            'seaService.id': receivedData.deleteId,
+          },
+          {
+            $pull: { seaService: { id: receivedData.deleteId } },
+          }
+        );
+      } else {
+        result = await seamenCollection.findOneAndUpdate(
           { _id: new ObjectId(userId) },
           {
-            $push: receivedData,
+            $set: receivedData,
           }
         );
       }

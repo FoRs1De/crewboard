@@ -85,6 +85,8 @@ const Registration = ({ setSubmittedForm, setUserEmail, userEmail }) => {
           registration: currentDate,
           personalDetails: {},
           seaService: [],
+          vacanciesApplied: [],
+          desiredWage: { amount: '' },
         };
       }
 

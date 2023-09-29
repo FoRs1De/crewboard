@@ -34,6 +34,16 @@ app.delete('/', async (req, res) => {
         _id: userId,
       });
 
+      //delete from all aplied vacancies
+      await vacanciesCollection.updateMany(
+        { 'seamenApplied.seamanId': createdById }, // Filter to match documents with the id to delete
+        {
+          $pull: {
+            seamenApplied: { seamanId: createdById }, // Specify the criteria to remove the element
+          },
+        }
+      );
+
       if (seamanDeleteResult.deletedCount === 1) {
         // User was deleted from the seamen collection
         res.cookie('user', 'deleted', {

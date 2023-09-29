@@ -32,6 +32,7 @@ function App() {
   const [isLoggedIn, setIsloggedIn] = useState(false);
   const [submittedForm, setSubmittedForm] = useState(false);
   const [passwordResetRequested, setPasswordResetRequested] = useState(false);
+  const [vacanyPosted, setVacancyPosted] = useState(false);
 
   //Check for user authentication
   useEffect(() => {
@@ -83,7 +84,7 @@ function App() {
       }
     };
     getAllVacancies();
-  }, [clear]);
+  }, [clear, vacanyPosted]);
 
   return (
     <div className="app">
@@ -143,6 +144,8 @@ function App() {
                   setUser={setUser}
                   user={user}
                   setIsloggedIn={setIsloggedIn}
+                  setVacancyPosted={setVacancyPosted}
+                  vacanyPosted={vacanyPosted}
                 />
               }
             />

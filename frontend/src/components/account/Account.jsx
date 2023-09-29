@@ -7,10 +7,16 @@ import EmployerData from './insideTabs/EmployerData';
 import SeamanData from './insideTabs/SeamanData';
 import axios from 'axios';
 
-const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
+const Account = ({
+  setSubmittedForm,
+  setUser,
+  user,
+  setIsloggedIn,
+  vacanyPosted,
+  setVacancyPosted,
+}) => {
   const [mode, setMode] = useState('top');
   const [vacancies, setVacancies] = useState([]);
-  const [vacanyPosted, setVacancyPosted] = useState(false);
 
   function handleScreenWidthChange() {
     // Get the current screen width
@@ -101,6 +107,7 @@ const Account = ({ setSubmittedForm, setUser, user, setIsloggedIn }) => {
                     <EmployerData
                       user={user}
                       setSubmittedForm={setSubmittedForm}
+                      setVacancyPosted={setVacancyPosted}
                     />
                   ),
                 },

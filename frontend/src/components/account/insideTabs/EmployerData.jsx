@@ -14,7 +14,7 @@ import {
 import { Avatar, Upload, Button, Form, Input, Select, Modal } from 'antd';
 import axios from 'axios';
 
-const EmployerData = ({ user, setSubmittedForm }) => {
+const EmployerData = ({ user, setSubmittedForm, setVacancyPosted }) => {
   const { TextArea } = Input;
   const { Option } = Select;
 
@@ -75,13 +75,13 @@ const EmployerData = ({ user, setSubmittedForm }) => {
       website: values.website,
     };
 
-    console.log(dataToSend);
     const putUpdateEmployerData = async () => {
       try {
         const response = await axios.put(
           `${import.meta.env.VITE_API_URL}/update-employer/`,
           dataToSend
         );
+        setVacancyPosted((prev) => !prev);
         setIsOpen((prevState) => !prevState);
         setSubmittedForm((prevState) => !prevState);
       } catch (error) {

@@ -37,7 +37,7 @@ const Vacancy = ({ user, setSubmittedForm }) => {
 
   const handleOk = () => {
     setIsModalOpen(false);
-    console.log(comment);
+
     const applyVacancy = async () => {
       try {
         const response = await axios.put(
@@ -54,7 +54,7 @@ const Vacancy = ({ user, setSubmittedForm }) => {
   };
 
   let hasAppliedVacancy;
-  if (user) {
+  if (user && user.vacanciesApplied) {
     hasAppliedVacancy = user.vacanciesApplied.includes(id);
   }
 
@@ -196,7 +196,7 @@ const Vacancy = ({ user, setSubmittedForm }) => {
                       <p>{vacancy.description}</p>
                     </div>
                     <hr />
-                    {!hasAppliedVacancy ? (
+                    {!hasAppliedVacancy && user.user === 'seaman' ? (
                       <>
                         <div className="vacancy-apply">
                           <center>
