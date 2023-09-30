@@ -26,10 +26,41 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
   const { Option } = Select;
   const { TextArea } = Input;
   const [messageApi, contextHolder] = message.useMessage();
-
   const [showAddVacancyForm, setShowAddVacancieForm] = useState(false);
-  const [responseMsg, setResponseMsg] = useState(null);
+  const [responseMsg, setResponseMsg] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const successMsgPostVacancy = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'Vacancy seccessfully posted',
+      duration: 10,
+    });
+  };
+
+  const successMsgDeleteVacancy = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'Vacancy seccessfully deleted',
+      duration: 10,
+    });
+  };
+
+  const successMsgCancelApplyVacancy = () => {
+    messageApi.open({
+      type: 'success',
+      content: 'Applying succesfully cancelled',
+      duration: 10,
+    });
+  };
+
+  const errorMsg = () => {
+    messageApi.open({
+      type: 'error',
+      content: responseMsg,
+      duration: 10,
+    });
+  };
 
   const handleAddVacancy = () => {
     setShowAddVacancieForm(true);
@@ -65,21 +96,6 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
     </Form.Item>
   );
 
-  const successMsg = () => {
-    messageApi.open({
-      type: 'success',
-      content: responseMsg,
-      duration: 10,
-    });
-  };
-  const errorMsg = () => {
-    messageApi.open({
-      type: 'error',
-      content: responseMsg,
-      duration: 10,
-    });
-  };
-
   const onFinish = async (fieldsValue) => {
     console.log(fieldsValue);
 
@@ -102,10 +118,12 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
         `${import.meta.env.VITE_API_URL}/add-vacancy`,
         modifiedValues
       );
-      setVacancyPosted((prev) => !prev);
-      setResponseMsg('Vacancy successfully posted');
-      successMsg();
-      setShowAddVacancieForm((prev) => !prev);
+      console.log(response);
+      if (response.data.message === 'Vacancy posted') {
+        setVacancyPosted((prev) => !prev);
+        setShowAddVacancieForm((prev) => !prev);
+        successMsgPostVacancy();
+      }
     } catch (error) {
       setResponseMsg(error.message);
       errorMsg();
@@ -130,9 +148,9 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
           vacancyId
         );
         handleCancel();
+        successMsgCancelApplyVacancy();
         setVacancyPosted((prev) => !prev);
         setSubmittedForm((prev) => !prev);
-        setResponseMsg('Applying succesfully cancelled');
       } catch (error) {
         console.error(error.message);
       }
@@ -150,6 +168,34 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
     // If the date is before today, disable it
     return current && current < moment().startOf('day');
   }
+
+  const handleDeleteVacancy = async (id) => {
+    const vacancyId = { id: id };
+    showModal();
+    const deleteVacancy = async () => {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/delete-vacancy`,
+          vacancyId
+        );
+        if (response.data === 'Successfully deleted') {
+          handleCancel();
+          setVacancyPosted((prev) => !prev);
+          successMsgDeleteVacancy();
+        }
+      } catch (error) {
+        setResponseMsg(error.message);
+        errorMsg();
+      }
+    };
+    Modal.confirm({
+      centered: true,
+      title: 'Confirmation required',
+      content: 'Are you sure you want to delete the Vacancy?',
+      onOk: deleteVacancy,
+      onCancel: handleCancel,
+    });
+  };
 
   return (
     <>
@@ -290,7 +336,16 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
                           </Form.Item>
                         </Space.Compact>
                       </Form.Item>
-                      <Form.Item name="startDate" label="Start Date" required>
+                      <Form.Item
+                        name="startDate"
+                        label="Start Date"
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Start date is required',
+                          },
+                        ]}
+                      >
                         <DatePicker
                           disabledDate={disabledDate}
                           placeholder="DD.MM.YYYY"
@@ -504,6 +559,21 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
                                 <div className="user-vacancy-company-country">
                                   <p>{vacancy.userCountry}</p>
                                 </div>
+                              </div>
+                            </div>
+                            <div className="user-vacancy-bottom">
+                              <div className="user-vacancy-bottom-left">
+                                <p>Viewed: {vacancy.viewed}</p>
+                              </div>
+                              <div className="user-vacancy-bottom-right">
+                                <Button
+                                  danger
+                                  onClick={() =>
+                                    handleDeleteVacancy(vacancy._id)
+                                  }
+                                >
+                                  Delete Vacancy
+                                </Button>
                               </div>
                             </div>
                           </div>

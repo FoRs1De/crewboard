@@ -55,8 +55,12 @@ const Account = ({
             const response = await axios.get(
               `${import.meta.env.VITE_API_URL}/user-vacancies`
             );
+            if (response.data.length > 1) {
+              setVacancies(response.data.reverse());
+            } else {
+              setVacancies(response.data);
+            }
             console.log(response.data);
-            setVacancies(response.data.reverse());
           } catch (error) {
             console.log(error.message);
           }
