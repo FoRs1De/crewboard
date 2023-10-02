@@ -22,7 +22,13 @@ import { Tooltip } from 'antd';
 import moment from 'moment';
 import axios from 'axios';
 
-const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
+const Vacancies = ({
+  user,
+  vacancies,
+  setVacancyPosted,
+  setSubmittedForm,
+  setLoadVacancies,
+}) => {
   const { Option } = Select;
   const { TextArea } = Input;
   const [messageApi, contextHolder] = message.useMessage();
@@ -97,12 +103,14 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
   );
 
   const onFinish = async (fieldsValue) => {
-    console.log(fieldsValue);
-
     let embarkationDate = fieldsValue.startDate.$d;
     embarkationDate = moment(embarkationDate).format('DD.MM.YYYY');
 
     const currentDate = moment().utc().format('DD MMM YYYY, hh:mm [GMT]');
+    let logoUrl;
+    if (user.logoUrl) {
+      logoUrl = user.logoUrl;
+    }
     const modifiedValues = {
       ...fieldsValue,
       embarkation: embarkationDate,
@@ -110,6 +118,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
       company: user.company,
       userRole: user.user,
       createdById: user._id,
+      userLogoUrl: logoUrl,
       seamenApplied: [],
     };
     setVacancyPosted((prev) => !prev);
@@ -123,6 +132,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
         setVacancyPosted((prev) => !prev);
         setShowAddVacancieForm((prev) => !prev);
         successMsgPostVacancy();
+        setLoadVacancies((prev) => !prev);
       }
     } catch (error) {
       setResponseMsg(error.message);
@@ -182,6 +192,7 @@ const Vacancies = ({ user, vacancies, setVacancyPosted, setSubmittedForm }) => {
           handleCancel();
           setVacancyPosted((prev) => !prev);
           successMsgDeleteVacancy();
+          setLoadVacancies((prev) => !prev);
         }
       } catch (error) {
         setResponseMsg(error.message);

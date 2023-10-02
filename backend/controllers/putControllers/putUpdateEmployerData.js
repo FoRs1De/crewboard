@@ -58,11 +58,6 @@ app.put('/', async (req, res) => {
   } else {
     res.status(401).json({ message: 'No user token or no userId' });
   }
-  if (client) {
-    setTimeout(() => {
-      client.close();
-    }, 5000);
-  }
 });
 
 module.exports = app;

@@ -1,0 +1,116 @@
+.seaman-page-container {
+  margin: 20px;
+}
+.seaman-page-body {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.seaman-content-wrapper {
+  background-color: white;
+  padding: 20px 40px 20px 40px;
+  box-shadow: 0 0 12px 1px lightgray;
+  width: 760px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.seaman-content-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.seaman-content-top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9em;
+}
+
+.seaman-content-header {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap-reverse;
+}
+
+.seaman-content-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seaman-info-key-value {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.seaman-info-key {
+  width: 150px;
+}
+
+.seaman-crewboard-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.seaman-type {
+  color: #52c2df;
+  font-weight: 700;
+}
+.seaman-info-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seaman-content-bottom {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.seaman-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seaman-hr {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.seaman-info-body {
+  display: flex;
+  gap: 30px;
+}
+@media (max-width: 768px) {
+  .seaman-page-sidebar {
+    width: 100%;
+  }
+
+  .seaman-content-wrapper {
+    width: 100%;
+  }
+
+  .seaman-info-logo {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1230px) {
+  .seaman-content-wrapper {
+    width: 650px;
+  }
+  .seaman-page-sidebar {
+    width: 650px;
+  }
+}

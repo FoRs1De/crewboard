@@ -1,0 +1,157 @@
+.seamen-side-bar {
+  background-color: white;
+  padding: 40px 40px 40px 40px;
+  box-shadow: 0 0 12px 1px lightgray;
+  width: 280px;
+  height: 100%;
+}
+
+.seamen-side-bar-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.seamen-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 20px;
+}
+
+.seamen-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.seaman-wrapper {
+  background-color: white;
+  padding: 20px 40px 20px 40px;
+  box-shadow: 0 0 12px 1px lightgray;
+  width: 800px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seaman-top p {
+  font-size: 0.9em;
+}
+
+.seaman-age {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date-updated {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.seaman-age p:first-child {
+  color: gray;
+}
+.date-updated p:first-child {
+  color: gray;
+  min-width: 95px;
+}
+.seamen-no-vacancies {
+  display: flex;
+  width: 870px;
+  justify-content: center;
+  height: 75vh;
+  align-items: center;
+}
+
+.seaman-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+.seaman-content-bottom {
+  margin-top: 40px;
+}
+.seaman-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.seaman-top-right {
+  display: flex;
+  gap: 35px;
+  align-items: center;
+}
+
+.seaman-info {
+  display: flex;
+  gap: 20px;
+}
+
+.seaman-logo {
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.seaman-service-h {
+  margin-top: 0;
+  width: fit-content;
+}
+
+.seaman-record {
+  margin-bottom: 5px;
+}
+
+.seaman-status {
+  font-size: 0.85em;
+  color: gray;
+  font-weight: 600;
+}
+
+@media (max-width: 1230px) {
+  .seamen-side-bar {
+    width: 650px;
+  }
+  .seamen-list {
+    width: 100%;
+  }
+  .seaman-wrapper {
+    width: 730px;
+  }
+
+  .seamen-no-vacancies {
+    width: 730px;
+  }
+}
+
+@media (max-width: 768px) {
+  .seamen-side-bar {
+    width: 100%;
+  }
+
+  .seaman-wrapper {
+    width: 100%;
+    gap: 20px;
+  }
+  .seaman-list {
+    width: 100%;
+  }
+  .seamen-no-vacancies {
+    width: 100%;
+  }
+  .seaman-top {
+    flex-direction: column;
+  }
+  .seaman-info {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

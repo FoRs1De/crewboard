@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
     .connect()
     .then(async () => {
       const db = client.db('admin');
-      const collection = db.collection('employers');
+      const collection = db.collection('seamen');
 
       const documents = await collection.find({}).toArray();
 

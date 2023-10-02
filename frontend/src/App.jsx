@@ -19,6 +19,7 @@ import EmailVerification from './components/EmailVerification';
 import Companies from './components/Companies';
 import Vacancy from './components/Vacancy';
 import Company from './components/Company';
+import Seafarer from './components/Seafarer';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -33,6 +34,9 @@ function App() {
   const [submittedForm, setSubmittedForm] = useState(false);
   const [passwordResetRequested, setPasswordResetRequested] = useState(false);
   const [vacanyPosted, setVacancyPosted] = useState(false);
+  const [seamen, setSeamen] = useState([]);
+  const [allSeamen, setAllSeamen] = useState([]);
+  const [updateSeamen, setUpdateSeamen] = useState(false);
 
   //Check for user authentication
   useEffect(() => {
@@ -86,6 +90,22 @@ function App() {
     getAllVacancies();
   }, [clear, vacanyPosted]);
 
+  useEffect(() => {
+    const getAllVacancies = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/all-seamen/`
+        );
+        const reversedResponse = response.data.reverse();
+        setSeamen(reversedResponse);
+        setAllSeamen(reversedResponse);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getAllVacancies();
+  }, [updateSeamen]);
+
   return (
     <div className="app">
       <Routes>
@@ -132,7 +152,21 @@ function App() {
               <Vacancy user={user} setSubmittedForm={setSubmittedForm} />
             }
           />
-          <Route path="/seafarers" element={<Seafarers />} />
+          <Route
+            path="/seafarers"
+            element={
+              <Seafarers
+                seamen={seamen}
+                setSeamen={setSeamen}
+                allSeamen={allSeamen}
+                setUpdateSeamen={setUpdateSeamen}
+              />
+            }
+          />
+          <Route
+            path="seafarers/:id"
+            element={<Seafarer allSeamen={allSeamen} />}
+          />
           <Route path="/companies" element={<Companies />} />
           <Route path="companies/:id" element={<Company />} />
           {isLoggedIn ? (
@@ -146,6 +180,8 @@ function App() {
                   setIsloggedIn={setIsloggedIn}
                   setVacancyPosted={setVacancyPosted}
                   vacanyPosted={vacanyPosted}
+                  setLoadVacancies={setLoadVacancies}
+                  setUpdateSeamen={setUpdateSeamen}
                 />
               }
             />

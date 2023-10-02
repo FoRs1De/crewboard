@@ -52,10 +52,6 @@ app.post('/', async (req, res) => {
       message: 'Vacancy posted',
       inserted: insertedDocument,
     });
-
-    if (client) {
-      client.close();
-    }
   } catch (error) {
     res.status(400).json({
       message: error.message,

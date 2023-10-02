@@ -23,7 +23,6 @@ const Company = () => {
     getCompany();
   }, [id]);
 
-  console.log(company);
   return (
     <>
       <div className="company-page-container">
@@ -132,7 +131,7 @@ const Company = () => {
               </div>
             </div>
           </div>
-          <div className="company-page-sidebar">sadasd</div>
+          <div className="company-page-sidebar"></div>
         </div>
       </div>
     </>

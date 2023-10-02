@@ -46,7 +46,7 @@ app.put('/', async (req, res) => {
             },
           }
         );
-        console.log(result);
+
         if (!result) {
           result = await seamenCollection.findOneAndUpdate(
             { _id: new ObjectId(userId) },

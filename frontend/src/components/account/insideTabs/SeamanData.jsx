@@ -28,7 +28,7 @@ import axios from 'axios';
 import SeamanPersonalDetails from './SeamanPersonalDetails';
 import SeamanSeaService from './SeamanSeaService';
 
-const SeamanData = ({ user, setSubmittedForm }) => {
+const SeamanData = ({ user, setSubmittedForm, setUpdateSeamen }) => {
   const { Option } = Select;
 
   const [isOpen, setIsOpen] = useState(true);
@@ -500,7 +500,11 @@ const SeamanData = ({ user, setSubmittedForm }) => {
           user={user}
           setSubmittedForm={setSubmittedForm}
         />
-        <SeamanSeaService user={user} setSubmittedForm={setSubmittedForm} />
+        <SeamanSeaService
+          user={user}
+          setSubmittedForm={setSubmittedForm}
+          setUpdateSeamen={setUpdateSeamen}
+        />
       </div>
     </>
   );

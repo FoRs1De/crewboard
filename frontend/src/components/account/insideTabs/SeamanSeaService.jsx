@@ -18,7 +18,7 @@ import {
 } from 'antd';
 import axios from 'axios';
 
-const SeamanSeaService = ({ user, setSubmittedForm }) => {
+const SeamanSeaService = ({ user, setSubmittedForm, setUpdateSeamen }) => {
   const { Option } = Select;
   const [isOpen, setIsOpen] = useState(false);
   const uuid = uuidv4();
@@ -82,10 +82,15 @@ const SeamanSeaService = ({ user, setSubmittedForm }) => {
 
     const putUpdateEmployerData = async () => {
       try {
-        const response = await axios.put(
+        await axios.put(
           `${import.meta.env.VITE_API_URL}/update-seaman/`,
           dataToSend
         );
+        const currentDate = moment().utc().format('DD MMM YYYY');
+        await axios.put(`${import.meta.env.VITE_API_URL}/update-seaman/`, {
+          updated: currentDate,
+        });
+        setUpdateSeamen((prev) => !prev);
         setIsOpen((prevState) => !prevState);
         setSubmittedForm((prevState) => !prevState);
       } catch (error) {
@@ -135,6 +140,7 @@ const SeamanSeaService = ({ user, setSubmittedForm }) => {
           dataToSend
         );
         handleCancel();
+        setUpdateSeamen((prev) => !prev);
         setSubmittedForm((prevState) => !prevState);
       } catch (error) {
         console.log(error.message);
@@ -172,7 +178,9 @@ const SeamanSeaService = ({ user, setSubmittedForm }) => {
             <AlignLeftOutlined />
             <h2>Sea Service</h2>
           </div>
-          <div className="seaman-data-top-right"></div>
+          <div className="seaman-data-top-right">
+            <h4>Last update: {user.updated}</h4>
+          </div>
         </div>
         <div className="seaman-data-body">
           {isOpen ? (

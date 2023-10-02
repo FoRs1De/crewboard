@@ -14,6 +14,8 @@ const Account = ({
   setIsloggedIn,
   vacanyPosted,
   setVacancyPosted,
+  setLoadVacancies,
+  setUpdateSeamen,
 }) => {
   const [mode, setMode] = useState('top');
   const [vacancies, setVacancies] = useState([]);
@@ -90,6 +92,7 @@ const Account = ({
                   vacancies={vacancies}
                   setVacancyPosted={setVacancyPosted}
                   setSubmittedForm={setSubmittedForm}
+                  setLoadVacancies={setLoadVacancies}
                 />
               ),
             },
@@ -101,6 +104,7 @@ const Account = ({
                     <SeamanData
                       user={user}
                       setSubmittedForm={setSubmittedForm}
+                      setUpdateSeamen={setUpdateSeamen}
                     />
                   ),
                 }
@@ -115,11 +119,11 @@ const Account = ({
                     />
                   ),
                 },
-            {
-              label: <p className="tab-text">Messages</p>,
-              key: '3',
-              children: 'test',
-            },
+            // {
+            //   label: <p className="tab-text">Messages</p>,
+            //   key: '3',
+            //   children: 'test',
+            // },
             {
               label: <p className="tab-text">Settings</p>,
               key: '4',
@@ -131,16 +135,16 @@ const Account = ({
                 />
               ),
             },
-            {
-              label: <p className="tab-text">Summary</p>,
-              key: '5',
-              children: 'test',
-            },
-            {
-              label: <p className="tab-text">Feedback</p>,
-              key: '6',
-              children: 'test',
-            },
+            // {
+            //   label: <p className="tab-text">Summary</p>,
+            //   key: '5',
+            //   children: 'test',
+            // },
+            // {
+            //   label: <p className="tab-text">Feedback</p>,
+            //   key: '6',
+            //   children: 'test',
+            // },
           ]}
         />
       )}
