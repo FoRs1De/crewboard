@@ -24,6 +24,9 @@ const PasswordReset = ({ setSubmittedForm }) => {
         `${import.meta.env.VITE_API_URL}/password-reset`,
         valueWithUrl
       );
+      const tenMinutes = 10 * 60;
+      document.cookie =
+        'passwordReset=10min; max-age=' + tenMinutes + '; path=/;';
       document.querySelector('.reset-password-form').reset();
       setIsSubmitted(true);
       setSubmittedForm(true);

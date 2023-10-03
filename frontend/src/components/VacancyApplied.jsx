@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
+import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Empty } from 'antd';
-import './styles/VacancyApplied.css';
+import './styles/vacancyApplied.css';
 
 const VacancyApplied = () => {
   const id = useParams().id;

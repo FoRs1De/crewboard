@@ -84,9 +84,6 @@ app.post('/', async (req, res) => {
           });
           console.log(error);
         } else {
-          res.cookie('passwordReset', '10min', {
-            expires: new Date(Date.now() + 600000),
-          });
           res.status(200).json({
             message: 'Email successfully sent',
           });
