@@ -41,7 +41,8 @@ const Vacancy = ({ user, setSubmittedForm }) => {
     const applyVacancy = async () => {
       try {
         const response = await axios.put(
-          `${import.meta.env.VITE_API_URL}/vacancy-apply/${id}`
+          `${import.meta.env.VITE_API_URL}/vacancy-apply/${id}`,
+          { comment: comment }
         );
         setSubmittedForm((prev) => !prev);
         setApplyResponse('Successfully applied');

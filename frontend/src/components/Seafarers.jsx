@@ -103,9 +103,6 @@ const Seafarers = ({ seamen, setSeamen, allSeamen, setUpdateSeamen }) => {
                           <p>Date updated:</p>
                           <p>{seaman.updated}</p>
                         </div>
-                        <Link to={`/seafarers/${seaman._id}`}>
-                          <Button>Profile</Button>
-                        </Link>
                       </div>
                     </div>
 
@@ -116,17 +113,19 @@ const Seafarers = ({ seamen, setSeamen, allSeamen, setUpdateSeamen }) => {
                         </div>
 
                         <Space wrap size={16}>
-                          <Avatar
-                            shape="square"
-                            size={120}
-                            icon={
-                              seaman.photo ? (
-                                <img src={seaman.photo} alt="Photo" />
-                              ) : (
-                                <UserOutlined />
-                              )
-                            }
-                          />
+                          <Link to={`/seafarers/${seaman._id}`}>
+                            <Avatar
+                              shape="square"
+                              size={120}
+                              icon={
+                                seaman.photo ? (
+                                  <img src={seaman.photo} alt="Photo" />
+                                ) : (
+                                  <UserOutlined />
+                                )
+                              }
+                            />
+                          </Link>
                         </Space>
                         <div className="seaman-country">
                           <center>
@@ -154,10 +153,15 @@ const Seafarers = ({ seamen, setSeamen, allSeamen, setUpdateSeamen }) => {
                     </div>
                     <div className="seaman-bottom">
                       <div className="seman-bottom-left">
+                        <Link to={`/seafarers/${seaman._id}`}>
+                          Watch seaman details {'>'}
+                        </Link>
+                      </div>
+                      <div className="seaman-bottom-right">
+                        {' '}
                         Available from:{' '}
                         {seaman.availableFrom && seaman.availableFrom}
                       </div>
-                      <div className="seaman-bottom-right"></div>
                     </div>
                   </div>
                 );

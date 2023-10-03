@@ -1,5 +1,5 @@
 import './styles/company.css';
-import { Button, Avatar, Rate, Form, Input, Empty, Breadcrumb } from 'antd';
+import { Avatar, Rate, Breadcrumb, Space } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -8,6 +8,7 @@ import axios from 'axios';
 const Company = () => {
   const id = useParams().id;
   const [company, setCompany] = useState([]);
+  const [companyVacancies, setCompanyVacancies] = useState([]);
 
   useEffect(() => {
     const getCompany = async () => {
@@ -20,9 +21,22 @@ const Company = () => {
         console.log(error.message);
       }
     };
+    const getCompanyVacancies = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_API_URL}/company-vacancies/${id}`
+        );
+        setCompanyVacancies(response.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
     getCompany();
+    getCompanyVacancies();
   }, [id]);
 
+  console.log(companyVacancies);
   return (
     <>
       <div className="company-page-container">
@@ -129,6 +143,81 @@ const Company = () => {
                 <h4>Company description:</h4>
                 <p>{company.description}</p>
               </div>
+            </div>
+            <div className="company-vacancies-container">
+              <center>
+                <h2>{company.company} vacancies</h2>
+              </center>
+              {companyVacancies &&
+                companyVacancies.map((vacancy) => {
+                  return (
+                    <div key={vacancy._id} className="company-content-wrapper">
+                      <div className="vacancy-top">
+                        <h2>{vacancy.position}</h2>
+                        <div className="vacancy-posted">
+                          {vacancy.timeStamp}
+                        </div>
+                      </div>
+
+                      <div className="company-vacancy-info">
+                        <div className="info-keys">
+                          <div className="key-value">
+                            <p className="left-key">Wage:</p>
+                            <p className="right-value">
+                              {vacancy.wage.amount} {vacancy.suffix} /{' '}
+                              {vacancy.wage.period}
+                            </p>
+                          </div>
+                          <div className="key-value">
+                            <p className="left-key">Vessel type:</p>
+                            <p className="right-value">{vacancy.vesselType}</p>
+                          </div>
+                          <div className="key-value">
+                            <p className="left-key">Start date:</p>
+                            <p className="right-value">{vacancy.embarkation}</p>
+                          </div>
+                          <div className="key-value">
+                            <p className="left-key">Contract duration:</p>
+                            <p className="right-value">
+                              {vacancy.duration.number}{' '}
+                              {vacancy.duration.period}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="company-info">
+                          <div className="company-logo">
+                            <Space wrap size={16}>
+                              <Avatar
+                                shape="square"
+                                size={120}
+                                icon={
+                                  vacancy.userLogoUrl ? (
+                                    <img src={vacancy.userLogoUrl} alt="Logo" />
+                                  ) : (
+                                    <UserOutlined />
+                                  )
+                                }
+                              />
+                            </Space>
+                          </div>
+                          <div className="company-country">
+                            <p>{vacancy.userCountry}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="vacancy-bottom">
+                        <div className="vacnct-bottom-left">
+                          <Link to={`${vacancy._id}`}>
+                            Details and apply {'>'}{' '}
+                          </Link>
+                        </div>
+                        <div className="vacnct-bottom-right">
+                          Views: {vacancy.viewed}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
             </div>
           </div>
           <div className="company-page-sidebar"></div>

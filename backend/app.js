@@ -36,7 +36,8 @@ const putRemoveApplyVacancy = require('./controllers/putControllers/putApplyRemo
 const getSeamanVacancies = require('./controllers/getControllers/getSeamanVacancies');
 const deleteVacancy = require('./controllers/deleteControllers/deleteVacancy');
 const getAllSeamen = require('./controllers/getControllers/getAllSeamen');
-
+const getSeamenApplied = require('./controllers/getControllers/getSeamenApplied');
+const getCompanyVacancies = require('./controllers/getControllers/getCompanyVacacies');
 //body-parser, coockie-parser
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -66,6 +67,7 @@ app.use('/email-change', putUserEmailChangeFromSettings);
 app.use('/update-employer', putUpdateEmplyerData);
 app.use('/update-seaman', putUpdateSeamanData);
 app.use('/all-seamen', getAllSeamen);
+app.use('/seamen-applied', getSeamenApplied);
 //----------------------------------------
 
 //USERS requests -------------------------
@@ -82,6 +84,7 @@ app.use('/vacancy-apply', putApplyVacancy);
 app.use('/remove-apply-vacancy', putRemoveApplyVacancy);
 app.use('/seaman-vacancies', getSeamanVacancies);
 app.use('/delete-vacancy', deleteVacancy);
+app.use('/company-vacancies', getCompanyVacancies);
 //-------------------------------------------
 
 //Companies requests-------------------------

@@ -62,6 +62,13 @@
   justify-content: center;
 }
 
+.company-content-wrapper {
+  margin-bottom: 20px;
+}
+.company-vacancy-info {
+  display: flex;
+  justify-content: space-between;
+}
 @media (max-width: 768px) {
   .company-page-sidebar {
     width: 100%;

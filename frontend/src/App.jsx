@@ -20,6 +20,7 @@ import Companies from './components/Companies';
 import Vacancy from './components/Vacancy';
 import Company from './components/Company';
 import Seafarer from './components/Seafarer';
+import VacancyApplied from './components/VacancyApplied';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -167,6 +168,7 @@ function App() {
             path="seafarers/:id"
             element={<Seafarer allSeamen={allSeamen} />}
           />
+          <Route path="seafarers-applied/:id" element={<VacancyApplied />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="companies/:id" element={<Company />} />
           {isLoggedIn ? (

@@ -46,7 +46,7 @@
 .user-vacancy-info-keys {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
 }
 .user-vacancy-key-value {
   display: flex;

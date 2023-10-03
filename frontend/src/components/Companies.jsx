@@ -187,8 +187,11 @@ const Companies = () => {
                         <Link to={`/companies/${company._id}`}>
                           <Button>
                             {company.postedVacancies &&
-                              company.postedVacancies.length}
-                            vacancies
+                            company.postedVacancies.length > 0
+                              ? company.postedVacancies.length === 1
+                                ? `${company.postedVacancies.length} vacancy`
+                                : `${company.postedVacancies.length} vacancies`
+                              : '0 vacancies'}
                           </Button>
                         </Link>
                       </div>

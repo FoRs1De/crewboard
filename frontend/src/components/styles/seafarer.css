@@ -90,7 +90,50 @@
 .seaman-info-body {
   display: flex;
   gap: 30px;
+  margin-top: 10px;
 }
+
+.seaman-sea-service {
+  display: flex;
+  flex-direction: column;
+}
+
+.service-record {
+  display: flex;
+  gap: 20px;
+}
+
+.service-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.service-info-key-value {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.service-info-key {
+  width: 100px;
+}
+
+.service-info-value {
+  width: 170px;
+}
+
+.service-records-line {
+  background-color: lightgray;
+  height: 1px;
+  border: none;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.seaman-service-records-h {
+  margin-top: 0;
+}
+
 @media (max-width: 768px) {
   .seaman-page-sidebar {
     width: 100%;

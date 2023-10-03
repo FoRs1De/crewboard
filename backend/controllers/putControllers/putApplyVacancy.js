@@ -24,7 +24,7 @@ app.put('/:id', async (req, res) => {
 
       const seamenCollection = db.collection('seamen');
       const vacanciesCollection = db.collection('vacancies');
-
+      console.log(req.body);
       const comment = req.body.comment;
       const vacancyId = req.params.id;
       userId;
@@ -44,7 +44,7 @@ app.put('/:id', async (req, res) => {
           $push: {
             seamenApplied: {
               seamanId: userId,
-              comment,
+              comment: comment,
             },
           },
         }

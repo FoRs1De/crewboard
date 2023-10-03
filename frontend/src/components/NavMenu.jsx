@@ -114,7 +114,7 @@ const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
               <>
                 <Link to="/account">
                   <Space size={24}>
-                    <Badge count={1}>
+                    <Badge count={0}>
                       <Avatar
                         shape="square"
                         icon={
@@ -170,7 +170,7 @@ const NavMenu = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
                       <div>
                         <Link to="/account" onClick={onClose}>
                           <Space size={24}>
-                            <Badge count={1}>
+                            <Badge count={0}>
                               <Avatar
                                 shape="square"
                                 icon={

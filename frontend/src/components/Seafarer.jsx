@@ -83,6 +83,18 @@ const Seafarer = ({ allSeamen }) => {
                       <p className="seaman-info-key">Email:</p>
                       <p className="seaman-info-value">{seaman.email}</p>
                     </div>
+                    <div className="seaman-info-key-value">
+                      <p className="seaman-info-key">Available from:</p>
+                      <p className="seaman-info-value">
+                        {seaman.availableFrom}
+                      </p>
+                    </div>
+                    <div className="seaman-info-key-value">
+                      <p className="seaman-info-key">Employment status:</p>
+                      <p className="seaman-info-value">
+                        {seaman.employmentStatus}
+                      </p>
+                    </div>
                   </div>
                   <div className="seaman-info-logo">
                     <Avatar
@@ -98,7 +110,7 @@ const Seafarer = ({ allSeamen }) => {
                     />
                   </div>
                 </div>
-                <hr className="seaman-hr" />
+
                 <div className="seaman-info-body">
                   <div className="seaman-info-column">
                     <div className="seaman-info-key-value">
@@ -178,7 +190,113 @@ const Seafarer = ({ allSeamen }) => {
                   </div>
                 </div>
                 <hr className="seaman-hr" />
-                <div className="seaman-sea-service">asdasd</div>
+                <div className="seaman-sea-service">
+                  <strong>
+                    <h3 className="seaman-service-records-h">
+                      Sea Service records:
+                    </h3>
+                  </strong>
+                  {seaman.seaService && (
+                    <>
+                      {seaman.seaService.map((record) => {
+                        return (
+                          <div key={record.id}>
+                            <div className="service-record">
+                              <div className="service-info-column">
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Position:</p>
+                                  <p className="service-info-value">
+                                    {record.position}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Sign-on:</p>
+                                  <p className="service-info-value">
+                                    {record.signOnDate}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">
+                                    Vessel Type:
+                                  </p>
+                                  <p className="service-info-value">
+                                    {record.vesselType}
+                                  </p>
+                                </div>
+
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">
+                                    Vessel Flag:
+                                  </p>
+                                  <p className="service-info-value">
+                                    {record.vesselFlag}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">ME Type:</p>
+                                  <p className="service-info-value">
+                                    {record.mainEngineType}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Shipowner:</p>
+                                  <p className="service-info-value">
+                                    {record.shipOwner}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="service-info-column">
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Vessel:</p>
+                                  <p className="service-info-value">
+                                    {record.vesselName}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Sign-off:</p>
+                                  <p className="service-info-value">
+                                    {record.signOffDate}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">
+                                    Vessel DWT:
+                                  </p>
+                                  <p className="service-info-value">
+                                    {record.vesselDWT}
+                                  </p>
+                                </div>
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">
+                                    Year Built:
+                                  </p>
+                                  <p className="service-info-value">
+                                    {record.vesselYearBuilt}
+                                  </p>
+                                </div>
+
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">ME kW:</p>
+                                  <p className="service-info-value">
+                                    {record.mainEngineKw}
+                                  </p>
+                                </div>
+
+                                <div className="service-info-key-value">
+                                  <p className="service-info-key">Crewing:</p>
+                                  <p className="service-info-value">
+                                    {record.crewing}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                            <hr className="service-records-line" />
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
+                </div>
                 <div className="seaman-content-bottom">
                   <p>On crewboard from:</p> <p>{seaman.registration}</p>
                 </div>

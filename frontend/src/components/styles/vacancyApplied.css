@@ -1,0 +1,26 @@
+.seamen-applied-container {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.seaman-comment {
+  margin-bottom: 20px;
+}
+
+.seamen-applied-top {
+  width: 100%;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.back-link {
+  text-decoration: none;
+  color: blue;
+}
+
+.seaman-applied-page-content {
+  margin-bottom: 20px;
+}

@@ -17,6 +17,7 @@ import {
   Avatar,
   Modal,
 } from 'antd';
+import { Link } from 'react-router-dom';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import moment from 'moment';
@@ -547,6 +548,22 @@ const Vacancies = ({
                                     {vacancy.duration.period}
                                   </p>
                                 </div>
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">
+                                    Seamen applied:
+                                  </p>
+                                  <p className="user-vacancy-right-value">
+                                    {vacancy.seamenApplied.length}
+                                  </p>
+                                </div>
+                                <div className="user-vacancy-key-value">
+                                  <p className="user-vacancy-left-key">
+                                    Vacancy viewed:
+                                  </p>
+                                  <p className="user-vacancy-right-value">
+                                    {vacancy.viewed}
+                                  </p>
+                                </div>
                               </div>
                               <div className="user-vacancy-company-info">
                                 <div className="user-vacancy-company-logo">
@@ -574,8 +591,16 @@ const Vacancies = ({
                             </div>
                             <div className="user-vacancy-bottom">
                               <div className="user-vacancy-bottom-left">
-                                <p>Viewed: {vacancy.viewed}</p>
+                                <p className="user-vacancy-right-value">
+                                  {' '}
+                                  <Link
+                                    to={`/seafarers-applied/${vacancy._id}`}
+                                  >
+                                    Watch applied seamen {'>'}
+                                  </Link>
+                                </p>
                               </div>
+
                               <div className="user-vacancy-bottom-right">
                                 <Button
                                   danger
