@@ -6,6 +6,11 @@ import UserVacancies from './insideTabs/UserVacancies';
 import EmployerData from './insideTabs/EmployerData';
 import SeamanData from './insideTabs/SeamanData';
 import axios from 'axios';
+import {
+  ContainerOutlined,
+  ContactsOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 
 const Account = ({
   setSubmittedForm,
@@ -84,7 +89,14 @@ const Account = ({
           }}
           items={[
             {
-              label: <p className="tab-text">Vacancies</p>,
+              label: (
+                <div>
+                  <p className="tab-text-lg">Vacancies</p>{' '}
+                  <p className="tab-text-sm">
+                    <ContactsOutlined style={{ fontSize: 20 }} />
+                  </p>{' '}
+                </div>
+              ),
               key: '1',
               children: (
                 <UserVacancies
@@ -98,7 +110,14 @@ const Account = ({
             },
             user.user === 'seaman'
               ? {
-                  label: <p className="tab-text">My Data</p>,
+                  label: (
+                    <div>
+                      <p className="tab-text-lg">My Data</p>{' '}
+                      <p className="tab-text-sm">
+                        <ContainerOutlined style={{ fontSize: 20 }} />
+                      </p>{' '}
+                    </div>
+                  ),
                   key: '2',
                   children: (
                     <SeamanData
@@ -109,7 +128,14 @@ const Account = ({
                   ),
                 }
               : {
-                  label: <p className="tab-text">My Data</p>,
+                  label: (
+                    <div>
+                      <p className="tab-text-lg">My Data</p>{' '}
+                      <p className="tab-text-sm">
+                        <ContainerOutlined style={{ fontSize: 20 }} />
+                      </p>{' '}
+                    </div>
+                  ),
                   key: '2',
                   children: (
                     <EmployerData
@@ -125,7 +151,14 @@ const Account = ({
             //   children: 'test',
             // },
             {
-              label: <p className="tab-text">Settings</p>,
+              label: (
+                <div>
+                  <p className="tab-text-lg">Settings</p>{' '}
+                  <p className="tab-text-sm">
+                    <SettingOutlined style={{ fontSize: 20 }} />
+                  </p>{' '}
+                </div>
+              ),
               key: '4',
               children: (
                 <Settings

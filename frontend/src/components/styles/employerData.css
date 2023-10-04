@@ -8,7 +8,7 @@
 .employer-data-wrapper {
   width: 1000px;
   background-color: white;
-  padding: 20px 40px 40px 40px;
+  padding: 20px 20px 50px 20px;
   box-shadow: 0 0 12px 1px lightgray;
 }
 
@@ -116,5 +116,15 @@
 @media (min-width: 768px) and (max-width: 1230px) {
   .employer-data-wrapper {
     width: 650px;
+  }
+}
+
+@media (max-width: 490px) {
+  .employer-data-wrapper {
+    font-size: 0.9em;
+    margin: 10px 5px 20px 5px;
+  }
+  .employer-data-container {
+    margin: 0;
   }
 }

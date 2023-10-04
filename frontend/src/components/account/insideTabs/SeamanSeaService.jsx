@@ -187,6 +187,7 @@ const SeamanSeaService = ({ user, setSubmittedForm, setUpdateSeamen }) => {
             <div className="sea-service-form">
               {' '}
               <Form
+                scrollToFirstError
                 layout="vertical"
                 initialValues={{
                   position: serviceRecordData.position,

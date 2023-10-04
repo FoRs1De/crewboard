@@ -20,6 +20,7 @@
 
 .hero-content p {
   text-align: end;
+  font-size: 0.85em;
 }
 
 .hero-content {
@@ -87,9 +88,11 @@
 
 .home-vacancy-wrapper {
   background-color: white;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
-  max-width: 480px;
+
+  max-width: 530px;
+  box-sizing: border-box;
 }
 
 .home-vacancy-info {
@@ -100,7 +103,7 @@
 
 .home-recent-popular-vacancies {
   display: flex;
-  gap: 20px;
+  gap: 40px;
 }
 
 .home-popular-vacancies {
@@ -119,7 +122,7 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0px;
+  gap: 10px;
   align-items: center;
 }
 
@@ -131,6 +134,9 @@
 }
 
 @media (max-width: 768px) {
+  .home-vacancy-wrapper {
+    width: 100%;
+  }
   .hero {
     height: 700px;
     display: flex;
@@ -176,7 +182,7 @@
   }
 }
 
-@media (max-width: 450px) {
+@media (max-width: 480px) {
   .ranks-left-list {
     margin-right: 5px;
   }
@@ -192,5 +198,14 @@
   .count-vacancies {
     width: 20px;
     height: 20px;
+  }
+  .home-page-body {
+    margin: 20px 5px 20px 5px;
+  }
+  .home-vacancy-info {
+    font-size: 0.9em;
+  }
+  .vacancy-top {
+    font-size: 0.9em;
   }
 }

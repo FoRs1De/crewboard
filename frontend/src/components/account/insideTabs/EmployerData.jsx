@@ -435,6 +435,7 @@ const EmployerData = ({ user, setSubmittedForm, setVacancyPosted }) => {
               <div className="employer-data-form">
                 {' '}
                 <Form
+                  scrollToFirstError
                   labelCol={{
                     span: 24,
                   }}

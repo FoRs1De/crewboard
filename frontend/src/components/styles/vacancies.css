@@ -1,8 +1,8 @@
 .vacancies-side-bar {
   background-color: white;
-  padding: 40px 40px 40px 40px;
+  padding: 40px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
-  width: 220px;
+  width: 280px;
   height: 100%;
 }
 
@@ -27,7 +27,7 @@
 
 .vacancy-wrapper {
   background-color: white;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
   max-width: 790px;
 }
@@ -110,7 +110,7 @@
   display: flex;
   justify-content: center;
   background-color: white;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
 }
 
@@ -154,5 +154,17 @@
   }
   .ranks-left-list {
     width: 380px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vacancy-info {
+    font-size: 0.9em;
+  }
+  .vacancy-top {
+    font-size: 0.9em;
+  }
+  .vacancy-bottom {
+    font-size: 0.9em;
   }
 }

@@ -9,7 +9,6 @@
   max-width: 400px;
   background-color: white;
   padding: 20px 40px 40px 40px;
-  border-radius: 10px;
   box-shadow: 0 0 12px 1px lightgray;
 }
 
@@ -25,7 +24,11 @@
   max-width: 400px;
   background-color: white;
   padding: 20px 40px 40px 40px;
-  border-radius: 10px;
   box-shadow: 0 0 12px 1px lightgray;
   height: 100%;
+}
+
+#changePassword {
+  border-radius: 0;
+  width: 100%;
 }

@@ -134,3 +134,12 @@
     width: 730px;
   }
 }
+
+@media (max-width: 480px) {
+  .vacancy-wrapper {
+    font-size: 0.9em;
+  }
+  .vacancy-container {
+    margin: 20px 5px 20px 5px;
+  }
+}

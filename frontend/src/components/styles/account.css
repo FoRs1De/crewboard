@@ -2,6 +2,10 @@
   height: 100%;
 }
 
+.tab-text-sm {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .ant-tabs-tab:first-child {
     margin-left: 0 !important;
@@ -55,4 +59,19 @@
 
 .ant-tabs-tab:last-child {
   margin-right: 20px;
+}
+
+@media (max-width: 500px) {
+  .ant-tabs-tabpane {
+    padding: 20px 0 0 5px !important;
+    margin: 0 5px 0 0 !important;
+  }
+  .tab-text-sm {
+    display: flex;
+    width: 25px;
+  }
+
+  .tab-text-lg {
+    display: none;
+  }
 }

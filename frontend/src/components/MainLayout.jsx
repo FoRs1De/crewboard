@@ -12,11 +12,10 @@ const MainLayOut = ({ user, setUser, setIsLoggedIn, countVacancies }) => {
         setIsLoggedIn={setIsLoggedIn}
         countVacancies={countVacancies}
       />
-      <main>
-        <div className="container-outlet">
-          <Outlet />
-        </div>
-      </main>
+
+      <div className="container-outlet">
+        <Outlet />
+      </div>
 
       <footer>
         <Footer />

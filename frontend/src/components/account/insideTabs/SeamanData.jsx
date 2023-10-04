@@ -349,6 +349,7 @@ const SeamanData = ({ user, setSubmittedForm, setUpdateSeamen }) => {
               <div className="employer-data-form">
                 {' '}
                 <Form
+                  scrollToFirstError
                   labelCol={{
                     span: 24,
                   }}

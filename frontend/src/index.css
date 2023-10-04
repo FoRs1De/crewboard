@@ -28,7 +28,7 @@ main {
 }
 
 .container-outlet {
-  width: 1230px;
+  max-width: 1230px;
 }
 
 /* Common fonts */

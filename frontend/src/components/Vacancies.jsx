@@ -34,19 +34,17 @@ const Vacancies = ({
 
   const handleVacancyClick = (e) => {
     const value = e.currentTarget.getAttribute('value');
-    if (value === 'shipowner') {
+    if (value === 'Shipowner company') {
       const filteredVacancies = allVacancies.filter((vacancy) => {
         return value.includes(vacancy.userRole);
       });
       setVacancies(filteredVacancies);
     } else if (value === 'other') {
-      console.log(ranks);
       const filteredVacancies = allVacancies.filter((vacancy) => {
         return ranks[2].OTHER.includes(vacancy.position);
       });
       setVacancies(filteredVacancies);
     } else {
-      console.log(value.split(','));
       const filteredVacancies = allVacancies.filter((vacancy) => {
         return value.includes(vacancy.position);
       });
@@ -60,7 +58,6 @@ const Vacancies = ({
     setVacancies(allVacancies);
   };
 
-  console.log(vacancies);
   return (
     <>
       <div className="vacancies-container">
@@ -177,7 +174,7 @@ const Vacancies = ({
                   <p>Galley</p>
                 </Link>
                 <Link
-                  value="shipowners"
+                  value="Shipowner company"
                   onClick={handleVacancyClick}
                   className="ranks-item"
                 >

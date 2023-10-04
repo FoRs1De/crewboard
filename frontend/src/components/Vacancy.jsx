@@ -197,7 +197,7 @@ const Vacancy = ({ user, setSubmittedForm }) => {
                       <p>{vacancy.description}</p>
                     </div>
                     <hr />
-                    {!hasAppliedVacancy && user.user === 'seaman' ? (
+                    {!hasAppliedVacancy && user && user.user === 'seaman' ? (
                       <>
                         <div className="vacancy-apply">
                           <center>
@@ -242,14 +242,24 @@ const Vacancy = ({ user, setSubmittedForm }) => {
                       </>
                     ) : (
                       <>
-                        {user.user === 'seaman' && (
-                          <div className="apply-success">
-                            <Alert
-                              message="Successfully applied"
-                              description="Your application data has been forwarded to applicants list of the Employer."
-                              type="success"
-                              showIcon
-                            />{' '}
+                        {user ? (
+                          user.user === 'seaman' ? (
+                            <div className="apply-success">
+                              <Alert
+                                message="Successfully applied"
+                                description="Your application data has been forwarded to the applicants list of the Employer."
+                                type="success"
+                                showIcon
+                              />
+                            </div>
+                          ) : null
+                        ) : user !== null ? null : (
+                          <div className="vacancy-apply">
+                            <center>
+                              <Link to="/login">
+                                <Button type="primary">Login to apply</Button>
+                              </Link>
+                            </center>
                           </div>
                         )}
                       </>

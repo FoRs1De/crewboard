@@ -16,9 +16,9 @@
 
 .side-bar {
   background-color: white;
-  padding: 40px 40px 40px 40px;
+  padding: 40px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
-  width: 220px;
+  width: 260px;
   height: 100%;
 }
 
@@ -33,7 +33,7 @@
 
 .company-wrapper {
   background-color: white;
-  padding: 40px 40px 40px 40px;
+  padding: 20px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
   width: 870px;
   box-sizing: border-box;
@@ -150,12 +150,21 @@
 
 @media (min-width: 768px) and (max-width: 1230px) {
   .side-bar {
-    width: 650px;
+    width: 690px;
   }
   .companies-list {
     width: 730px;
   }
   .company-wrapper {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .company-wrapper {
+    font-size: 0.9em;
+  }
+  .companies-container {
+    margin: 20px 5px 20px 5px;
   }
 }

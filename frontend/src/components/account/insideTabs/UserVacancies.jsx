@@ -226,6 +226,7 @@ const Vacancies = ({
                   </div>
                   <div className="add-vacancy-form">
                     <Form
+                      scrollToFirstError
                       labelCol={{
                         span: 24,
                       }}

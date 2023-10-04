@@ -1,6 +1,6 @@
 .seamen-side-bar {
   background-color: white;
-  padding: 40px 40px 40px 40px;
+  padding: 40px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
   width: 280px;
   height: 100%;
@@ -28,7 +28,7 @@
 
 .seaman-wrapper {
   background-color: white;
-  padding: 20px 40px 20px 40px;
+  padding: 20px 20px 20px 20px;
   box-shadow: 0 0 12px 1px lightgray;
   width: 800px;
   box-sizing: border-box;
@@ -118,7 +118,7 @@
 
 @media (max-width: 1230px) {
   .seamen-side-bar {
-    width: 650px;
+    width: 690px;
   }
   .seamen-list {
     width: 100%;
@@ -153,5 +153,17 @@
   .seaman-info {
     flex-wrap: wrap;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .seamen-container {
+    margin: 20px 5px 20px 5px;
+  }
+  .seaman-bottom {
+    font-size: 0.9em;
+  }
+  .seaman-service-records- {
+    font-size: 0.9em;
   }
 }
