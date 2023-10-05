@@ -135,7 +135,7 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .vacancy-wrapper {
     font-size: 0.9em;
   }

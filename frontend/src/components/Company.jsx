@@ -207,7 +207,7 @@ const Company = () => {
                       </div>
                       <div className="vacancy-bottom">
                         <div className="vacnct-bottom-left">
-                          <Link to={`${vacancy._id}`}>
+                          <Link to={`/vacancies/${vacancy._id}`}>
                             Details and apply {'>'}{' '}
                           </Link>
                         </div>

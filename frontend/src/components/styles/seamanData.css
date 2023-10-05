@@ -9,8 +9,9 @@
 .seaman-data-wrapper {
   width: 1000px;
   background-color: white;
-  padding: 20px 40px 40px 40px;
+  padding: 20px 20px 50px 20px;
   box-shadow: 0 0 12px 1px lightgray;
+  box-sizing: border-box;
 }
 
 .seaman-data-top {
@@ -136,7 +137,7 @@
 
 @media (max-width: 768px) {
   .seaman-data-wrapper {
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
   }
   .seman-data-body {
@@ -165,5 +166,14 @@
 @media (min-width: 768px) and (max-width: 1230px) {
   .seaman-data-wrapper {
     width: 650px;
+  }
+}
+
+@media (max-width: 500px) {
+  .seaman-data-wrapper {
+    font-size: 0.9em;
+  }
+  .seaman-data-container {
+    margin: 20px 0px 20px 0px;
   }
 }

@@ -10,6 +10,7 @@
   background-color: white;
   padding: 20px 20px 50px 20px;
   box-shadow: 0 0 12px 1px lightgray;
+  box-sizing: border-box;
 }
 
 .employer-data-top {
@@ -87,7 +88,7 @@
 
 @media (max-width: 768px) {
   .employer-data-wrapper {
-    width: 80%;
+    width: 100%;
     margin-bottom: 20px;
   }
   .employer-data-body {
@@ -111,6 +112,9 @@
     justify-content: center;
     margin-bottom: 20px;
   }
+  .employer-data-container {
+    margin: 0;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1230px) {
@@ -119,7 +123,7 @@
   }
 }
 
-@media (max-width: 490px) {
+@media (max-width: 500px) {
   .employer-data-wrapper {
     font-size: 0.9em;
     margin: 10px 5px 20px 5px;
